@@ -54,7 +54,7 @@ function renderDocument(title: string, appHtml: string): string {
 
         <title>${title}</title>
 
-        <link rel="icon" type="image/webp" href="/assets/logo-borderless.webp" />
+        <link rel="icon" type="image/webp" href="/assets/logo.webp" />
         <link rel="stylesheet" href="/styles.css" />
     </head>
     <body>
