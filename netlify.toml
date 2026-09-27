@@ -1,0 +1,15 @@
+# Netlify builds the site as static HTML (no server): every route in src/routes.ts
+# is prerendered into dist/static by src/server/prerender.tsx.
+[build]
+  command = "npm run build:static"
+  publish = "dist/static"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Same as the Express server: the landing page lives at /home.
+[[redirects]]
+  from = "/"
+  to = "/home"
+  status = 302
+
