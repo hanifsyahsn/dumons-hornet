@@ -228,9 +228,13 @@
     gap: 28px;
 }
 
+/* Subgrid rows: card heads in a row share one height, so the body text lines up
+   even when one title wraps to two lines. */
 .feature {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    row-gap: 0;
     background: var(--hornet-white);
     border: var(--border);
     box-shadow: var(--shadow-md);
@@ -297,15 +301,18 @@
 }
 
 .cta__inner {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
-    justify-content: space-between;
-    gap: 40px;
+    gap: 48px;
+
+    @media (--large) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 460px);
+        gap: clamp(48px, 6vw, 120px);
+    }
 }
 
 .cta__copy {
-    flex: 1 1 520px;
     min-width: 0;
 }
 
@@ -328,48 +335,115 @@
     color: var(--hornet-on-dark);
 }
 
-.cta__actions {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+/*
+ * Contact card: white panel with a hard yellow shadow on the dark band. The WhatsApp
+ * button spans the card, so long contact details never push it around.
+ */
+.contact-card {
+    position: relative;
+    width: calc(100% - 10px);
+    max-width: 460px;
+    padding: 36px 24px 24px;
+    background: var(--hornet-white);
+    color: var(--hornet-ink);
+    border: var(--border);
+    box-shadow: 10px 10px 0 var(--hornet-yellow);
 
-    .button--yellow {
-        border-color: var(--hornet-yellow);
-        box-shadow: 6px 6px 0 var(--hornet-white);
-
-        &:hover {
-            box-shadow: 3px 3px 0 var(--hornet-white);
-        }
-
-        &:active {
-            box-shadow: none;
-        }
+    @media (--large) {
+        justify-self: end;
+        padding: 40px 28px 28px;
     }
 }
 
-.cta__contacts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+/* Tag sitting on the card's top edge */
+.contact-card__tag {
+    position: absolute;
+    top: -18px;
+    left: 20px;
+    padding: 6px 14px;
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+    border: 3px solid var(--hornet-yellow);
+    transform: skewX(var(--skew));
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 800;
+    font-size: var(--fs-sm);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
 }
 
-.cta__contact {
-    max-width: 100%;
-    padding: 6px 12px;
-    overflow-wrap: anywhere;
-    border: 2px solid var(--hornet-on-dark);
+.contact-card__whatsapp {
+    display: block;
+    text-align: center;
+}
+
+.contact-card__list {
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.contact-card__row {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    grid-template-areas:
+        "icon label"
+        "icon value";
+    column-gap: 14px;
+    align-items: center;
+    padding: 14px 0;
+    border-top: 2px solid var(--hornet-ink);
+
+    &:last-child {
+        padding-bottom: 0;
+    }
+}
+
+.contact-card__icon {
+    grid-area: icon;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--hornet-yellow);
+    border: 2px solid var(--hornet-ink);
+    transform: skewX(var(--skew));
+
+    svg {
+        width: 22px;
+        height: 22px;
+        stroke: var(--hornet-ink);
+        transform: skewX(calc(var(--skew) * -1));
+    }
+}
+
+.contact-card__label {
+    grid-area: label;
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-700);
+}
+
+.contact-card__value {
+    grid-area: value;
     font-size: var(--fs-base);
     font-weight: 700;
-    letter-spacing: 0.05em;
-    color: var(--hornet-on-dark);
-}
-
-.cta__contact--link {
+    color: var(--hornet-ink);
     text-decoration: none;
+    overflow-wrap: anywhere;
+
+    @media (--small) {
+        font-size: var(--fs-md);
+    }
 
     &:hover {
-        border-color: var(--hornet-yellow);
-        color: var(--hornet-yellow);
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+        text-decoration-color: var(--hornet-yellow);
+        text-underline-offset: 4px;
     }
 }
