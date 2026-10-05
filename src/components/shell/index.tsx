@@ -1,5 +1,5 @@
 import React, { type ReactNode } from "react";
-import { HORNET_LOGO_SIZE, HORNET_LOGO_SRC } from "../../constants/brand";
+import { HORNET_LOGO_SIZE, HORNET_LOGO_SRC, MAIN_SITE_URL } from "../../constants/brand";
 import "./styles.css";
 
 interface ShellProps {
@@ -35,7 +35,10 @@ export function Shell({ children }: ShellProps) {
                         {...HORNET_LOGO_SIZE}
                     />
                     <span className="shell__copyright">
-                        &copy; {new Date().getFullYear()} Hörnet Supercoat &middot; Dumons Coating
+                        &copy; {new Date().getFullYear()} Hörnet Supercoat &middot;{" "}
+                        <a className="shell__footer-link" href={MAIN_SITE_URL}>
+                            Dumons Coating
+                        </a>
                     </span>
                 </div>
             </footer>

@@ -99,9 +99,22 @@
     color: var(--hornet-on-dark);
 }
 
+/* Back to the main Dumons Coating site */
+.shell__footer-link {
+    color: var(--hornet-yellow);
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 4px;
+    }
+}
+
 /*
  * Skewed button: the outer element is skewed like the logo frame, the inner span is
- * skewed back so the text stays upright. Hover presses it in, active fully.
+ * skewed back so the text stays upright. Hover presses it in (hover-capable devices only), active fully.
  * Works on <a> and <button>.
  */
 .button {
@@ -126,9 +139,13 @@
         letter-spacing: 0.02em;
     }
 
-    &:hover {
-        transform: skewX(var(--skew)) translate(2px, 2px);
-        box-shadow: 3px 3px 0 var(--hornet-ink);
+    /* Only where hover exists: on touch screens :hover sticks after a tap,
+       leaving the button looking half-pressed */
+    @media (hover: hover) {
+        &:hover {
+            transform: skewX(var(--skew)) translate(2px, 2px);
+            box-shadow: 3px 3px 0 var(--hornet-ink);
+        }
     }
 
     &:active {
@@ -188,7 +205,9 @@
     color: var(--hornet-white);
     box-shadow: 6px 6px 0 var(--hornet-orange);
 
-    &:hover {
-        box-shadow: 3px 3px 0 var(--hornet-orange);
+    @media (hover: hover) {
+        &:hover {
+            box-shadow: 3px 3px 0 var(--hornet-orange);
+        }
     }
 }

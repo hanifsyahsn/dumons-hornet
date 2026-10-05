@@ -7,6 +7,9 @@ export const HORNET_LOGO_SIZE = { width: 1200, height: 423 };
 export const HORNET_MARK_SRC = "/assets/logo.webp";
 export const HORNET_MARK_SIZE = { width: 1086, height: 1086 };
 
+// Production origin of this site (no trailing slash): canonical URLs, link previews, sitemap.
+export const SITE_URL = "https://hornet.dumonscoating.com";
+
 export const MAIN_SITE_URL = "https://dumonscoating.com/home";
 
 // WhatsApp contact: international format for wa.me, local format for display.

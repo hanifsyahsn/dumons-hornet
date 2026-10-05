@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 import { routes } from "../routes";
 import { renderPage } from "./render";
+import { SITE_URL } from "../constants/brand";
 
 const ROOT = path.resolve(__dirname, "../..");
 const OUT_DIR = path.join(ROOT, "dist/static");
@@ -38,6 +39,7 @@ async function main() {
     fs.cpSync(path.join(ROOT, "public"), OUT_DIR, { recursive: true });
 
     const redirects: string[] = [];
+    const pages: string[] = [];
 
     for (const route of routes) {
         if (route.path === "*") continue;
@@ -52,6 +54,7 @@ async function main() {
                 throw new Error(`${url} rendered with status ${status}`);
             } else {
                 writeFile(htmlFileFor(url), html);
+                pages.push(url);
                 console.log(`  ${url} -> ${htmlFileFor(url)}`);
             }
         }
@@ -63,6 +66,18 @@ async function main() {
     if (redirects.length) {
         writeFile("_redirects", redirects.join("\n") + "\n");
     }
+
+    // Every prerendered page goes into the sitemap; redirects and the 404 page don't.
+    writeFile(
+        "sitemap.xml",
+        `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${pages.map(url => `    <url><loc>${SITE_URL}${url}</loc></url>`).join("\n")}
+</urlset>
+`
+    );
+    writeFile("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
+    console.log(`  sitemap.xml (${pages.length} pages), robots.txt`);
 
     console.log(`Prerendered into ${path.relative(ROOT, OUT_DIR)}`);
 }
