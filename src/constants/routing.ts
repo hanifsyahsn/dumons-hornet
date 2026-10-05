@@ -1,6 +1,6 @@
 // Maintenance mode: baked in at build time from the MAINTENANCE_MODE env var (webpack
-// DefinePlugin), set to "true" for Netlify production deploys in netlify.toml (and on by
-// default for builds of the "production" branch, see the webpack configs). While on,
+// DefinePlugin; set in the Netlify UI, never in git). When unset, builds of the
+// "production" branch default to on (see the webpack configs). While on,
 // only the under-construction page is built and every other path redirects to it.
 export const MAINTENANCE_MODE = process.env.MAINTENANCE_MODE === "true";
 

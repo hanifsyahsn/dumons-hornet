@@ -7,10 +7,6 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Maintenance mode: only /under-construction is built and every other path redirects
-# to it (prerender writes the rules into _redirects). On for production deploys until
-# launch: set it to "false" here to go live. Even without this block, builds of the
-# "production" branch default to maintenance mode (fail-safe in the webpack configs).
-[context.production.environment]
-  MAINTENANCE_MODE = "true"
-
+# Maintenance mode (src/constants/routing.ts) is not configured in git: builds of the
+# "production" branch default to it. Override with the MAINTENANCE_MODE env var in the
+# Netlify UI (Site configuration > Environment variables): "false" to launch.
