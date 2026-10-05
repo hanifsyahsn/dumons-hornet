@@ -8,6 +8,18 @@
     --hornet-ink: #271b1d;
     --hornet-white: #ffffff;
     --hornet-orange: #f9aa52;
+    --hornet-on-dark: #e9e4e5;
+
+    /*
+     * Neo-brutalism: thick ink borders, hard shadows with no blur,
+     * action elements skewed like the logo frame, no border radius.
+     */
+    --border: 3px solid var(--hornet-ink);
+    --border-thick: 4px solid var(--hornet-ink);
+    --shadow-sm: 5px 5px 0 var(--hornet-ink);
+    --shadow-md: 8px 8px 0 var(--hornet-ink);
+    --shadow-lg: 14px 14px 0 var(--hornet-ink);
+    --skew: -12deg;
 
     /* Neutral Colors */
     --white: #ffffff;
@@ -30,6 +42,8 @@
     --fs-2xl: 30px;
     --fs-4xl: 48px;
     --fs-6xl: 72px;
+
+    --container: 1280px;
 }
 
 @custom-media --xxsmall (width <= 320px);

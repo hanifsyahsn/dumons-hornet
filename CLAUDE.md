@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Website for the **Dumons Coating – Hornet lineup** (a sub-product of Dumons Coating), served at `https://hornet.dumonscoating.com/home`. The main Dumons Coating site is a separate Vue project at `C:\Users\hanif\Documents\dumons-netlify` (`https://dumonscoating.com/home`); Hornet uses Helvetica (`"Helvetica Neue", Helvetica, Arial, sans-serif`, no web font loaded) for all text, unlike the main site (Bebas Neue + Roboto Condensed). Currently the site is just an under-construction page.
+Website for the **Dumons Coating – Hornet lineup** (a sub-product of Dumons Coating), served at `https://hornet.dumonscoating.com/home`. The main Dumons Coating site is a separate Vue project at `C:\Users\hanif\Documents\dumons-netlify` (`https://dumonscoating.com/home`); Hornet uses Helvetica (`"Helvetica Neue", Helvetica, Arial, sans-serif`, no web font loaded) for all text, unlike the main site (Bebas Neue + Roboto Condensed). Currently the site is a single Indonesian-language landing page (`/home`, `lang="id"`): logo-only header (no navigation yet), hero for the HS 470 product (photo placeholder, "Lihat produk" button with no action yet), features, WhatsApp CTA, footer.
 
 **There is no backend.** Production is a static site on Netlify (prerendered at build time); Express is only used for local dev/`npm start`. Don't add an `/api` proxy, API client, or data-fetching/store layer unless asked.
 
@@ -39,8 +39,10 @@ Loading overlay: `render.tsx` emits a static `#server-loader` overlay that `clie
 
 PostCSS pipeline (`postcss.config.js`): `postcss-import` → Tailwind v4 → `postcss-custom-media` → autoprefixer. `src/styles/global.css` imports Tailwind and `variables.css`.
 
-- Design tokens live in `src/styles/variables.css` (`--hornet-*` colors, `--font-display`/`--font-body`, `--fs-*` sizes). The Hornet palette (yellow `#ffff00`, ink `#271b1d`, white, orange accent) is sampled from `public/assets/logo-bordered.webp`; keep new colors on these tokens.
+- Visual style is neo-brutalism: thick ink borders, hard shadows with no blur, action elements skewed `-12deg` like the logo frame, no border radius.
+- Design tokens live in `src/styles/variables.css` (`--hornet-*` colors, `--border*`, `--shadow-*`, `--skew`, `--font-display`/`--font-body`, `--fs-*` sizes).
+- `src/components/shell` is the page frame (logo-only header, thin hazard strip, dark footer) and defines the shared `.hazard` strip and skewed `.button` (`--sm`/`--lg`/`--xl`, `--yellow`/`--dark`/`--white`; works on `<a>` and `<button>`). Home and NotFound share the `.hero` styles in `src/pages/home/styles.css`. The Hornet palette (yellow `#ffff00`, ink `#271b1d`, white, orange accent) is sampled from `public/assets/logo-bordered.webp`; keep new colors on these tokens.
 - Responsive breakpoints are `@custom-media` queries (`--small`, `--medium`, ...) used as `@media (--medium)`, nested inside BEM-style class blocks (e.g. `.construction__title`).
 - Tailwind utilities are used mainly for the loader markup.
 
-Brand constants (logo path, main-site URL) are in `src/constants/brand.ts`; logos live in `public/assets/` (`logo-bordered.webp` on the page, `logo.webp` (square hornet mark) as favicon, `logo-borderless.webp` unused).
+Brand constants (logo path, main-site URL, WhatsApp link) are in `src/constants/brand.ts`; logos live in `public/assets/` (`logo-bordered.webp` in header/footer with a hard black `drop-shadow` backing, `logo.webp` (square hornet mark) as favicon, `logo-borderless.webp` unused).

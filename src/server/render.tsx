@@ -7,8 +7,8 @@ import { Loading } from "../components/loading";
 import { routes } from "../routes";
 import type { RouteContext } from "../types/routing";
 
-const DEFAULT_TITLE = "Hornet Supercoat | Under Construction";
-const NOT_FOUND_TITLE = "404 Not Found | Hornet Supercoat";
+const DEFAULT_TITLE = "Hörnet Supercoat | Dumons Coating";
+const NOT_FOUND_TITLE = "404 Halaman Tidak Ditemukan | Hörnet Supercoat";
 
 export interface RenderResult {
     status: number;
@@ -45,11 +45,11 @@ export function renderPage(url: string): RenderResult {
 
 function renderDocument(title: string, appHtml: string): string {
     return `<!DOCTYPE html>
-<html lang="en">
+<html lang="id">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Hornet Supercoat by Dumons Coating. The website is under construction, we are developing your best experience." />
+        <meta name="description" content="Hörnet Supercoat, inovasi terbaru dari lineup performance coating Dumons. Kilau ekstrem, super hidrofobik, dan proteksi maksimal untuk cat kendaraanmu." />
         <meta name="theme-color" content="#ffff00" />
 
         <title>${title}</title>
@@ -77,7 +77,7 @@ function renderDocument(title: string, appHtml: string): string {
                 </div>
                 <div class="absolute inset-0 bg-gradient-to-tr from-[#ffff00]/20 via-transparent to-[#ffff00]/10 animate-pulse rounded-full blur-sm"></div>
             </div>
-            <span class="sr-only">Loading…</span>
+            <span class="sr-only">Memuat…</span>
         </div>
 
         <div id="root">${appHtml}</div>
