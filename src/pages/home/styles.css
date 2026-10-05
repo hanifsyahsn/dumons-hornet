@@ -92,10 +92,6 @@
 .hero__message {
     max-width: 34em;
     margin: 0 0 36px;
-    padding: 16px 20px;
-    background: var(--hornet-white);
-    border: var(--border);
-    box-shadow: var(--shadow-sm);
     font-size: var(--fs-md);
     font-weight: 500;
     line-height: 1.55;
