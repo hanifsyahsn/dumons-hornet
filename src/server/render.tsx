@@ -9,6 +9,7 @@ import type { RouteContext } from "../types/routing";
 
 const DEFAULT_TITLE = "Hörnet Supercoat | Dumons Coating";
 const NOT_FOUND_TITLE = "404 Halaman Tidak Ditemukan | Hörnet Supercoat";
+const DISPLAY_FONT_SRC = "/assets/fonts/roboto-condensed-italic-latin.woff2";
 
 export interface RenderResult {
     status: number;
@@ -55,6 +56,19 @@ function renderDocument(title: string, appHtml: string): string {
         <title>${title}</title>
 
         <link rel="icon" type="image/webp" href="/assets/logo.webp" />
+        <link rel="preload" href="${DISPLAY_FONT_SRC}" as="font" type="font/woff2" crossorigin />
+        <style>
+            /* Display font (headings, buttons, tags), self-hosted from public/assets/fonts.
+               Declared here rather than in CSS so css-loader doesn't try to bundle the url().
+               Roboto Condensed, variable weight, italic only, latin subset; SIL Open Font License. */
+            @font-face {
+                font-family: "Roboto Condensed";
+                font-style: italic;
+                font-weight: 100 900;
+                font-display: swap;
+                src: url("${DISPLAY_FONT_SRC}") format("woff2");
+            }
+        </style>
         <link rel="stylesheet" href="/styles.css" />
     </head>
     <body>

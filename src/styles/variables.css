@@ -29,8 +29,12 @@
     --gray-500: #adb5bd;
     --gray-700: #495057;
 
-    /* Fonts: Helvetica (system font, falls back to Arial where not installed) */
-    --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /*
+     * Fonts. Display (headings, buttons, tags, stickers): Roboto Condensed, closest to the
+     * logo wordmark, self-hosted and italic only, so always pair it with font-style: italic.
+     * Body: Helvetica (system font, falls back to Arial where not installed).
+     */
+    --font-display: "Roboto Condensed", "Arial Narrow", "Helvetica Neue", Helvetica, Arial, sans-serif;
     --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
     --fs-xs: 12px;
