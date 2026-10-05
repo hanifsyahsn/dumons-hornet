@@ -141,8 +141,8 @@ function Home() {
                             lebih lanjut?
                         </h2>
                         <p className="cta__message">
-                            Punya pertanyaan atau ingin tahu info lebih detail tentang Hörnet
-                            Supercoat? Ngobrol langsung dengan tim kami.
+                            Punya pertanyaan atau ingin tahu info lebih detail tentang Hörnet ?
+                            Ngobrol langsung dengan tim kami.
                         </p>
                     </div>
 
