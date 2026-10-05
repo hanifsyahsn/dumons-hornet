@@ -1,6 +1,7 @@
 import React, { type ReactNode } from "react";
 import { Shell } from "../../components/shell";
 import {
+    CONTACT_EMAIL,
     HORNET_MARK_SIZE,
     HORNET_MARK_SRC,
     WHATSAPP_DISPLAY,
@@ -155,7 +156,12 @@ function Home() {
                         >
                             <span>Chat via WhatsApp</span>
                         </a>
-                        <span className="cta__contact">{WHATSAPP_DISPLAY}</span>
+                        <div className="cta__contacts">
+                            <span className="cta__contact">{WHATSAPP_DISPLAY}</span>
+                            <a className="cta__contact cta__contact--link" href={`mailto:${CONTACT_EMAIL}`}>
+                                {CONTACT_EMAIL}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -348,11 +348,28 @@
     }
 }
 
+.cta__contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
 .cta__contact {
+    max-width: 100%;
     padding: 6px 12px;
+    overflow-wrap: anywhere;
     border: 2px solid var(--hornet-on-dark);
     font-size: var(--fs-base);
     font-weight: 700;
     letter-spacing: 0.05em;
     color: var(--hornet-on-dark);
+}
+
+.cta__contact--link {
+    text-decoration: none;
+
+    &:hover {
+        border-color: var(--hornet-yellow);
+        color: var(--hornet-yellow);
+    }
 }

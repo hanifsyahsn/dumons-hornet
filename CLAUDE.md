@@ -45,4 +45,4 @@ PostCSS pipeline (`postcss.config.js`): `postcss-import` → Tailwind v4 → `po
 - Responsive breakpoints are `@custom-media` queries (`--small`, `--medium`, ...) used as `@media (--medium)`, nested inside BEM-style class blocks (e.g. `.construction__title`).
 - Tailwind utilities are used mainly for the loader markup.
 
-Brand constants (logo path, main-site URL, WhatsApp link) are in `src/constants/brand.ts`; logos live in `public/assets/` (`logo-bordered.webp` in header/footer with a hard black `drop-shadow` backing (the header logo is deliberately a plain `<img>`: no link, hover or pointer, since there is nowhere to go yet), `logo.webp` (square hornet mark) as favicon and the hero photo placeholder, `logo-borderless.webp` unused).
+Brand constants (logo path, main-site URL, WhatsApp link, contact email) are in `src/constants/brand.ts`; logos live in `public/assets/` (`logo-bordered.webp` in header/footer with a hard black `drop-shadow` backing (the header logo is deliberately a plain `<img>`: no link, hover or pointer, since there is nowhere to go yet), `logo.webp` (square hornet mark) as favicon and the hero photo placeholder, `logo-borderless.webp` unused).
