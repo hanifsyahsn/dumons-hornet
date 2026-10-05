@@ -2,7 +2,7 @@ import React from "react";
 import { HORNET_LOGO_SIZE, HORNET_LOGO_SRC, MAIN_SITE_URL } from "../../constants/brand";
 import "./styles.css";
 
-// Standalone holding page (no Shell), shown at "/" on production deploys via DEFAULT_ROUTE.
+// Standalone holding page (no Shell), the only page while MAINTENANCE_MODE is on.
 // Kept as its own page so it stays available after launch (maintenance, new lineups).
 function UnderConstruction() {
     return (

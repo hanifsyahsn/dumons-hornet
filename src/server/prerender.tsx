@@ -4,7 +4,7 @@
 import fs from "fs";
 import path from "path";
 import { routes } from "../routes";
-import { DEFAULT_PATH } from "../constants/routing";
+import { DEFAULT_PATH, MAINTENANCE_MODE, UNDER_CONSTRUCTION_PATH } from "../constants/routing";
 import { renderPage } from "./render";
 import { SITE_URL } from "../constants/brand";
 
@@ -63,9 +63,20 @@ async function main() {
     }
 
     if (!pages.includes(DEFAULT_PATH)) {
-        throw new Error(`DEFAULT_ROUTE "${DEFAULT_PATH}" is not a prerendered page`);
+        throw new Error(`Default path "${DEFAULT_PATH}" is not a prerendered page`);
     }
     console.log(`  / -> ${DEFAULT_PATH} (302)`);
+
+    if (MAINTENANCE_MODE) {
+        // Rules match top to bottom. Serve the page itself explicitly (no redirect loop),
+        // then send every other path there. Existing files (bundle, styles, assets) shadow
+        // the catch-all, so they're still served.
+        redirects.push(
+            `${UNDER_CONSTRUCTION_PATH} /${htmlFileFor(UNDER_CONSTRUCTION_PATH)} 200`,
+            `/* ${UNDER_CONSTRUCTION_PATH} 302`
+        );
+        console.log(`  maintenance mode: /* -> ${UNDER_CONSTRUCTION_PATH} (302)`);
+    }
 
     writeFile("404.html", renderPage(NOT_FOUND_URL).html);
     console.log("  404 -> 404.html");
