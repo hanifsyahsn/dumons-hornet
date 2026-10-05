@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Website for the **Dumons Coating – Hornet lineup** (a sub-product of Dumons Coating), served at `https://hornet.dumonscoating.com/home`. The main Dumons Coating site is a separate Vue project at `C:\Users\hanif\Documents\dumons-netlify` (`https://dumonscoating.com/home`); Hornet uses Helvetica (`"Helvetica Neue", Helvetica, Arial, sans-serif`, no web font loaded) for all text, unlike the main site (Bebas Neue + Roboto Condensed). Currently the site is a single Indonesian-language landing page (`/home`, `lang="id"`): logo-only header (no navigation yet), hero for the HS 470 product (photo placeholder, "Lihat produk" button with no action yet), features, WhatsApp CTA, footer.
+Website for the **Dumons Coating – Hornet lineup** (a sub-product of Dumons Coating), served at `https://hornet.dumonscoating.com/home`. The main Dumons Coating site is a separate Vue project at `C:\Users\hanif\Documents\dumons-netlify` (`https://dumonscoating.com/home`); Hornet uses Helvetica (`"Helvetica Neue", Helvetica, Arial, sans-serif`, no web font loaded) for all text, unlike the main site (Bebas Neue + Roboto Condensed). Currently the site is a single Indonesian-language landing page (`/home`, `lang="id"`): logo-only header (no navigation yet), hero for the HS 470 product (hatched placeholder with the hornet mark until the product photo exists, "Lihat produk" button with no action yet), features, WhatsApp CTA, footer.
 
 **There is no backend.** Production is a static site on Netlify (prerendered at build time); Express is only used for local dev/`npm start`. Don't add an `/api` proxy, API client, or data-fetching/store layer unless asked.
 
@@ -45,4 +45,4 @@ PostCSS pipeline (`postcss.config.js`): `postcss-import` → Tailwind v4 → `po
 - Responsive breakpoints are `@custom-media` queries (`--small`, `--medium`, ...) used as `@media (--medium)`, nested inside BEM-style class blocks (e.g. `.construction__title`).
 - Tailwind utilities are used mainly for the loader markup.
 
-Brand constants (logo path, main-site URL, WhatsApp link) are in `src/constants/brand.ts`; logos live in `public/assets/` (`logo-bordered.webp` in header/footer with a hard black `drop-shadow` backing, `logo.webp` (square hornet mark) as favicon, `logo-borderless.webp` unused).
+Brand constants (logo path, main-site URL, WhatsApp link) are in `src/constants/brand.ts`; logos live in `public/assets/` (`logo-bordered.webp` in header/footer with a hard black `drop-shadow` backing (the header logo is deliberately a plain `<img>`: no link, hover or pointer, since there is nowhere to go yet), `logo.webp` (square hornet mark) as favicon and the hero photo placeholder, `logo-borderless.webp` unused).

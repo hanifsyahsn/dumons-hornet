@@ -3,6 +3,10 @@
 export const HORNET_LOGO_SRC = "/assets/logo-bordered.webp";
 export const HORNET_LOGO_SIZE = { width: 1200, height: 423 };
 
+// Square hornet mark: favicon, product photo placeholder.
+export const HORNET_MARK_SRC = "/assets/logo.webp";
+export const HORNET_MARK_SIZE = { width: 1086, height: 1086 };
+
 export const MAIN_SITE_URL = "https://dumonscoating.com/home";
 
 // WhatsApp contact: international format for wa.me, local format for display.

@@ -1,6 +1,11 @@
 import React, { type ReactNode } from "react";
 import { Shell } from "../../components/shell";
-import { WHATSAPP_DISPLAY, WHATSAPP_URL } from "../../constants/brand";
+import {
+    HORNET_MARK_SIZE,
+    HORNET_MARK_SRC,
+    WHATSAPP_DISPLAY,
+    WHATSAPP_URL,
+} from "../../constants/brand";
 import "./styles.css";
 
 interface Feature {
@@ -81,8 +86,10 @@ function Home() {
 
                     <div className="hero__media">
                         <div className="hero__frame">
-                            {/* Product photo goes here. */}
-                            <div className="hero__photo" />
+                            {/* Placeholder until the HS 470 product photo is ready: swap the img src. */}
+                            <div className="hero__photo hero__photo--placeholder">
+                                <img src={HORNET_MARK_SRC} alt="" {...HORNET_MARK_SIZE} />
+                            </div>
                             <div className="hero__sticker">HS 470</div>
                         </div>
                     </div>
@@ -93,7 +100,9 @@ function Home() {
 
             <section className="features">
                 <div className="features__inner">
-                    <h2 className="features__title">Kenapa Supercoat</h2>
+                    <h2 className="features__title">
+                        Kenapa <span className="features__highlight">Supercoat</span>
+                    </h2>
                     <p className="features__lead">
                         Satu lapisan, performa yang langsung terasa sejak cucian pertama.
                     </p>
@@ -102,16 +111,18 @@ function Home() {
                         {FEATURES.map(({ title, text, icon }) => (
                             <article className="feature" key={title}>
                                 <div className="feature__head">
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        strokeWidth="2.2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        aria-hidden="true"
-                                    >
-                                        {icon}
-                                    </svg>
+                                    <span className="feature__icon">
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            strokeWidth="2.2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            aria-hidden="true"
+                                        >
+                                            {icon}
+                                        </svg>
+                                    </span>
                                     <h3 className="feature__title">{title}</h3>
                                 </div>
                                 <p className="feature__text">{text}</p>

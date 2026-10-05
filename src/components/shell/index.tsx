@@ -1,5 +1,4 @@
 import React, { type ReactNode } from "react";
-import { Link } from "react-router-dom";
 import { HORNET_LOGO_SIZE, HORNET_LOGO_SRC } from "../../constants/brand";
 import "./styles.css";
 
@@ -13,9 +12,13 @@ export function Shell({ children }: ShellProps) {
         <div className="shell">
             <header className="shell__header">
                 <div className="shell__container shell__header-inner">
-                    <Link className="shell__logo" to="/home" aria-label="Hörnet Supercoat, ke beranda">
-                        <img src={HORNET_LOGO_SRC} alt="Hörnet Supercoat" {...HORNET_LOGO_SIZE} />
-                    </Link>
+                    {/* Static on purpose: not a link, no hover, so it doesn't look clickable */}
+                    <img
+                        className="shell__logo"
+                        src={HORNET_LOGO_SRC}
+                        alt="Hörnet Supercoat"
+                        {...HORNET_LOGO_SIZE}
+                    />
                 </div>
             </header>
 

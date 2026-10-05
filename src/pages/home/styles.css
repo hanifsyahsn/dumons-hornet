@@ -92,6 +92,10 @@
 .hero__message {
     max-width: 34em;
     margin: 0 0 36px;
+    padding: 16px 20px;
+    background: var(--hornet-white);
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
     font-size: var(--fs-md);
     font-weight: 500;
     line-height: 1.55;
@@ -142,6 +146,25 @@
     }
 }
 
+.hero__photo--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        repeating-linear-gradient(
+            -45deg,
+            transparent 0 18px,
+            var(--gray-300) 18px 20px
+        ),
+        var(--hornet-white);
+
+    img {
+        width: 72%;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
 .hero__sticker {
     position: absolute;
     left: -8px;
@@ -166,6 +189,11 @@
 /* Features */
 .features {
     padding: 72px 0;
+    background-color: var(--hornet-white);
+    background-image:
+        linear-gradient(var(--gray-100) 2px, transparent 2px),
+        linear-gradient(90deg, var(--gray-100) 2px, transparent 2px);
+    background-size: 40px 40px;
 
     @media (--medium) {
         padding: 96px 0;
@@ -177,15 +205,25 @@
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 900;
-    font-size: clamp(40px, 6vw, 80px);
-    line-height: 0.9;
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 1;
     text-transform: uppercase;
+}
+
+/* Marker-pen highlight behind a word */
+.features__highlight {
+    padding: 0 0.1em;
+    background: linear-gradient(transparent 55%, var(--hornet-yellow) 55%);
 }
 
 .features__lead {
     max-width: 38em;
     margin: 0 0 48px;
     font-size: var(--fs-md);
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
 }
 
 .features__grid {
@@ -208,12 +246,24 @@
     gap: 14px;
     padding: 18px 20px;
     background: var(--hornet-ink);
+}
+
+/* Yellow skewed chip like the logo frame; the icon is skewed back upright */
+.feature__icon {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--hornet-yellow);
+    transform: skewX(var(--skew));
 
     svg {
-        flex: none;
-        width: 36px;
-        height: 36px;
-        stroke: var(--hornet-yellow);
+        width: 28px;
+        height: 28px;
+        stroke: var(--hornet-ink);
+        transform: skewX(calc(var(--skew) * -1));
     }
 }
 
@@ -223,20 +273,25 @@
     font-style: italic;
     font-weight: 800;
     font-size: var(--fs-xl);
-    line-height: 1;
+    line-height: 1.1;
     color: var(--hornet-white);
-    text-transform: uppercase;
 }
 
 .feature__text {
     margin: 0;
     padding: 20px;
-    line-height: 1.55;
+    font-size: var(--fs-base);
+    line-height: 1.6;
+
+    @media (--medium) {
+        font-size: var(--fs-md);
+    }
 }
 
 /* Contact CTA */
 .cta {
     padding: 72px 0;
+    border-top: 8px solid var(--hornet-yellow);
     background: var(--hornet-ink);
     color: var(--hornet-white);
 
@@ -263,7 +318,7 @@
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 900;
-    font-size: clamp(44px, 7vw, 96px);
+    font-size: clamp(40px, 5vw, 72px);
     line-height: 0.9;
     color: var(--hornet-yellow);
     text-transform: uppercase;
@@ -273,6 +328,7 @@
     max-width: 34em;
     margin: 0;
     font-size: var(--fs-md);
+    line-height: 1.6;
     color: var(--hornet-on-dark);
 }
 
@@ -297,6 +353,10 @@
 }
 
 .cta__contact {
+    padding: 6px 12px;
+    border: 2px solid var(--hornet-on-dark);
     font-size: var(--fs-base);
+    font-weight: 700;
+    letter-spacing: 0.05em;
     color: var(--hornet-on-dark);
 }

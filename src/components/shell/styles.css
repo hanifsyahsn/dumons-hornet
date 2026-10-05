@@ -36,24 +36,15 @@
 }
 
 /* The logo PNG is transparent outside its frame, so drop-shadow gives a hard black
-   backing that follows the skewed frame, pressed in on hover like the buttons. */
+   backing that follows the skewed frame. */
 .shell__logo {
     display: block;
+    width: 180px;
+    height: auto;
+    filter: drop-shadow(5px 5px 0 var(--hornet-ink));
 
-    img {
-        width: 180px;
-        height: auto;
-        filter: drop-shadow(5px 5px 0 var(--hornet-ink));
-        transition: transform 0.08s, filter 0.08s;
-
-        @media (--small) {
-            width: 230px;
-        }
-    }
-
-    &:hover img {
-        transform: translate(2px, 2px);
-        filter: drop-shadow(3px 3px 0 var(--hornet-ink));
+    @media (--small) {
+        width: 230px;
     }
 }
 
