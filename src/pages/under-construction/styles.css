@@ -5,6 +5,9 @@
 .construction {
     min-height: 100vh;
     min-height: 100dvh;
+    /* 100dvh changes when the mobile URL bar shows/hides: ease the height (and anything
+       centered in it) instead of jumping. Off with prefers-reduced-motion (global.css). */
+    transition: min-height 0.35s ease-out;
     display: flex;
     flex-direction: column;
     background:
