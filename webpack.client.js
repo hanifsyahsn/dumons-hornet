@@ -1,8 +1,15 @@
 // webpack.client.js
 const path = require("path");
+const webpack = require("webpack");
+require("dotenv").config();
 const MiniCssExtractPlugin  = require("mini-css-extract-plugin");
 
 const isDev = process.env.NODE_ENV !== "production";
+
+// Maintenance mode (see src/constants/routing.ts). Fail-safe: builds of the production
+// branch (Netlify sets BRANCH) default to on unless MAINTENANCE_MODE is set explicitly.
+const maintenanceMode =
+    process.env.MAINTENANCE_MODE ?? (process.env.BRANCH === "production" ? "true" : "false");
 
 module.exports = {
     mode: isDev ? "development" : "production",
@@ -31,6 +38,10 @@ module.exports = {
         ],
     },
     plugins: [
+        // Maintenance mode flag, baked in at build time (see src/constants/routing.ts)
+        new webpack.DefinePlugin({
+            "process.env.MAINTENANCE_MODE": JSON.stringify(maintenanceMode),
+        }),
         new MiniCssExtractPlugin({
             filename: "styles.css",
         }),

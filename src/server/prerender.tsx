@@ -4,7 +4,9 @@
 import fs from "fs";
 import path from "path";
 import { routes } from "../routes";
+import { DEFAULT_PATH, MAINTENANCE_MODE, UNDER_CONSTRUCTION_PATH } from "../constants/routing";
 import { renderPage } from "./render";
+import { SITE_URL } from "../constants/brand";
 
 const ROOT = path.resolve(__dirname, "../..");
 const OUT_DIR = path.join(ROOT, "dist/static");
@@ -37,7 +39,9 @@ async function main() {
     fs.cpSync(path.join(ROOT, "dist/client"), OUT_DIR, { recursive: true });
     fs.cpSync(path.join(ROOT, "public"), OUT_DIR, { recursive: true });
 
-    const redirects: string[] = [];
+    // "/" -> DEFAULT_PATH, so it must be a page we actually prerender (checked below).
+    const redirects: string[] = [`/ ${DEFAULT_PATH} 302`];
+    const pages: string[] = [];
 
     for (const route of routes) {
         if (route.path === "*") continue;
@@ -52,17 +56,44 @@ async function main() {
                 throw new Error(`${url} rendered with status ${status}`);
             } else {
                 writeFile(htmlFileFor(url), html);
+                pages.push(url);
                 console.log(`  ${url} -> ${htmlFileFor(url)}`);
             }
         }
     }
 
+    if (!pages.includes(DEFAULT_PATH)) {
+        throw new Error(`Default path "${DEFAULT_PATH}" is not a prerendered page`);
+    }
+    console.log(`  / -> ${DEFAULT_PATH} (302)`);
+
+    if (MAINTENANCE_MODE) {
+        // Rules match top to bottom. Serve the page itself explicitly (no redirect loop),
+        // then send every other path there. Existing files (bundle, styles, assets) shadow
+        // the catch-all, so they're still served.
+        redirects.push(
+            `${UNDER_CONSTRUCTION_PATH} /${htmlFileFor(UNDER_CONSTRUCTION_PATH)} 200`,
+            `/* ${UNDER_CONSTRUCTION_PATH} 302`
+        );
+        console.log(`  maintenance mode: /* -> ${UNDER_CONSTRUCTION_PATH} (302)`);
+    }
+
     writeFile("404.html", renderPage(NOT_FOUND_URL).html);
     console.log("  404 -> 404.html");
 
-    if (redirects.length) {
-        writeFile("_redirects", redirects.join("\n") + "\n");
-    }
+    writeFile("_redirects", redirects.join("\n") + "\n");
+
+    // Every prerendered page goes into the sitemap; redirects and the 404 page don't.
+    writeFile(
+        "sitemap.xml",
+        `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${pages.map(url => `    <url><loc>${SITE_URL}${url}</loc></url>`).join("\n")}
+</urlset>
+`
+    );
+    writeFile("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
+    console.log(`  sitemap.xml (${pages.length} pages), robots.txt`);
 
     console.log(`Prerendered into ${path.relative(ROOT, OUT_DIR)}`);
 }

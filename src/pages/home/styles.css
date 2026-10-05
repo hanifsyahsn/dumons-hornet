@@ -1,87 +1,285 @@
 @import '../../styles/variables.css';
 
-.construction {
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    background:
-        radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.45), transparent 60%),
-        var(--hornet-yellow);
-    color: var(--hornet-ink);
+.hero__inner,
+.features__inner,
+.cta__inner {
+    position: relative;
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
 }
 
-/* Hazard-tape stripe, top and bottom, edged in ink */
-.construction__stripe {
-    height: 22px;
-    flex-shrink: 0;
-    border-top: var(--border-thick);
-    border-bottom: var(--border-thick);
-    background: repeating-linear-gradient(
-        -45deg,
-        var(--hornet-ink) 0 16px,
-        var(--hornet-yellow) 16px 32px
-    );
-}
-
-.construction__content {
+/* Hero (also used by the 404 page) */
+.hero {
+    position: relative;
     flex: 1;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    padding: 48px 0 72px;
+    overflow: hidden;
+
+    @media (--medium) {
+        padding: 72px 0 96px;
+    }
+}
+
+/* Yellow slab behind the copy, skewed like the logo frame */
+.hero__slab {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -8%;
+    width: 70%;
+    background: var(--hornet-yellow);
+    transform: skewX(var(--skew));
+    transform-origin: top left;
+
+    @media (--medium) {
+        width: 46%;
+    }
+}
+
+.hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: 56px;
+
+    /* Two columns with a wide gap that grows with the screen, so the title never crowds the photo */
+    @media (--large) {
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+        gap: clamp(64px, 7vw, 160px);
+    }
+}
+
+.hero__copy {
+    min-width: 0;
+    /* Lets the title size itself from this column's width (cqi units) */
+    container-type: inline-size;
+}
+
+.hero__tag {
+    display: inline-block;
+    margin-bottom: 24px;
+    padding: 8px 16px;
+    background: var(--hornet-ink);
+    color: var(--hornet-white);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-sm);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+
+    @media (--medium) {
+        font-size: var(--fs-md);
+    }
+}
+
+.hero__title {
+    margin: 0 0 24px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    /* Sized from the copy column, not the viewport: the longest line ("MENYENGAT.")
+       always fits the column, however wide the screen is */
+    font-size: clamp(48px, 18cqi, 168px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+.hero__message {
+    max-width: 34em;
+    margin: 0 0 36px;
+    font-size: var(--fs-md);
+    font-weight: 500;
+    line-height: 1.55;
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
+}
+
+.hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.hero__media {
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+
+    @media (--large) {
+        justify-content: flex-end;
+    }
+}
+
+.hero__frame {
+    position: relative;
+    /* Leave room for the hard shadow so it isn't clipped on small screens */
+    width: calc(100% - 14px);
+    max-width: 460px;
+
+    @media (--xxlarge) {
+        max-width: 560px;
+    }
+}
+
+.hero__photo {
+    aspect-ratio: 4 / 5;
+    background: var(--gray-100);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.hero__photo--placeholder {
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    padding: 48px 16px;
-    text-align: center;
-}
+    background:
+        repeating-linear-gradient(
+            -45deg,
+            transparent 0 18px,
+            var(--gray-300) 18px 20px
+        ),
+        var(--hornet-white);
 
-.construction__logo {
-    width: 100%;
-    max-width: 320px;
-    height: auto;
-    margin-bottom: 16px;
-    transform: rotate(-2deg);
-    /* The logo is transparent outside its frame, so drop-shadow gives a hard ink
-       backing that follows the skewed frame (no blur) */
-    filter: drop-shadow(6px 6px 0 var(--hornet-ink));
-
-    @media (--medium) {
-        max-width: 520px;
-        filter: drop-shadow(10px 10px 0 var(--hornet-ink));
+    img {
+        width: 72%;
+        height: auto;
+        object-fit: contain;
     }
 }
 
-.construction__eyebrow {
-    margin: 0;
-    font-size: var(--fs-sm);
-    font-weight: 700;
-    letter-spacing: 0.2em;
+.hero__sticker {
+    position: absolute;
+    left: -8px;
+    bottom: 36px;
+    padding: 10px 18px;
+    background: var(--hornet-yellow);
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+    transform: rotate(-4deg);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-xl);
     text-transform: uppercase;
 
     @media (--medium) {
-        font-size: var(--fs-base);
+        left: -20px;
+        font-size: 28px;
     }
 }
 
-.construction__title {
-    max-width: 720px;
+/* Features */
+.features {
+    padding: 72px 0;
+    background-color: var(--hornet-white);
+    background-image:
+        linear-gradient(var(--gray-100) 2px, transparent 2px),
+        linear-gradient(90deg, var(--gray-100) 2px, transparent 2px);
+    background-size: 40px 40px;
+
+    @media (--medium) {
+        padding: 96px 0;
+    }
+}
+
+.features__title {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+/* Marker-pen highlight behind a word */
+.features__highlight {
+    padding: 0 0.1em;
+    background: linear-gradient(transparent 55%, var(--hornet-yellow) 55%);
+}
+
+.features__lead {
+    max-width: 38em;
+    margin: 0 0 48px;
+    font-size: var(--fs-md);
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
+}
+
+.features__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 28px;
+}
+
+/* Subgrid rows: card heads in a row share one height, so the body text lines up
+   even when one title wraps to two lines. */
+.feature {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    background: var(--hornet-white);
+    border: var(--border);
+    box-shadow: var(--shadow-md);
+}
+
+.feature__head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    background: var(--hornet-ink);
+}
+
+/* Yellow skewed chip like the logo frame; the icon is skewed back upright */
+.feature__icon {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--hornet-yellow);
+    transform: skewX(var(--skew));
+
+    svg {
+        width: 28px;
+        height: 28px;
+        stroke: var(--hornet-ink);
+        transform: skewX(calc(var(--skew) * -1));
+    }
+}
+
+.feature__title {
     margin: 0;
     font-family: var(--font-display);
-    font-weight: 800;
     font-style: italic;
-    font-size: var(--fs-2xl);
-    line-height: 1.05;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-
-    @media (--medium) {
-        font-size: var(--fs-4xl);
-    }
+    font-weight: 800;
+    font-size: var(--fs-xl);
+    line-height: 1.1;
+    color: var(--hornet-white);
 }
 
-.construction__message {
-    max-width: 520px;
+.feature__text {
     margin: 0;
+    padding: 20px;
     font-size: var(--fs-base);
     line-height: 1.6;
 
@@ -90,53 +288,162 @@
     }
 }
 
-/*
- * Skewed button like the logo frame: the inner span is skewed back so the text stays
- * upright. White plate with ink border and hard ink shadow, matching the logo; hover presses it in.
- */
-.construction__link {
-    margin-top: 16px;
-    padding: 12px 28px;
-    border: var(--border);
-    background-color: var(--hornet-white);
-    box-shadow: 6px 6px 0 var(--hornet-ink);
-    transform: skewX(var(--skew));
-    font-family: var(--font-display);
-    font-size: var(--fs-base);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--hornet-ink);
-    text-decoration: none;
-    transition: transform 0.08s, box-shadow 0.08s;
+/* Contact CTA */
+.cta {
+    padding: 72px 0;
+    border-top: 8px solid var(--hornet-yellow);
+    background: var(--hornet-ink);
+    color: var(--hornet-white);
 
-    > span {
-        display: inline-block;
-        transform: skewX(calc(var(--skew) * -1));
-    }
-
-    /* Only where hover exists: on touch screens :hover sticks after a tap */
-    @media (hover: hover) {
-        &:hover {
-            transform: skewX(var(--skew)) translate(3px, 3px);
-            box-shadow: 3px 3px 0 var(--hornet-ink);
-        }
-    }
-
-    &:active {
-        transform: skewX(var(--skew)) translate(6px, 6px);
-        box-shadow: none;
-    }
-
-    &:focus-visible {
-        outline: 3px solid var(--hornet-ink);
-        outline-offset: 5px;
+    @media (--medium) {
+        padding: 96px 0;
     }
 }
 
-.construction__footer {
-    padding: 16px;
+.cta__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: 48px;
+
+    @media (--large) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 460px);
+        gap: clamp(48px, 6vw, 120px);
+    }
+}
+
+.cta__copy {
+    min-width: 0;
+}
+
+.cta__title {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 0.9;
+    color: var(--hornet-yellow);
+    text-transform: uppercase;
+}
+
+.cta__message {
+    max-width: 34em;
+    margin: 0;
+    font-size: var(--fs-md);
+    line-height: 1.6;
+    color: var(--hornet-on-dark);
+}
+
+/*
+ * Contact card: white panel with a hard yellow shadow on the dark band. The WhatsApp
+ * button spans the card, so long contact details never push it around.
+ */
+.contact-card {
+    position: relative;
+    width: calc(100% - 10px);
+    max-width: 460px;
+    padding: 36px 24px 24px;
+    background: var(--hornet-white);
+    color: var(--hornet-ink);
+    border: var(--border);
+    box-shadow: 10px 10px 0 var(--hornet-yellow);
+
+    @media (--large) {
+        justify-self: end;
+        padding: 40px 28px 28px;
+    }
+}
+
+/* Tag sitting on the card's top edge */
+.contact-card__tag {
+    position: absolute;
+    top: -18px;
+    left: 20px;
+    padding: 6px 14px;
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+    border: 3px solid var(--hornet-yellow);
+    transform: skewX(var(--skew));
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 800;
+    font-size: var(--fs-sm);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.contact-card__whatsapp {
+    display: block;
     text-align: center;
+}
+
+.contact-card__list {
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.contact-card__row {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    grid-template-areas:
+        "icon label"
+        "icon value";
+    column-gap: 14px;
+    align-items: center;
+    padding: 14px 0;
+    border-top: 2px solid var(--hornet-ink);
+
+    &:last-child {
+        padding-bottom: 0;
+    }
+}
+
+.contact-card__icon {
+    grid-area: icon;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--hornet-yellow);
+    border: 2px solid var(--hornet-ink);
+    transform: skewX(var(--skew));
+
+    svg {
+        width: 22px;
+        height: 22px;
+        stroke: var(--hornet-ink);
+        transform: skewX(calc(var(--skew) * -1));
+    }
+}
+
+.contact-card__label {
+    grid-area: label;
     font-size: var(--fs-xs);
-    letter-spacing: 0.1em;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-700);
+}
+
+.contact-card__value {
+    grid-area: value;
+    font-size: var(--fs-base);
+    font-weight: 700;
+    color: var(--hornet-ink);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+
+    @media (--small) {
+        font-size: var(--fs-md);
+    }
+
+    &:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+        text-decoration-color: var(--hornet-yellow);
+        text-underline-offset: 4px;
+    }
 }

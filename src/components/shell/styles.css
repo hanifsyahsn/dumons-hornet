@@ -1,0 +1,213 @@
+@import '../../styles/variables.css';
+
+.shell {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: var(--hornet-white);
+    color: var(--hornet-ink);
+}
+
+.shell__container {
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+}
+
+.shell__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header: logo only for now, no navigation */
+.shell__header {
+    border-bottom: var(--border-thick);
+    background: var(--hornet-white);
+}
+
+.shell__header-inner {
+    display: flex;
+    align-items: center;
+    padding-top: 16px;
+    padding-bottom: 20px;
+}
+
+/* The logo PNG is transparent outside its frame, so drop-shadow gives a hard black
+   backing that follows the skewed frame. */
+.shell__logo {
+    display: block;
+    width: 180px;
+    height: auto;
+    filter: drop-shadow(5px 5px 0 var(--hornet-ink));
+
+    @media (--small) {
+        width: 230px;
+    }
+}
+
+/* Hazard-tape strip */
+.hazard {
+    height: 28px;
+    flex-shrink: 0;
+    border-top: var(--border-thick);
+    border-bottom: var(--border-thick);
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--hornet-yellow) 0 22px,
+        var(--hornet-ink) 22px 44px
+    );
+}
+
+.hazard--thin {
+    height: 20px;
+    border: 0;
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--hornet-yellow) 0 16px,
+        var(--hornet-ink) 16px 32px
+    );
+}
+
+/* Footer */
+.shell__footer {
+    padding: 48px 0;
+    background: var(--hornet-ink);
+}
+
+.shell__footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.shell__footer-logo {
+    width: 180px;
+    height: auto;
+
+    @media (--small) {
+        width: 200px;
+    }
+}
+
+.shell__copyright {
+    font-size: var(--fs-sm);
+    color: var(--hornet-on-dark);
+}
+
+/* Back to the main Dumons Coating site */
+.shell__footer-link {
+    color: var(--hornet-yellow);
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 4px;
+    }
+}
+
+/*
+ * Skewed button: the outer element is skewed like the logo frame, the inner span is
+ * skewed back so the text stays upright. Hover presses it in (hover-capable devices only), active fully.
+ * Works on <a> and <button>.
+ */
+.button {
+    display: inline-block;
+    margin: 0;
+    border: var(--border);
+    border-radius: 0;
+    box-shadow: var(--shadow-sm);
+    transform: skewX(var(--skew));
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s;
+
+    > span {
+        display: inline-block;
+        transform: skewX(calc(var(--skew) * -1));
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+    }
+
+    /* Only where hover exists: on touch screens :hover sticks after a tap,
+       leaving the button looking half-pressed */
+    @media (hover: hover) {
+        &:hover {
+            transform: skewX(var(--skew)) translate(2px, 2px);
+            box-shadow: 3px 3px 0 var(--hornet-ink);
+        }
+    }
+
+    &:active {
+        transform: skewX(var(--skew)) translate(5px, 5px);
+        box-shadow: none;
+    }
+
+    &:focus-visible {
+        outline: 3px solid var(--hornet-orange);
+        outline-offset: 4px;
+    }
+}
+
+.button--sm {
+    padding: 8px 14px;
+    font-size: var(--fs-sm);
+
+    @media (--small) {
+        padding: 10px 22px;
+        font-size: var(--fs-lg);
+    }
+}
+
+.button--lg {
+    padding: 14px 26px;
+    font-size: var(--fs-lg);
+
+    @media (--medium) {
+        padding: 16px 30px;
+        font-size: var(--fs-xl);
+    }
+}
+
+.button--xl {
+    padding: 16px 28px;
+    font-size: var(--fs-xl);
+
+    @media (--medium) {
+        padding: 18px 34px;
+        font-size: 28px;
+    }
+}
+
+.button--yellow {
+    background: var(--hornet-yellow);
+    color: var(--hornet-ink);
+}
+
+.button--white {
+    background: var(--hornet-white);
+    color: var(--hornet-ink);
+}
+
+/* Orange hard shadow, so the shadow reads against the ink fill */
+.button--dark {
+    background: var(--hornet-ink);
+    color: var(--hornet-white);
+    box-shadow: 6px 6px 0 var(--hornet-orange);
+
+    @media (hover: hover) {
+        &:hover {
+            box-shadow: 3px 3px 0 var(--hornet-orange);
+        }
+    }
+}

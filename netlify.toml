@@ -7,9 +7,6 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Same as the Express server: the landing page lives at /home.
-[[redirects]]
-  from = "/"
-  to = "/home"
-  status = 302
-
+# Maintenance mode (src/constants/routing.ts) is not configured in git: builds of the
+# "production" branch default to it. Override with the MAINTENANCE_MODE env var in the
+# Netlify UI (Site configuration > Environment variables): "false" to launch.

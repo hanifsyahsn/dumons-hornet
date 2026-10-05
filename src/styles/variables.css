@@ -8,14 +8,17 @@
     --hornet-ink: #271b1d;
     --hornet-white: #ffffff;
     --hornet-orange: #f9aa52;
+    --hornet-on-dark: #e9e4e5;
 
     /*
-     * Neo-brutalism accents: thick ink borders, hard shadows with no blur,
+     * Neo-brutalism: thick ink borders, hard shadows with no blur,
      * action elements skewed like the logo frame, no border radius.
      */
     --border: 3px solid var(--hornet-ink);
     --border-thick: 4px solid var(--hornet-ink);
     --shadow-sm: 5px 5px 0 var(--hornet-ink);
+    --shadow-md: 8px 8px 0 var(--hornet-ink);
+    --shadow-lg: 14px 14px 0 var(--hornet-ink);
     --skew: -12deg;
 
     /* Neutral Colors */
@@ -26,8 +29,12 @@
     --gray-500: #adb5bd;
     --gray-700: #495057;
 
-    /* Fonts: Helvetica (system font, falls back to Arial where not installed) */
-    --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /*
+     * Fonts. Display (headings, buttons, tags, stickers): Roboto Condensed, closest to the
+     * logo wordmark, self-hosted and italic only, so always pair it with font-style: italic.
+     * Body: Helvetica (system font, falls back to Arial where not installed).
+     */
+    --font-display: "Roboto Condensed", "Arial Narrow", "Helvetica Neue", Helvetica, Arial, sans-serif;
     --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
     --fs-xs: 12px;
@@ -39,6 +46,10 @@
     --fs-2xl: 30px;
     --fs-4xl: 48px;
     --fs-6xl: 72px;
+
+    /* Content width and side gutter; both grow on large monitors (see below) */
+    --container: 1280px;
+    --gutter: 16px;
 }
 
 @custom-media --xxsmall (width <= 320px);
@@ -49,3 +60,19 @@
 @custom-media --xlarge (width > 1200px);
 @custom-media --page-max-width (width > 1280px);
 @custom-media --xxlarge (width > 1600px);
+
+:root {
+    @media (--medium) {
+        --gutter: 32px;
+    }
+
+    @media (--xlarge) {
+        --gutter: 48px;
+    }
+
+    /* 24" and up: use most of the screen instead of a narrow centered column */
+    @media (--xxlarge) {
+        --container: min(86vw, 1800px);
+        --gutter: 64px;
+    }
+}

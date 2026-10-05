@@ -6,7 +6,7 @@ html, body {
     padding: 0;
     width: 100%;
     min-height: 100%;
-    background: var(--hornet-yellow);
+    background: var(--hornet-white);
     color: var(--hornet-ink);
     font-family: var(--font-body);
     overflow-x: hidden;
@@ -19,4 +19,15 @@ html, body {
 
 button, a, nav, div, * {
     -webkit-tap-highlight-color: transparent;
+}
+
+a:focus-visible {
+    outline: 3px solid var(--hornet-orange);
+    outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
 }

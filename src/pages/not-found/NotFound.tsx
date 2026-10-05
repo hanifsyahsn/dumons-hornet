@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Shell } from "../../components/shell";
+import { DEFAULT_PATH } from "../../constants/routing";
 import type { RouteContext } from "../../types/routing";
 import "../home/styles.css";
 
@@ -11,17 +13,27 @@ function NotFound({ context }: NotFoundProps) {
     if (context) context.status = 404;
 
     return (
-        <main className="construction">
-            <div className="construction__stripe" aria-hidden="true" />
-            <section className="construction__content">
-                <p className="construction__eyebrow">Error 404</p>
-                <h1 className="construction__title">Page Not Found</h1>
-                <Link className="construction__link" to="/home">
-                    Back to Home
-                </Link>
+        <Shell>
+            <section className="hero">
+                <div className="hero__slab" aria-hidden="true" />
+
+                <div className="hero__inner">
+                    <div className="hero__copy">
+                        <span className="hero__tag">Error 404</span>
+                        <h1 className="hero__title">
+                            Halaman tidak
+                            <br />
+                            ditemukan.
+                        </h1>
+                        <div className="hero__actions">
+                            <Link className="button button--lg button--dark" to={DEFAULT_PATH}>
+                                <span>Kembali ke beranda</span>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
             </section>
-            <div className="construction__stripe" aria-hidden="true" />
-        </main>
+        </Shell>
     );
 }
 

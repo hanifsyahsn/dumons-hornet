@@ -38,7 +38,7 @@ export function Loading({ children }: LoadingProps) {
                         </div>
                         <div className="absolute inset-0 bg-gradient-to-tr from-[#ffff00]/20 via-transparent to-[#ffff00]/10 animate-pulse rounded-full blur-sm" />
                     </div>
-                    <span className="sr-only">Loading…</span>
+                    <span className="sr-only">Memuat…</span>
                 </div>
             )}
         </LoadingContext.Provider>

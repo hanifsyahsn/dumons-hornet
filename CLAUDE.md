@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Website for the **Dumons Coating – Hornet lineup** (a sub-product of Dumons Coating), served at `https://hornet.dumonscoating.com/home`. The main Dumons Coating site is a separate Vue project at `C:\Users\hanif\Documents\dumons-netlify` (`https://dumonscoating.com/home`); Hornet uses Helvetica (`"Helvetica Neue", Helvetica, Arial, sans-serif`, no web font loaded) for all text, unlike the main site (Bebas Neue + Roboto Condensed). Currently the site is just an under-construction page.
+Website for the **Dumons Coating – Hornet lineup** (a sub-product of Dumons Coating), served at `https://hornet.dumonscoating.com/home`. The main Dumons Coating site is a separate Vue project at `C:\Users\hanif\Documents\dumons-netlify` (`https://dumonscoating.com/home`); Hornet uses Roboto Condensed Black Italic for display text (headings, buttons, tags, stickers; closest match to the logo wordmark) and Helvetica (`"Helvetica Neue", Helvetica, Arial, sans-serif`) for body text. The display font is self-hosted (`public/assets/fonts/roboto-condensed-italic-latin.woff2`: variable weight, italic only, latin subset), declared with `@font-face` + preload in `render.tsx`'s `<head>` (not in CSS, so css-loader doesn't try to bundle the url), so every `--font-display` use must also set `font-style: italic`. Currently the site is a single Indonesian-language landing page (`/home`, `lang="id"`): logo-only header (no navigation yet), hero for the HS 470 product (hatched placeholder with the hornet mark until the product photo exists, "Lihat produk" button with no action yet), features, WhatsApp CTA, footer. `/under-construction` is a standalone holding page (no Shell, English copy) and the only page on Netlify production deploys while `MAINTENANCE_MODE` is on (see Routing).
 
 **There is no backend.** Production is a static site on Netlify (prerendered at build time); Express is only used for local dev/`npm start`. Don't add an `/api` proxy, API client, or data-fetching/store layer unless asked.
 
@@ -18,7 +18,7 @@ npm run build:static  # production build + prerender every route into dist/stati
 npm run typecheck  # tsc --noEmit; the only static check (no linter, no tests)
 ```
 
-`.env` (copy from `.env.example`) only holds `PORT` (default 3000).
+`.env` (copy from `.env.example`) holds `PORT` (default 3000) and optionally `MAINTENANCE_MODE` (build time, see Routing).
 
 ## Architecture
 
@@ -27,9 +27,11 @@ React 19 SSR with two webpack builds sharing the same `src/`:
 - **Server** (`webpack.server.js`, entry `src/server/server.tsx`, `target: node`, CSS imports ignored via `ignore-loader`): Express serves `dist/client` and `public/` statically, redirects `/` → `/home`, and renders every other path via `renderPage`. The full HTML document (head, favicon, loader markup) is a template string in `render.tsx`, not a React component; per-page `<title>` comes from the route's `title`.
 - **Client** (`webpack.client.js`, entry `src/client/index.tsx`): `hydrateRoot` inside `BrowserRouter`; all CSS is extracted by `MiniCssExtractPlugin` into a single `/styles.css`, loaded alongside `/bundle.js`.
 
-Rendering is shared: `src/server/render.tsx` (`renderPage(url)`) renders the app and wraps it in the HTML document. It is used by both `server.tsx` (per request) and `src/server/prerender.tsx` (build time; second entry in `webpack.server.js`). Prerender copies `dist/client` + `public/` into `dist/static`, writes each route as `<path>.html` (so Netlify serves `/home` from `home.html`), renders `404.html` via the `*` route, and turns `context.url` redirects into `_redirects`. Routes with params are skipped unless they define `getStaticPaths`. Keep anything request-dependent out of pages, since production HTML is generated once per deploy. The `/` → `/home` redirect exists twice: in `server.tsx` and `netlify.toml`.
+Rendering is shared: `src/server/render.tsx` (`renderPage(url)`) renders the app and wraps it in the HTML document. It is used by both `server.tsx` (per request) and `src/server/prerender.tsx` (build time; second entry in `webpack.server.js`). Prerender copies `dist/client` + `public/` into `dist/static`, writes each route as `<path>.html` (so Netlify serves `/home` from `home.html`), renders `404.html` via the `*` route, writes `sitemap.xml`/`robots.txt`, and writes `_redirects` (`/` → default route, maintenance catch-all, plus any `context.url` redirects). Routes with params are skipped unless they define `getStaticPaths`. Keep anything request-dependent out of pages, since production HTML is generated once per deploy. The `/` redirect target is `DEFAULT_PATH` (`src/constants/routing.ts`), used by `server.tsx`, `App.tsx`, `NotFound` and prerender's `_redirects`.
 
-Routing: `src/routes.ts` is the list of `{ path, component }` rendered by `src/pages/App.tsx` (which also redirects `/` → `/home` for client-side navigation). Keep the `*` catch-all last.
+Routing: `src/routes.ts` is the list of `{ path, component }` rendered by `src/pages/App.tsx` (which also redirects `/` for client-side navigation). Keep the `*` catch-all last.
+
+Maintenance mode (`src/constants/routing.ts`): `MAINTENANCE_MODE=true` at build time (baked into both bundles by webpack `DefinePlugin`, so changing it needs a rebuild) filters `routes` down to `/under-construction` + `*`, makes it `DEFAULT_PATH` (otherwise `/home`), and redirects every other path there: `server.tsx` per request, and on Netlify via `_redirects` (an explicit 200 rewrite for the page, then `/* → /under-construction 302`, which existing files shadow). The flag is not kept in git (no `netlify.toml` entry): when `MAINTENANCE_MODE` is unset, builds with `BRANCH=production` (set by Netlify) default to on; set `MAINTENANCE_MODE=false` in the Netlify UI environment variables to launch.
 
 HTTP status/redirects from SSR: pages receive an optional `context: RouteContext` prop (only on the server). Setting `context.status = 404` (as `NotFound` does) or `context.url` (301 redirect) is read by `server.tsx` after rendering. The `<title>` is chosen in `server.tsx` based on that status.
 
@@ -39,8 +41,10 @@ Loading overlay: `render.tsx` emits a static `#server-loader` overlay that `clie
 
 PostCSS pipeline (`postcss.config.js`): `postcss-import` → Tailwind v4 → `postcss-custom-media` → autoprefixer. `src/styles/global.css` imports Tailwind and `variables.css`.
 
-- Design tokens live in `src/styles/variables.css` (`--hornet-*` colors, `--font-display`/`--font-body`, `--fs-*` sizes). The Hornet palette (yellow `#ffff00`, ink `#271b1d`, white, orange accent) is sampled from `public/assets/logo-bordered.webp`; keep new colors on these tokens.
+- Visual style is neo-brutalism: thick ink borders, hard shadows with no blur, action elements skewed `-12deg` like the logo frame, no border radius.
+- Design tokens live in `src/styles/variables.css` (`--hornet-*` colors, `--border*`, `--shadow-*`, `--skew`, `--container`/`--gutter` (both grow on large monitors), `--font-display`/`--font-body`, `--fs-*` sizes). The hero title is sized in `cqi` from its own column (`container-type: inline-size`), so it never runs into the photo.
+- `src/components/shell` is the page frame (logo-only header, thin hazard strip, dark footer) and defines the shared `.hazard` strip and skewed `.button` (`--sm`/`--lg`/`--xl`, `--yellow`/`--dark`/`--white`; works on `<a>` and `<button>`). Home and NotFound share the `.hero` styles in `src/pages/home/styles.css`. The Hornet palette (yellow `#ffff00`, ink `#271b1d`, white, orange accent) is sampled from `public/assets/logo-bordered.webp`; keep new colors on these tokens.
 - Responsive breakpoints are `@custom-media` queries (`--small`, `--medium`, ...) used as `@media (--medium)`, nested inside BEM-style class blocks (e.g. `.construction__title`).
 - Tailwind utilities are used mainly for the loader markup.
 
-Brand constants (logo path, main-site URL) are in `src/constants/brand.ts`; logos live in `public/assets/` (`logo-bordered.webp` on the page, `logo.webp` (square hornet mark) as favicon, `logo-borderless.webp` unused).
+Brand constants (logo path, main-site URL, WhatsApp link, contact email) are in `src/constants/brand.ts`; logos live in `public/assets/` (`logo-bordered.webp` in header/footer with a hard black `drop-shadow` backing (the header logo is deliberately a plain `<img>`: no link, hover or pointer, since there is nowhere to go yet), `logo.webp` (square hornet mark) as favicon and the hero photo placeholder, `logo-borderless.webp` unused).

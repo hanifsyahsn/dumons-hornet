@@ -6,9 +6,13 @@ import App from "../pages/App";
 import { Loading } from "../components/loading";
 import { routes } from "../routes";
 import type { RouteContext } from "../types/routing";
+import { HORNET_MARK_SIZE, HORNET_MARK_SRC, SITE_URL } from "../constants/brand";
 
-const DEFAULT_TITLE = "Hornet Supercoat | Under Construction";
-const NOT_FOUND_TITLE = "404 Not Found | Hornet Supercoat";
+const DEFAULT_TITLE = "Hörnet Supercoat | Dumons Coating";
+const NOT_FOUND_TITLE = "404 Halaman Tidak Ditemukan | Hörnet Supercoat";
+const DESCRIPTION =
+    "Hörnet Supercoat, inovasi terbaru dari lineup performance coating Dumons. Kilau ekstrem, super hidrofobik, dan proteksi maksimal untuk cat kendaraanmu.";
+const DISPLAY_FONT_SRC = "/assets/fonts/roboto-condensed-italic-latin.woff2";
 
 export interface RenderResult {
     status: number;
@@ -40,21 +44,57 @@ export function renderPage(url: string): RenderResult {
     const route = routes.find(r => r.path !== "*" && matchPath(r.path, pathname));
     const title = status === 404 ? NOT_FOUND_TITLE : route?.title || DEFAULT_TITLE;
 
-    return { status, html: renderDocument(title, appHtml) };
+    // The 404 page has no canonical URL of its own and shouldn't be indexed.
+    const canonical = status === 200 ? `${SITE_URL}${pathname}` : undefined;
+
+    return { status, html: renderDocument(title, appHtml, canonical) };
 }
 
-function renderDocument(title: string, appHtml: string): string {
+// Canonical + link preview tags (WhatsApp, Facebook, X) for indexable pages, noindex otherwise.
+function renderShareMeta(title: string, canonical?: string): string {
+    if (!canonical) return `<meta name="robots" content="noindex" />`;
+
+    return `<link rel="canonical" href="${canonical}" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Hörnet Supercoat" />
+        <meta property="og:locale" content="id_ID" />
+        <meta property="og:url" content="${canonical}" />
+        <meta property="og:title" content="${title}" />
+        <meta property="og:description" content="${DESCRIPTION}" />
+        <meta property="og:image" content="${SITE_URL}${HORNET_MARK_SRC}" />
+        <meta property="og:image:type" content="image/webp" />
+        <meta property="og:image:width" content="${HORNET_MARK_SIZE.width}" />
+        <meta property="og:image:height" content="${HORNET_MARK_SIZE.height}" />
+        <meta property="og:image:alt" content="Logo Hörnet Supercoat" />
+        <meta name="twitter:card" content="summary" />`;
+}
+
+function renderDocument(title: string, appHtml: string, canonical?: string): string {
     return `<!DOCTYPE html>
-<html lang="en">
+<html lang="id">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Hornet Supercoat by Dumons Coating. The website is under construction, we are developing your best experience." />
+        <meta name="description" content="${DESCRIPTION}" />
         <meta name="theme-color" content="#ffff00" />
 
         <title>${title}</title>
+        ${renderShareMeta(title, canonical)}
 
         <link rel="icon" type="image/webp" href="/assets/logo.webp" />
+        <link rel="preload" href="${DISPLAY_FONT_SRC}" as="font" type="font/woff2" crossorigin />
+        <style>
+            /* Display font (headings, buttons, tags), self-hosted from public/assets/fonts.
+               Declared here rather than in CSS so css-loader doesn't try to bundle the url().
+               Roboto Condensed, variable weight, italic only, latin subset; SIL Open Font License. */
+            @font-face {
+                font-family: "Roboto Condensed";
+                font-style: italic;
+                font-weight: 100 900;
+                font-display: swap;
+                src: url("${DISPLAY_FONT_SRC}") format("woff2");
+            }
+        </style>
         <link rel="stylesheet" href="/styles.css" />
     </head>
     <body>
@@ -77,7 +117,7 @@ function renderDocument(title: string, appHtml: string): string {
                 </div>
                 <div class="absolute inset-0 bg-gradient-to-tr from-[#ffff00]/20 via-transparent to-[#ffff00]/10 animate-pulse rounded-full blur-sm"></div>
             </div>
-            <span class="sr-only">Loading…</span>
+            <span class="sr-only">Memuat…</span>
         </div>
 
         <div id="root">${appHtml}</div>
