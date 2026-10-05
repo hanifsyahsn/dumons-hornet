@@ -7,11 +7,7 @@
     width: 100%;
     max-width: var(--container);
     margin: 0 auto;
-    padding: 0 16px;
-
-    @media (--medium) {
-        padding: 0 24px;
-    }
+    padding: 0 var(--gutter);
 }
 
 /* Hero (also used by the 404 page) */
@@ -45,15 +41,22 @@
 }
 
 .hero__inner {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
     gap: 56px;
+
+    /* Two columns with a wide gap that grows with the screen, so the title never crowds the photo */
+    @media (--large) {
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+        gap: clamp(64px, 7vw, 160px);
+    }
 }
 
 .hero__copy {
-    flex: 1 1 540px;
     min-width: 0;
+    /* Lets the title size itself from this column's width (cqi units) */
+    container-type: inline-size;
 }
 
 .hero__tag {
@@ -78,8 +81,9 @@
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 900;
-    /* Helvetica runs wider than a condensed face; capped so "MENYENGAT." clears the photo */
-    font-size: clamp(48px, 7vw, 104px);
+    /* Sized from the copy column, not the viewport: the longest line ("MENYENGAT.")
+       always fits the column, however wide the screen is */
+    font-size: clamp(44px, 14cqi, 144px);
     line-height: 0.9;
     letter-spacing: -0.02em;
     text-transform: uppercase;
@@ -104,10 +108,13 @@
 }
 
 .hero__media {
-    flex: 1 1 360px;
     min-width: 0;
     display: flex;
     justify-content: center;
+
+    @media (--large) {
+        justify-content: flex-end;
+    }
 }
 
 .hero__frame {
@@ -115,6 +122,10 @@
     /* Leave room for the hard shadow so it isn't clipped on small screens */
     width: calc(100% - 14px);
     max-width: 460px;
+
+    @media (--xxlarge) {
+        max-width: 560px;
+    }
 }
 
 .hero__photo {

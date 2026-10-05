@@ -40,7 +40,7 @@ Loading overlay: `render.tsx` emits a static `#server-loader` overlay that `clie
 PostCSS pipeline (`postcss.config.js`): `postcss-import` → Tailwind v4 → `postcss-custom-media` → autoprefixer. `src/styles/global.css` imports Tailwind and `variables.css`.
 
 - Visual style is neo-brutalism: thick ink borders, hard shadows with no blur, action elements skewed `-12deg` like the logo frame, no border radius.
-- Design tokens live in `src/styles/variables.css` (`--hornet-*` colors, `--border*`, `--shadow-*`, `--skew`, `--font-display`/`--font-body`, `--fs-*` sizes).
+- Design tokens live in `src/styles/variables.css` (`--hornet-*` colors, `--border*`, `--shadow-*`, `--skew`, `--container`/`--gutter` (both grow on large monitors), `--font-display`/`--font-body`, `--fs-*` sizes). The hero title is sized in `cqi` from its own column (`container-type: inline-size`), so it never runs into the photo.
 - `src/components/shell` is the page frame (logo-only header, thin hazard strip, dark footer) and defines the shared `.hazard` strip and skewed `.button` (`--sm`/`--lg`/`--xl`, `--yellow`/`--dark`/`--white`; works on `<a>` and `<button>`). Home and NotFound share the `.hero` styles in `src/pages/home/styles.css`. The Hornet palette (yellow `#ffff00`, ink `#271b1d`, white, orange accent) is sampled from `public/assets/logo-bordered.webp`; keep new colors on these tokens.
 - Responsive breakpoints are `@custom-media` queries (`--small`, `--medium`, ...) used as `@media (--medium)`, nested inside BEM-style class blocks (e.g. `.construction__title`).
 - Tailwind utilities are used mainly for the loader markup.
