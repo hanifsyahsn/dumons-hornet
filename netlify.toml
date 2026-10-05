@@ -7,9 +7,8 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Same as the Express server: the landing page lives at /home.
-[[redirects]]
-  from = "/"
-  to = "/home"
-  status = 302
+# "/" -> DEFAULT_ROUTE (default /home) is written into _redirects by prerender.
+# Production deploys keep showing the under-construction page until this is removed.
+[context.production.environment]
+  DEFAULT_ROUTE = "/under-construction"
 

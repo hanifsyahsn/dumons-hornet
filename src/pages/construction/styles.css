@@ -1,0 +1,145 @@
+@import '../../styles/variables.css';
+
+/* Standalone under-construction page (no Shell): the default route on production deploys */
+
+.construction {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background:
+        radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.45), transparent 60%),
+        var(--hornet-yellow);
+    color: var(--hornet-ink);
+}
+
+/* Hazard-tape stripe, top and bottom, edged in ink */
+.construction__stripe {
+    height: 22px;
+    flex-shrink: 0;
+    border-top: var(--border-thick);
+    border-bottom: var(--border-thick);
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--hornet-ink) 0 16px,
+        var(--hornet-yellow) 16px 32px
+    );
+}
+
+.construction__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 48px 16px;
+    text-align: center;
+}
+
+.construction__logo {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    margin-bottom: 16px;
+    transform: rotate(-2deg);
+    /* The logo is transparent outside its frame, so drop-shadow gives a hard ink
+       backing that follows the skewed frame (no blur) */
+    filter: drop-shadow(6px 6px 0 var(--hornet-ink));
+
+    @media (--medium) {
+        max-width: 520px;
+        filter: drop-shadow(10px 10px 0 var(--hornet-ink));
+    }
+}
+
+.construction__eyebrow {
+    margin: 0;
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+
+    @media (--medium) {
+        font-size: var(--fs-base);
+    }
+}
+
+.construction__title {
+    max-width: 720px;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-style: italic;
+    font-size: var(--fs-2xl);
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+
+    @media (--medium) {
+        font-size: var(--fs-4xl);
+    }
+}
+
+.construction__message {
+    max-width: 520px;
+    margin: 0;
+    font-size: var(--fs-base);
+    line-height: 1.6;
+
+    @media (--medium) {
+        font-size: var(--fs-md);
+    }
+}
+
+/*
+ * Skewed button like the logo frame: the inner span is skewed back so the text stays
+ * upright. Hard orange shadow (it reads against the ink fill); hover presses it in.
+ */
+.construction__link {
+    margin-top: 16px;
+    padding: 12px 28px;
+    border: var(--border);
+    background-color: var(--hornet-ink);
+    box-shadow: 6px 6px 0 var(--hornet-orange);
+    transform: skewX(var(--skew));
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-base);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--hornet-yellow);
+    text-decoration: none;
+    transition: transform 0.08s, box-shadow 0.08s;
+
+    > span {
+        display: inline-block;
+        transform: skewX(calc(var(--skew) * -1));
+    }
+
+    /* Only where hover exists: on touch screens :hover sticks after a tap */
+    @media (hover: hover) {
+        &:hover {
+            transform: skewX(var(--skew)) translate(3px, 3px);
+            box-shadow: 3px 3px 0 var(--hornet-orange);
+        }
+    }
+
+    &:active {
+        transform: skewX(var(--skew)) translate(6px, 6px);
+        box-shadow: none;
+    }
+
+    &:focus-visible {
+        outline: 3px solid var(--hornet-ink);
+        outline-offset: 5px;
+    }
+}
+
+.construction__footer {
+    padding: 16px;
+    text-align: center;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.1em;
+}

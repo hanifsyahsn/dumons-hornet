@@ -1,5 +1,7 @@
 // webpack.server.js
 const path = require("path");
+const webpack = require("webpack");
+require("dotenv").config();
 const nodeExternals = require("webpack-node-externals");
 
 const isDev = process.env.NODE_ENV !== "production";
@@ -30,6 +32,12 @@ module.exports = {
             }
         ],
     },
+    plugins: [
+        // Default route for "/", baked in at build time (see src/constants/routing.ts)
+        new webpack.DefinePlugin({
+            "process.env.DEFAULT_ROUTE": JSON.stringify(process.env.DEFAULT_ROUTE || ""),
+        }),
+    ],
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx"],
     },

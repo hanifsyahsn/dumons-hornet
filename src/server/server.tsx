@@ -3,6 +3,7 @@ import express from "express";
 import type { Request, Response } from "express";
 import dotenv from "dotenv";
 import { renderPage } from "./render";
+import { DEFAULT_PATH } from "../constants/routing";
 
 dotenv.config();
 
@@ -12,10 +13,10 @@ const app = express();
 app.use(express.static(path.resolve(__dirname, "../../dist/client")));
 app.use(express.static(path.resolve(__dirname, "../../public")));
 
-// Same entry point as dumonscoating.com: the landing page lives at /home.
-// Mirrored for Netlify in netlify.toml.
+// "/" lands on DEFAULT_PATH (/home unless DEFAULT_ROUTE was set at build time).
+// Mirrored for Netlify in the _redirects file written by prerender.
 app.get("/", (_req: Request, res: Response) => {
-    res.redirect(302, "/home");
+    res.redirect(302, DEFAULT_PATH);
 });
 
 app.get(/.*/, (req: Request, res: Response) => {

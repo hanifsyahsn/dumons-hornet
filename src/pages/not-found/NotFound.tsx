@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Shell } from "../../components/shell";
+import { DEFAULT_PATH } from "../../constants/routing";
 import type { RouteContext } from "../../types/routing";
 import "../home/styles.css";
 
@@ -25,7 +26,7 @@ function NotFound({ context }: NotFoundProps) {
                             ditemukan.
                         </h1>
                         <div className="hero__actions">
-                            <Link className="button button--lg button--dark" to="/home">
+                            <Link className="button button--lg button--dark" to={DEFAULT_PATH}>
                                 <span>Kembali ke beranda</span>
                             </Link>
                         </div>

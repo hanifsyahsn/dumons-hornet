@@ -4,6 +4,7 @@
 import fs from "fs";
 import path from "path";
 import { routes } from "../routes";
+import { DEFAULT_PATH } from "../constants/routing";
 import { renderPage } from "./render";
 import { SITE_URL } from "../constants/brand";
 
@@ -38,7 +39,8 @@ async function main() {
     fs.cpSync(path.join(ROOT, "dist/client"), OUT_DIR, { recursive: true });
     fs.cpSync(path.join(ROOT, "public"), OUT_DIR, { recursive: true });
 
-    const redirects: string[] = [];
+    // "/" -> DEFAULT_PATH, so it must be a page we actually prerender (checked below).
+    const redirects: string[] = [`/ ${DEFAULT_PATH} 302`];
     const pages: string[] = [];
 
     for (const route of routes) {
@@ -60,12 +62,15 @@ async function main() {
         }
     }
 
+    if (!pages.includes(DEFAULT_PATH)) {
+        throw new Error(`DEFAULT_ROUTE "${DEFAULT_PATH}" is not a prerendered page`);
+    }
+    console.log(`  / -> ${DEFAULT_PATH} (302)`);
+
     writeFile("404.html", renderPage(NOT_FOUND_URL).html);
     console.log("  404 -> 404.html");
 
-    if (redirects.length) {
-        writeFile("_redirects", redirects.join("\n") + "\n");
-    }
+    writeFile("_redirects", redirects.join("\n") + "\n");
 
     // Every prerendered page goes into the sitemap; redirects and the 404 page don't.
     writeFile(
