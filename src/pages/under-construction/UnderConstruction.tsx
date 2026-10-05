@@ -3,7 +3,8 @@ import { HORNET_LOGO_SIZE, HORNET_LOGO_SRC, MAIN_SITE_URL } from "../../constant
 import "./styles.css";
 
 // Standalone holding page (no Shell), shown at "/" on production deploys via DEFAULT_ROUTE.
-function Construction() {
+// Kept as its own page so it stays available after launch (maintenance, new lineups).
+function UnderConstruction() {
     return (
         <main className="construction">
             <div className="construction__stripe" aria-hidden="true" />
@@ -38,4 +39,4 @@ function Construction() {
     );
 }
 
-export default Construction;
+export default UnderConstruction;
