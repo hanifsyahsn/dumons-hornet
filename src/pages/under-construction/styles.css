@@ -94,14 +94,14 @@
 
 /*
  * Skewed button like the logo frame: the inner span is skewed back so the text stays
- * upright. Hard orange shadow (it reads against the ink fill); hover presses it in.
+ * upright. White plate with ink border and hard ink shadow, matching the logo; hover presses it in.
  */
 .construction__link {
     margin-top: 16px;
     padding: 12px 28px;
     border: var(--border);
-    background-color: var(--hornet-ink);
-    box-shadow: 6px 6px 0 var(--hornet-orange);
+    background-color: var(--hornet-white);
+    box-shadow: 6px 6px 0 var(--hornet-ink);
     transform: skewX(var(--skew));
     font-family: var(--font-display);
     font-style: italic;
@@ -109,7 +109,7 @@
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--hornet-yellow);
+    color: var(--hornet-ink);
     text-decoration: none;
     transition: transform 0.08s, box-shadow 0.08s;
 
@@ -122,7 +122,7 @@
     @media (hover: hover) {
         &:hover {
             transform: skewX(var(--skew)) translate(3px, 3px);
-            box-shadow: 3px 3px 0 var(--hornet-orange);
+            box-shadow: 3px 3px 0 var(--hornet-ink);
         }
     }
 
