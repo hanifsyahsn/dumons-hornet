@@ -9,6 +9,15 @@
     --hornet-white: #ffffff;
     --hornet-orange: #f9aa52;
 
+    /*
+     * Neo-brutalism accents: thick ink borders, hard shadows with no blur,
+     * action elements skewed like the logo frame, no border radius.
+     */
+    --border: 3px solid var(--hornet-ink);
+    --border-thick: 4px solid var(--hornet-ink);
+    --shadow-sm: 5px 5px 0 var(--hornet-ink);
+    --skew: -12deg;
+
     /* Neutral Colors */
     --white: #ffffff;
     --black: #000000;

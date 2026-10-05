@@ -25,7 +25,7 @@ function Home() {
                 </p>
 
                 <a className="construction__link" href={MAIN_SITE_URL}>
-                    Visit dumonscoating.com
+                    <span>Visit dumonscoating.com</span>
                 </a>
             </section>
 
