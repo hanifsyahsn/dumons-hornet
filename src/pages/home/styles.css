@@ -499,12 +499,19 @@
 }
 
 .promo {
+    /* Layout ratio, clamped to 9:16 (story) .. 2.2:1: a very tall poster would otherwise become a thin strip next to
+       the others (and huge on phones), a very wide banner a sliver. Beyond the clamp the
+       poster is still shown whole, centered on the hatched background. */
+    --r: clamp(0.55, var(--ratio), 2.2);
+
     /* Sizes below apply to the image area; the border sits outside, so heights match exactly */
     box-sizing: content-box;
-    flex: var(--ratio) 1 calc(var(--ratio) * var(--row-h));
-    max-width: min(calc(var(--ratio) * var(--row-max-h)), calc(100% - 6px));
-    aspect-ratio: var(--ratio);
-    background: var(--hornet-white);
+    flex: var(--r) 1 calc(var(--r) * var(--row-h));
+    max-width: min(calc(var(--r) * var(--row-max-h)), calc(100% - 6px));
+    aspect-ratio: var(--r);
+    background:
+        repeating-linear-gradient(-45deg, transparent 0 14px, var(--gray-300) 14px 16px),
+        var(--hornet-white);
     border: var(--border);
     box-shadow: var(--shadow-md);
     transition: transform 0.08s, box-shadow 0.08s;
@@ -524,7 +531,7 @@
 
     /* A lone poster gets more room than a row of them */
     &:only-child {
-        max-width: min(calc(var(--ratio) * var(--row-max-h) * 1.4), calc(100% - 6px));
+        max-width: min(calc(var(--r) * var(--row-max-h) * 1.4), calc(100% - 6px));
     }
 
     &:active {
@@ -549,7 +556,8 @@
     display: block;
     width: 100%;
     height: 100%;
-    /* Same ratio as the card, so nothing is cut; contain only guards a wrong width/height */
+    /* Never cropped: same ratio as the card, except past the clamp (or with a wrong
+       width/height in PROMOTIONS), where it's fitted inside the card instead */
     object-fit: contain;
 }
 

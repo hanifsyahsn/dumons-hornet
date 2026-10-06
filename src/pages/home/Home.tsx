@@ -66,8 +66,10 @@ interface Promotion {
     height: number;
 }
 
-// Any number of posters, in any orientation: see .promos__grid. The whole section is
-// hidden while the list is empty. Placeholders until the real posters are ready.
+// Any number of posters, in any order and orientation: see .promos__grid. Ratios from
+// 9:16 (story) to 2.2:1 fill their card exactly; anything beyond is shown whole on a
+// hatched background. The whole section is hidden while the list is empty.
+// Placeholders until the real posters are ready.
 const PROMOTIONS: Promotion[] = [
     {
         src: "/assets/promos/placeholder-portrait.svg",
