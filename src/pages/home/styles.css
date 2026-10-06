@@ -328,134 +328,93 @@
 }
 
 /*
- * Works for any number of promos: --cols is picked from the item count (quantity
- * queries), and a short last row is centered instead of leaving a gap on the right.
- *   1 -> one card, capped width, centered
- *   2 -> 2 columns, 3 -> 3, 4 -> 2x2 (4 in a row on wide screens)
- *   5+ -> rows of 3 (rows of 2 on tablets)
+ * Justified rows for posters of any orientation and count. Each card's width follows
+ * its own aspect ratio (--ratio, set inline from the image size), so every poster in a
+ * row ends up the same height and is shown whole: no cropping, no letterboxing.
+ *   flex-basis  = ratio x --row-h      ideal row height; a row wraps when it's full
+ *   flex-grow   = ratio                spare width shared so heights stay equal
+ *   max-width   = ratio x --row-max-h  a short last row stays about as tall as the full
+ *                                      rows instead of blowing up; it's centered
+ * Phones: one poster per row at full width, so the text on it stays readable.
  */
 .promos__grid {
-    --cols: 1;
+    --row-h: 220px;
+    --row-max-h: 290px;
     --gap: 28px;
 
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    /* Taller row gap clears the shadow above plus the badge on the card's top edge */
-    gap: 56px var(--gap);
+    gap: 36px var(--gap);
     margin: 0;
-    /* Room for the cards' hard shadow inside the container on phones */
+    /* Room for the cards' hard shadow inside the container */
     padding: 0 8px 0 0;
     list-style: none;
 
-    @media (--medium) {
-        --cols: 2;
-    }
-
     @media (--large) {
-        --cols: 3;
-
-        &:has(> :nth-child(2):last-child),
-        &:has(> :nth-child(4):last-child) {
-            --cols: 2;
-        }
+        --row-h: 260px;
+        --row-max-h: 340px;
     }
 
-    @media (--xlarge) {
-        &:has(> :nth-child(4):last-child) {
-            --cols: 4;
-        }
-    }
-
-    &:has(> :only-child) {
-        --cols: 1;
+    @media (--xxlarge) {
+        --row-h: 320px;
+        --row-max-h: 420px;
     }
 }
 
 .promo {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
-    max-width: 100%;
-    padding: 44px 24px 24px;
+    /* Sizes below apply to the image area; the border sits outside, so heights match exactly */
+    box-sizing: content-box;
+    flex: var(--ratio) 1 calc(var(--ratio) * var(--row-h));
+    max-width: min(calc(var(--ratio) * var(--row-max-h)), calc(100% - 6px));
+    aspect-ratio: var(--ratio);
     background: var(--hornet-white);
     border: var(--border);
     box-shadow: var(--shadow-md);
+    transition: transform 0.08s, box-shadow 0.08s;
 
-    /* A lone promo shouldn't stretch across the whole page */
+    @media (--xsmall) {
+        flex-basis: 100%;
+        max-width: calc(100% - 6px);
+    }
+
+    /* Pressed in like the buttons (hover-capable devices only) */
+    @media (hover: hover) {
+        &:hover {
+            transform: translate(3px, 3px);
+            box-shadow: 5px 5px 0 var(--hornet-ink);
+        }
+    }
+
+    /* A lone poster gets more room than a row of them */
     &:only-child {
-        flex-basis: 560px;
+        max-width: min(calc(var(--ratio) * var(--row-max-h) * 1.4), calc(100% - 6px));
+    }
+
+    &:active {
+        transform: translate(8px, 8px);
+        box-shadow: none;
+    }
+
+    &:focus-within {
+        outline: 3px solid var(--hornet-orange);
+        outline-offset: 4px;
     }
 }
 
-/* Skewed deal badge sitting on the card's top edge */
-.promo__badge {
-    position: absolute;
-    top: -20px;
-    left: 20px;
-    padding: 8px 16px;
-    background: var(--hornet-ink);
-    border: 3px solid var(--hornet-ink);
-    box-shadow: 4px 4px 0 var(--hornet-orange);
-    transform: skewX(var(--skew));
-
-    > span {
-        display: inline-block;
-        transform: skewX(calc(var(--skew) * -1));
-        font-family: var(--font-display);
-        font-style: italic;
-        font-weight: 900;
-        font-size: var(--fs-lg);
-        line-height: 1;
-        color: var(--hornet-yellow);
-        text-transform: uppercase;
-    }
+.promo__link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    outline: none;
 }
 
-.promo__title {
-    margin: 0 0 12px;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 800;
-    font-size: var(--fs-xl);
-    line-height: 1.1;
-    text-transform: uppercase;
-
-    @media (--medium) {
-        font-size: var(--fs-2xl);
-    }
-}
-
-.promo__text {
-    margin: 0;
-    font-size: var(--fs-base);
-    line-height: 1.6;
-
-    @media (--medium) {
-        font-size: var(--fs-md);
-    }
-}
-
-.promo__period {
-    margin: 16px 0 0;
-    padding-top: 12px;
-    border-top: 2px dashed var(--hornet-ink);
-    font-size: var(--fs-sm);
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    color: var(--gray-700);
-}
-
-/* The last paragraph (text or period) fills the spare height, so buttons line up
-   at the bottom across cards of different lengths */
-.promo > p:last-of-type {
-    flex-grow: 1;
-    margin-bottom: 24px;
-}
-
-.promo__action {
-    align-self: flex-start;
+.promo__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* Same ratio as the card, so nothing is cut; contain only guards a wrong width/height */
+    object-fit: contain;
 }
 
 /* Contact CTA */

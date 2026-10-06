@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <!-- Dev placeholder promo poster (POTRET 4:5); replace with the real poster -->
+  <defs>
+    <pattern id="hatch" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="20" height="40" fill="#271b1d"/>
+    </pattern>
+  </defs>
+  <rect width="1080" height="1350" fill="#ffffff"/>
+  <rect y="1263.6" width="1080" height="86.4" fill="url(#hatch)"/>
+  <g font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-style="italic" text-anchor="middle" fill="#271b1d">
+    <g transform="translate(540.0 567.0) skewX(-12)">
+      <rect x="-388.8" y="-140.4" width="777.6" height="216.0" fill="#271b1d"/>
+      <text y="32.4" font-size="151.20000000000002" fill="#ffff00">PROMO</text>
+    </g>
+    <text x="540.0" y="804.6" font-size="75.60000000000001">POTRET 4:5</text>
+    <text x="540.0" y="901.8" font-size="43.2">1080 × 1350</text>
+  </g>
+</svg>

@@ -1,4 +1,4 @@
-import React, { type ReactNode } from "react";
+import React, { type CSSProperties, type ReactNode } from "react";
 import { Shell } from "../../components/shell";
 import {
     CONTACT_EMAIL,
@@ -56,39 +56,40 @@ const FEATURES: Feature[] = [
 ];
 
 interface Promotion {
-    // Short deal on the skewed badge, e.g. "Diskon 20%"
-    badge: string;
-    title: string;
-    text: string;
-    // Validity shown under the text; omit for open-ended promos
-    period?: string;
+    // Promo poster (the design carries the whole message), served from /public
+    src: string;
+    // Describes the promo for screen readers and the prefilled WhatsApp message
+    alt: string;
+    // Intrinsic pixel size: sets the card's aspect ratio (no layout shift while loading)
+    width: number;
+    height: number;
 }
 
-// Any number of items: the grid picks its columns from the count (see .promos__grid),
-// and the whole section is hidden while the list is empty.
-// Placeholder copy until the real promotions are confirmed.
+// Any number of posters, in any orientation: see .promos__grid. The whole section is
+// hidden while the list is empty. Placeholders until the real posters are ready.
 const PROMOTIONS: Promotion[] = [
     {
-        badge: "Diskon 20%",
-        title: "Promo perkenalan",
-        text: "Potongan harga untuk pembelian pertama Hörnet Supercoat HS 470.",
-        period: "Berlaku s.d. 31 Desember 2026",
+        src: "/assets/promos/placeholder-portrait.svg",
+        alt: "Promo perkenalan: diskon 20% Hörnet Supercoat HS 470",
+        width: 1080,
+        height: 1350,
     },
     {
-        badge: "Beli 2",
-        title: "Gratis microfiber",
-        text: "Setiap pembelian 2 botol HS 470 dapat bonus kain microfiber premium.",
-        period: "Selama persediaan masih ada",
+        src: "/assets/promos/placeholder-landscape.svg",
+        alt: "Beli 2 botol HS 470 gratis kain microfiber",
+        width: 1600,
+        height: 900,
     },
     {
-        badge: "Bengkel",
-        title: "Harga khusus mitra",
-        text: "Harga spesial untuk bengkel, detailer, dan salon mobil yang jadi mitra resmi.",
+        src: "/assets/promos/placeholder-square.svg",
+        alt: "Harga khusus untuk bengkel dan detailer mitra",
+        width: 1080,
+        height: 1080,
     },
 ];
 
-const promoWhatsAppUrl = (title: string) =>
-    `${WHATSAPP_URL}?text=${encodeURIComponent(`Halo, saya mau tanya tentang promo "${title}" Hörnet.`)}`;
+const promoWhatsAppUrl = (alt: string) =>
+    `${WHATSAPP_URL}?text=${encodeURIComponent(`Halo, saya mau tanya tentang promo Hörnet: ${alt}`)}`;
 
 const [EMAIL_USER, EMAIL_DOMAIN] = CONTACT_EMAIL.split("@");
 
@@ -177,25 +178,31 @@ function Home() {
                             Promo <span className="promos__highlight">Hörnet</span>
                         </h2>
                         <p className="promos__lead">
-                            Penawaran spesial yang sedang berlaku. Tanyakan langsung ke tim kami.
+                            Penawaran spesial yang sedang berlaku. Klik promo untuk tanya langsung.
                         </p>
 
                         <ul className="promos__grid">
-                            {PROMOTIONS.map(({ badge, title, text, period }) => (
-                                <li className="promo" key={title}>
-                                    <span className="promo__badge">
-                                        <span>{badge}</span>
-                                    </span>
-                                    <h3 className="promo__title">{title}</h3>
-                                    <p className="promo__text">{text}</p>
-                                    {period && <p className="promo__period">{period}</p>}
+                            {PROMOTIONS.map(({ src, alt, width, height }) => (
+                                <li
+                                    className="promo"
+                                    key={src}
+                                    style={{ "--ratio": width / height } as CSSProperties}
+                                >
                                     <a
-                                        className="button button--sm button--yellow promo__action"
-                                        href={promoWhatsAppUrl(title)}
+                                        className="promo__link"
+                                        href={promoWhatsAppUrl(alt)}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        <span>Tanya promo</span>
+                                        <img
+                                            className="promo__image"
+                                            src={src}
+                                            alt={alt}
+                                            width={width}
+                                            height={height}
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
                                     </a>
                                 </li>
                             ))}

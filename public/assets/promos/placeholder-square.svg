@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <!-- Dev placeholder promo poster (PERSEGI 1:1); replace with the real poster -->
+  <defs>
+    <pattern id="hatch" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="20" height="40" fill="#271b1d"/>
+    </pattern>
+  </defs>
+  <rect width="1080" height="1080" fill="#ffffff"/>
+  <rect y="993.6" width="1080" height="86.4" fill="url(#hatch)"/>
+  <g font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-style="italic" text-anchor="middle" fill="#271b1d">
+    <g transform="translate(540.0 453.59999999999997) skewX(-12)">
+      <rect x="-388.8" y="-140.4" width="777.6" height="216.0" fill="#271b1d"/>
+      <text y="32.4" font-size="151.20000000000002" fill="#ffff00">PROMO</text>
+    </g>
+    <text x="540.0" y="691.1999999999999" font-size="75.60000000000001">PERSEGI 1:1</text>
+    <text x="540.0" y="788.4" font-size="43.2">1080 × 1080</text>
+  </g>
+</svg>
