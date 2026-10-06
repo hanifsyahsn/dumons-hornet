@@ -1320,7 +1320,8 @@
 }
 
 /*
- * Ornament tiles filling the empty cells after the last result (counts in Home.tsx).
+ * Ornaments floating in the empty cells after the last result (counts in Home.tsx): no
+ * tile around them, just stickers on the grid background.
  * Hidden by default; --medium shows on two columns, --large on three.
  */
 .result-filler {
@@ -1334,9 +1335,6 @@
     /* At least square; stretches to the row when a real tile beside it is taller */
     aspect-ratio: 1;
     align-self: stretch;
-    overflow: hidden;
-    border: var(--border-thick);
-    box-shadow: var(--shadow-md);
 }
 
 .result-filler--medium {
@@ -1355,15 +1353,9 @@
     }
 }
 
-/* Ink tile with yellow halftone and the mascot asking for the next result */
-.result-filler--mascot {
-    background-color: var(--hornet-ink);
-    background-image: radial-gradient(rgb(255 255 0 / 0.28) 2px, transparent 2.5px);
-    background-size: 16px 16px;
-}
-
+/* The mascot flying in, asking for the next result */
 .result-filler__mascot {
-    width: 58%;
+    width: 62%;
 }
 
 .result-filler__bubble {
@@ -1372,7 +1364,7 @@
     padding: 6px 14px;
     background: var(--hornet-white);
     border: var(--border);
-    box-shadow: 5px 5px 0 var(--hornet-yellow);
+    box-shadow: var(--shadow-sm);
     transform: rotate(-6deg);
     font-family: var(--font-display);
     font-style: italic;
@@ -1383,18 +1375,22 @@
     white-space: nowrap;
 }
 
-/* Yellow tile framed in hazard stripes with a big shouted word */
-.result-filler--shine {
-    background:
-        radial-gradient(circle, var(--hornet-yellow) 0 55%, transparent 55.5%),
-        repeating-linear-gradient(-45deg, var(--hornet-yellow) 0 18px, var(--hornet-ink) 18px 36px);
+/* Halftone blob behind a shouted sticker */
+.result-filler--shine::before {
+    content: "";
+    position: absolute;
+    inset: 12%;
+    background-image: radial-gradient(var(--hornet-ink) 2px, transparent 2.5px);
+    background-size: 14px 14px;
+    mask-image: radial-gradient(circle, #000 0%, transparent 68%);
+    opacity: 0.35;
 }
 
 .result-filler__word {
     position: relative;
     z-index: 1;
     padding: 4px 18px;
-    background: var(--hornet-white);
+    background: var(--hornet-yellow);
     border: var(--border-thick);
     box-shadow: var(--shadow-md);
     transform: rotate(-8deg);
@@ -1406,6 +1402,29 @@
     text-transform: uppercase;
 }
 
+/* Skewed chips, like the ticker separators */
+.result-filler__chip {
+    position: absolute;
+    background: var(--hornet-orange);
+    border: 3px solid var(--hornet-ink);
+    transform: skewX(var(--skew));
+}
+
+.result-filler__chip--1 {
+    top: 14%;
+    right: 18%;
+    width: 22px;
+    height: 22px;
+}
+
+.result-filler__chip--2 {
+    bottom: 16%;
+    right: 10%;
+    width: 44px;
+    height: 16px;
+    background: var(--hornet-yellow);
+}
+
 .result-filler__sparkle {
     position: absolute;
     width: 30px;
@@ -1415,10 +1434,6 @@
     stroke-width: 1.6;
     stroke-linejoin: round;
     animation: sparkle-twinkle 2.4s ease-in-out infinite;
-
-    .result-filler--shine & {
-        fill: var(--hornet-white);
-    }
 }
 
 .result-filler__sparkle--1 {

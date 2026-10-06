@@ -168,7 +168,7 @@ const RESULTS: Result[] = [
 
 const productByCode = (code: string) => PRODUCTS.find((product) => product.code === code);
 
-// Empty grid cells after the last result, filled with ornament tiles. Three columns: the
+// Empty grid cells after the last result, filled with ornaments. Three columns: the
 // big tile takes 4 cells, so n results use n + 3. Two columns: it's a full-width banner,
 // then the other n - 1 tiles in pairs. One column (phones) never has a gap.
 const RESULT_GAPS_LARGE = (3 - (RESULTS.length % 3)) % 3;
@@ -543,8 +543,8 @@ function Home() {
                                 );
                             })}
 
-                            {/* Ornament tiles in the leftover cells; each shows only on the
-                                layout that has that gap */}
+                            {/* Free-floating ornaments in the leftover cells (no tile around
+                                them); each shows only on the layout that has that gap */}
                             {Array.from({ length: RESULT_FILLERS }, (_, i) => (
                                 <li
                                     key={`filler-${i}`}
@@ -562,6 +562,9 @@ function Home() {
                                         <svg className={`result-filler__sparkle result-filler__sparkle--${n}`} viewBox="0 0 24 24" key={n}>
                                             <path d={SPARKLE_PATH} />
                                         </svg>
+                                    ))}
+                                    {[1, 2].map((n) => (
+                                        <span className={`result-filler__chip result-filler__chip--${n}`} key={n} />
                                     ))}
                                     {i === 0 ? (
                                         <>
