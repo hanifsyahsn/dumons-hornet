@@ -1,0 +1,181 @@
+@import '../../styles/variables.css';
+
+.catalog-head__inner,
+.catalog__inner,
+.catalog-help__inner {
+    position: relative;
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+}
+
+/* Page heading: a shorter take on the home hero, yellow slab skewed like the logo frame */
+.catalog-head {
+    position: relative;
+    padding: 48px 0 56px;
+    overflow: hidden;
+
+    @media (--medium) {
+        padding: 72px 0 80px;
+    }
+}
+
+.catalog-head__slab {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -8%;
+    width: 78%;
+    background: var(--hornet-yellow);
+    transform: skewX(var(--skew));
+    transform-origin: top left;
+
+    @media (--medium) {
+        width: 52%;
+    }
+}
+
+.catalog-head__tag {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 8px 16px;
+    background: var(--hornet-ink);
+    color: var(--hornet-white);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-sm);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+
+    @media (--medium) {
+        font-size: var(--fs-md);
+    }
+}
+
+.catalog-head__title {
+    margin: 0 0 20px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(48px, 8vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+.catalog-head__lead {
+    max-width: 30em;
+    margin: 0 0 24px;
+    font-size: var(--fs-md);
+    font-weight: 500;
+    line-height: 1.55;
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
+}
+
+/* Count sticker, tilted like the product code stickers */
+.catalog-head__count {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--hornet-white);
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+    transform: rotate(-3deg);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-lg);
+    text-transform: uppercase;
+}
+
+/* Catalog grid on the white grid paper of the home products section */
+.catalog {
+    padding: 56px 0 72px;
+    background-color: var(--hornet-white);
+    background-image:
+        linear-gradient(var(--gray-100) 2px, transparent 2px),
+        linear-gradient(90deg, var(--gray-100) 2px, transparent 2px);
+    background-size: 40px 40px;
+
+    @media (--medium) {
+        padding: 80px 0 96px;
+    }
+}
+
+/* 1 / 2 / 3 columns. Cards are always a column wide: when there are fewer products than
+   columns (--count, set from the page), the row is centered instead of leaving a hole */
+.catalog__grid {
+    --gap: 48px;
+    --columns: 1;
+    display: grid;
+    grid-template-columns: repeat(
+        min(var(--columns), var(--count)),
+        calc((100% - (var(--columns) - 1) * var(--gap)) / var(--columns))
+    );
+    justify-content: center;
+    gap: var(--gap);
+    /* Room for the cards' hard shadow inside the container */
+    padding-right: 14px;
+
+    @media (--medium) {
+        --gap: clamp(32px, 4vw, 56px);
+        --columns: 2;
+    }
+
+    @media (--xlarge) {
+        --columns: 3;
+    }
+}
+
+/* "Bingung pilih?": dark band with WhatsApp and Shopee */
+.catalog-help {
+    padding: 56px 0;
+    border-top: 8px solid var(--hornet-yellow);
+    background: var(--hornet-ink);
+    color: var(--hornet-white);
+
+    @media (--medium) {
+        padding: 72px 0;
+    }
+}
+
+.catalog-help__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    @media (--large) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.catalog-help__title {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 0.95;
+    color: var(--hornet-yellow);
+    text-transform: uppercase;
+}
+
+.catalog-help__message {
+    max-width: 32em;
+    margin: 0;
+    font-size: var(--fs-md);
+    line-height: 1.6;
+    color: var(--hornet-on-dark);
+}
+
+.catalog-help__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    flex-shrink: 0;
+}

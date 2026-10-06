@@ -1,11 +1,13 @@
 import UnderConstruction from "./pages/under-construction/UnderConstruction";
 import Home from "./pages/home/Home";
+import Products from "./pages/products/Products";
 import NotFound from "./pages/not-found/NotFound";
-import { MAINTENANCE_MODE, UNDER_CONSTRUCTION_PATH } from "./constants/routing";
+import { HOME_PATH, MAINTENANCE_MODE, PRODUCTS_PATH, UNDER_CONSTRUCTION_PATH } from "./constants/routing";
 import type { AppRoute } from "./types/routing";
 
 const allRoutes: AppRoute[] = [
-    { path: "/home", component: Home },
+    { path: HOME_PATH, component: Home },
+    { path: PRODUCTS_PATH, component: Products, title: "Semua Produk | Hörnet Supercoat" },
     {
         path: UNDER_CONSTRUCTION_PATH,
         component: UnderConstruction,

@@ -1,0 +1,40 @@
+{
+    "_petunjuk": [
+        "Katalog semua produk Hörnet: tampil di halaman /produk, dan dipakai halaman /home (Produk Unggulan, hero, galeri hasil) lewat kodenya.",
+        "Urutan di daftar products = urutan tampil di halaman /produk. Kode (code) harus unik.",
+        "Field opsional (image, cutout, detailHref) cukup dihapus kalau belum ada. image: foto produk (persegi), cutout: foto produk transparan (PNG/WebP), detailHref: link halaman detail.",
+        "powers: 1 sampai 5 meter per produk, level 1..5.",
+        "MASIH CONTOH, wajib diganti sebelum launch: produk kedua (HS 220)."
+    ],
+
+    "page": {
+        "tag": "Lineup Hörnet",
+        "titleLines": ["Semua", "produk."],
+        "lead": "Pilih senjata yang pas untuk kendaraanmu, dari coating andalan sampai booster perawatan rutin."
+    },
+
+    "products": [
+        {
+            "code": "HS 470",
+            "name": "Hörnet Supercoat",
+            "tagline": "Coating andalan",
+            "description": "Lapisan pelindung dengan kilau ekstrem dan efek daun talas yang membuat air dan kotoran langsung meluncur.",
+            "powers": [
+                { "label": "Kilau", "level": 5 },
+                { "label": "Hidrofobik", "level": 5 },
+                { "label": "Ketahanan", "level": 4 }
+            ]
+        },
+        {
+            "code": "HS 220",
+            "name": "Hörnet Quick Coat",
+            "tagline": "Semprot & lap",
+            "description": "Booster praktis untuk perawatan rutin: semprot, lap, dan kilau serta sifat hidrofobik coating kembali segar.",
+            "powers": [
+                { "label": "Kilau", "level": 4 },
+                { "label": "Hidrofobik", "level": 4 },
+                { "label": "Kemudahan", "level": 5 }
+            ]
+        }
+    ]
+}

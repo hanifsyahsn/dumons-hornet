@@ -58,6 +58,18 @@
     }
 }
 
+/* Logo on pages other than home: leads back there */
+.shell__logo-link {
+    display: block;
+    transition: transform 0.15s ease;
+
+    @media (hover: hover) {
+        &:hover {
+            transform: translate(-2px, -2px);
+        }
+    }
+}
+
 /* Scoped under the header so it wins over .button's display (declared later) */
 .shell__header .shell__menu-button {
     margin-right: 6px;
@@ -133,6 +145,19 @@
         &:hover {
             background: linear-gradient(transparent 55%, var(--hornet-yellow) 55%);
         }
+    }
+}
+
+/* The page being viewed (page links only; sections don't track scroll): a yellow bar
+   in the phone panel, the hover highlight kept on in the desktop header */
+.shell__nav-link--current {
+    padding-left: 12px;
+    border-left: 8px solid var(--hornet-yellow);
+
+    @media (--large) {
+        padding-left: 14px;
+        border-left: 0;
+        background: linear-gradient(transparent 55%, var(--hornet-yellow) 55%);
     }
 }
 

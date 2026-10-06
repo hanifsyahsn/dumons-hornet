@@ -1,4 +1,5 @@
 import React, { useEffect, useState, type ReactNode } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
     HORNET_LOGO_SIZE,
     HORNET_LOGO_SRC,
@@ -7,6 +8,8 @@ import {
     MAIN_SITE_DISPLAY,
     MAIN_SITE_URL,
 } from "../../constants/brand";
+import { HOME_PATH } from "../../constants/routing";
+import { SITE_NAV, type NavItem } from "./nav";
 import "./styles.css";
 
 interface Social {
@@ -44,22 +47,42 @@ const SOCIALS: Social[] = [
     },
 ];
 
-export interface NavItem {
-    label: string;
-    // In-page anchor ("#produk") on the page that passes the nav
-    href: string;
-}
-
 interface ShellProps {
     children: ReactNode;
-    // Section links in the header; omitted -> logo-only header
+    // Header links; defaults to the site-wide SITE_NAV (pass [] for a logo-only header)
     nav?: NavItem[];
 }
 
-// Page frame shared by every page: sticky header with the logo (and the page's section
-// links, if any), content, hazard strip and footer.
-export function Shell({ children, nav = [] }: ShellProps) {
+// Page frame shared by every page: sticky header with the logo and the site nav,
+// content, hazard strip and footer.
+export function Shell({ children, nav = SITE_NAV }: ShellProps) {
     const [menuOpen, setMenuOpen] = useState(false);
+    const { pathname } = useLocation();
+    const onHome = pathname === HOME_PATH;
+
+    // A section on this page: plain anchor, the browser scrolls (smoothly, under the header).
+    // Another page, or a section on another page: router link, no full reload.
+    const renderLink = ({ label, path, section }: NavItem) => {
+        const close = () => setMenuOpen(false);
+        if (section && path === pathname) {
+            return (
+                <a className="shell__nav-link" href={`#${section}`} onClick={close}>
+                    {label}
+                </a>
+            );
+        }
+        const current = !section && path === pathname;
+        return (
+            <Link
+                className={`shell__nav-link${current ? " shell__nav-link--current" : ""}`}
+                to={section ? `${path}#${section}` : path}
+                aria-current={current ? "page" : undefined}
+                onClick={close}
+            >
+                {label}
+            </Link>
+        );
+    };
 
     // Close the phone menu with Escape
     useEffect(() => {
@@ -75,13 +98,19 @@ export function Shell({ children, nav = [] }: ShellProps) {
         <div className="shell">
             <header className="shell__header">
                 <div className="shell__container shell__header-inner">
-                    {/* Static on purpose: not a link, no hover, so it doesn't look clickable */}
-                    <img
-                        className="shell__logo"
-                        src={HORNET_LOGO_SRC}
-                        alt="Hörnet Supercoat"
-                        {...HORNET_LOGO_SIZE}
-                    />
+                    {/* On the home page the logo is static (nowhere to go); elsewhere it leads home */}
+                    {onHome ? (
+                        <img className="shell__logo" src={HORNET_LOGO_SRC} alt="Hörnet Supercoat" {...HORNET_LOGO_SIZE} />
+                    ) : (
+                        <Link className="shell__logo-link" to={HOME_PATH}>
+                            <img
+                                className="shell__logo"
+                                src={HORNET_LOGO_SRC}
+                                alt="Hörnet Supercoat, ke beranda"
+                                {...HORNET_LOGO_SIZE}
+                            />
+                        </Link>
+                    )}
 
                     {nav.length > 0 && (
                         <>
@@ -99,19 +128,11 @@ export function Shell({ children, nav = [] }: ShellProps) {
                             <nav
                                 id="shell-nav"
                                 className={`shell__nav${menuOpen ? " shell__nav--open" : ""}`}
-                                aria-label="Navigasi halaman"
+                                aria-label="Navigasi situs"
                             >
                                 <ul className="shell__nav-list">
-                                    {nav.map(({ label, href }) => (
-                                        <li key={href}>
-                                            <a
-                                                className="shell__nav-link"
-                                                href={href}
-                                                onClick={() => setMenuOpen(false)}
-                                            >
-                                                {label}
-                                            </a>
-                                        </li>
+                                    {nav.map((item) => (
+                                        <li key={`${item.path}#${item.section ?? ""}`}>{renderLink(item)}</li>
                                     ))}
                                 </ul>
                             </nav>
