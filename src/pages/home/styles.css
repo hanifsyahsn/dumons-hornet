@@ -4,6 +4,7 @@
 .features__inner,
 .promos__inner,
 .products__inner,
+.testimonials__inner,
 .cta__inner {
     position: relative;
     width: 100%;
@@ -815,6 +816,46 @@
 .product__action {
     align-self: flex-start;
     margin-top: auto;
+}
+
+/* Customer reviews: yellow band between the white products and the dark CTA */
+.testimonials {
+    padding: 72px 0;
+    border-top: var(--border-thick);
+    background: var(--hornet-yellow);
+    overflow: hidden;
+
+    @media (--medium) {
+        padding: 96px 0;
+    }
+}
+
+.testimonials__title {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+/* Ink block behind a word (the yellow marker wouldn't show on the yellow band) */
+.testimonials__highlight {
+    padding: 0 0.15em;
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+}
+
+.testimonials__lead {
+    max-width: 38em;
+    margin: 0 0 28px;
+    font-size: var(--fs-md);
+    font-weight: 500;
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
 }
 
 /* Contact CTA */

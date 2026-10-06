@@ -1,5 +1,6 @@
 import React, { type CSSProperties, type ReactNode } from "react";
 import { Mascot } from "../../components/mascot";
+import { Reviews, type Review } from "../../components/reviews";
 import { Shell } from "../../components/shell";
 import {
     CONTACT_EMAIL,
@@ -140,7 +141,34 @@ const PRODUCTS: [Product, Product] = [
     },
 ];
 
-const TICKER_WORDS =["Promo", "Diskon", "Hörnet Supercoat", "Hemat", "Promo", "Bonus"];
+// Customer reviews, any number: shown one at a time in a carousel (see components/reviews).
+// `photo` is optional (initials until set). The section is hidden while the list is empty.
+// Placeholders until real reviews are collected.
+const REVIEWS: Review[] = [
+    {
+        quote: "Hasil kilapnya beda kelas. Mobil pelanggan keluar dari bengkel kami dengan tampilan yang benar-benar seperti baru, dan efek airnya masih terasa berbulan-bulan kemudian.",
+        name: "Budi Santoso",
+        company: "PT Kilau Motor Sejahtera",
+        city: "Jakarta",
+        year: 2025,
+    },
+    {
+        quote: "Aplikasinya gampang dan hasilnya konsisten. Sejak pakai Hörnet, pelanggan detailing kami makin banyak yang repeat order.",
+        name: "Rina Wijaya",
+        company: "PT Detailindo Prima",
+        city: "Surabaya",
+        year: 2025,
+    },
+    {
+        quote: "Kami pakai untuk armada kendaraan operasional. Cuci jadi jauh lebih cepat karena kotoran tidak gampang menempel.",
+        name: "Agus Pratama",
+        company: "PT Armada Nusantara Logistik",
+        city: "Bandung",
+        year: 2024,
+    },
+];
+
+const TICKER_WORDS = ["Promo", "Diskon", "Hörnet Supercoat", "Hemat", "Promo", "Bonus"];
 // One loop copy of the ticker: the words repeated until it's wider than any screen
 // (~3800px), otherwise the right side runs empty before the loop snaps back.
 const TICKER_COPY = Array.from({ length: 4 }, () => TICKER_WORDS).flat();
@@ -361,6 +389,22 @@ function Home() {
                     </div>
                 </div>
             </section>
+
+            {REVIEWS.length > 0 && (
+                <section className="testimonials">
+                    <div className="testimonials__inner">
+                        <h2 className="testimonials__title">
+                            Kata <span className="testimonials__highlight">Mereka</span>
+                        </h2>
+                        <p className="testimonials__lead">
+                            Cerita langsung dari bengkel, detailer, dan pemilik kendaraan yang sudah
+                            membuktikan Hörnet.
+                        </p>
+
+                        <Reviews reviews={REVIEWS} />
+                    </div>
+                </section>
+            )}
 
             <section className="cta">
                 <div className="cta__inner">

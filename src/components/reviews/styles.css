@@ -1,0 +1,288 @@
+@import '../../styles/variables.css';
+
+/*
+ * Customer reviews carousel. The track is a horizontal scroll-snap strip with one
+ * full-width slide per review (swipeable on touch); the scrollbar is hidden and the
+ * buttons/dots below drive it.
+ */
+.reviews {
+    position: relative;
+}
+
+.reviews__track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.review {
+    flex: 0 0 100%;
+    min-width: 0;
+    margin: 0;
+    /* Room for the quote chip above the card and its hard shadow (the track clips overflow) */
+    padding: 28px 18px 18px 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+.review__card {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 20px 24px;
+    background: var(--hornet-white);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-lg);
+
+    @media (--small) {
+        padding: 52px 32px 32px;
+    }
+
+    @media (--large) {
+        padding: 56px 56px 40px;
+    }
+}
+
+/* Big skewed quote chip hanging off the top edge */
+.review__mark {
+    position: absolute;
+    top: -28px;
+    left: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 64px;
+    height: 56px;
+    padding-top: 6px;
+    background: var(--hornet-ink);
+    border: 3px solid var(--hornet-yellow);
+    color: var(--hornet-yellow);
+    transform: skewX(var(--skew));
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: 88px;
+    line-height: 1;
+
+    @media (--small) {
+        left: 32px;
+    }
+
+    @media (--large) {
+        left: 56px;
+    }
+}
+
+.review__quote {
+    flex: 1;
+    margin: 0 0 28px;
+
+    p {
+        max-width: 46em;
+        margin: 0;
+        font-size: var(--fs-md);
+        font-weight: 500;
+        line-height: 1.6;
+
+        @media (--medium) {
+            font-size: var(--fs-xl);
+            line-height: 1.55;
+        }
+    }
+}
+
+.review__author {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding-top: 20px;
+    border-top: 2px solid var(--hornet-ink);
+}
+
+/* Square photo frame skewed like the logo; the photo inside is skewed back upright */
+.review__avatar {
+    flex: none;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    background: var(--hornet-yellow);
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+    transform: skewX(var(--skew));
+
+    @media (--medium) {
+        width: 80px;
+        height: 80px;
+    }
+
+    img {
+        display: block;
+        /* Overscan so the counter-skew leaves no empty corners */
+        width: 130%;
+        height: 100%;
+        margin-left: -15%;
+        object-fit: cover;
+        transform: skewX(calc(var(--skew) * -1));
+    }
+}
+
+.review__initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    transform: skewX(calc(var(--skew) * -1));
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-xl);
+
+    @media (--medium) {
+        font-size: var(--fs-2xl);
+    }
+}
+
+.review__who {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.review__name {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-lg);
+    line-height: 1.1;
+    text-transform: uppercase;
+
+    @media (--medium) {
+        font-size: var(--fs-xl);
+    }
+}
+
+.review__company {
+    font-size: var(--fs-sm);
+    font-weight: 700;
+
+    @media (--medium) {
+        font-size: var(--fs-base);
+    }
+}
+
+.review__meta {
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-700);
+
+    @media (--medium) {
+        font-size: var(--fs-sm);
+    }
+}
+
+/* Prev | counter + dots + autoplay countdown | next */
+.reviews__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 24px;
+    /* Keep the arrows' hard shadow inside the container */
+    padding-right: 8px;
+}
+
+.reviews__arrow {
+    flex: none;
+
+    > span {
+        font-family: var(--font-body);
+        font-style: normal;
+        font-weight: 700;
+    }
+}
+
+.reviews__status {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.reviews__counter {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-lg);
+    letter-spacing: 0.08em;
+}
+
+.reviews__dots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.reviews__dot {
+    width: 18px;
+    height: 14px;
+    padding: 0;
+    background: var(--hornet-white);
+    border: 2px solid var(--hornet-ink);
+    border-radius: 0;
+    transform: skewX(var(--skew));
+    cursor: pointer;
+    transition: width 0.15s, background-color 0.15s;
+
+    &:focus-visible {
+        outline: 3px solid var(--hornet-orange);
+        outline-offset: 3px;
+    }
+}
+
+.reviews__dot--active {
+    width: 36px;
+    background: var(--hornet-ink);
+}
+
+/* Thin bar filling up until the next auto switch; empty while autoplay is stopped */
+.reviews__progress {
+    display: block;
+    width: min(160px, 100%);
+    height: 6px;
+    background: var(--hornet-white);
+    border: 2px solid var(--hornet-ink);
+    overflow: hidden;
+}
+
+.reviews__progress-bar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--hornet-ink);
+    transform-origin: left;
+    animation: reviews-progress linear forwards;
+}
+
+@keyframes reviews-progress {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
