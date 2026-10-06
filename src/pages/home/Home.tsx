@@ -1,6 +1,7 @@
 import React, { type CSSProperties, type ReactNode } from "react";
 import { CountUp } from "../../components/count-up";
 import { Mascot } from "../../components/mascot";
+import { Partners, type Partner } from "../../components/partners";
 import { Reviews, type Review } from "../../components/reviews";
 import { Shell, type NavItem } from "../../components/shell";
 import { WhatsAppFloat } from "../../components/whatsapp-float";
@@ -187,12 +188,28 @@ const RESULTS: Result[] = [
     { surface: "Lampu depan", caption: "Mika tetap bening dan terlindungi.", product: "HS 220" },
 ];
 
+// Partner workshops, any number, filterable by city (see components/partners). Hidden
+// while empty. PLACEHOLDERS: replace with the real partner list.
+const PARTNERS: Partner[] = [
+    { name: "Contoh Detailing Studio", city: "Jakarta", address: "Jl. Contoh No. 1, Jakarta Selatan" },
+    { name: "Contoh Auto Care", city: "Jakarta", address: "Jl. Contoh No. 2, Jakarta Barat" },
+    { name: "Contoh Kilau Garage", city: "Bandung", address: "Jl. Contoh No. 3, Bandung" },
+    { name: "Contoh Car Wash & Coating", city: "Surabaya", address: "Jl. Contoh No. 4, Surabaya" },
+    { name: "Contoh Motor Shine", city: "Yogyakarta", address: "Jl. Contoh No. 5, Sleman" },
+    { name: "Contoh Pro Detailer", city: "Medan", address: "Jl. Contoh No. 6, Medan" },
+];
+
+const partnerWhatsAppUrl = `${WHATSAPP_URL}?text=${encodeURIComponent(
+    "Halo, saya tertarik jadi bengkel mitra Hörnet.",
+)}`;
+
 // Header links to the sections below (ids on the <section>s); sections hidden while
 // their list is empty drop out of the nav too
 const NAV: NavItem[] = [
     { label: "Produk", href: "#produk" },
     PROMOTIONS.length > 0 && { label: "Promo", href: "#promo" },
     RESULTS.length > 0 && { label: "Hasil", href: "#hasil" },
+    PARTNERS.length > 0 && { label: "Mitra", href: "#mitra" },
     { label: "Kontak", href: "#kontak" },
 ].filter((item): item is NavItem => Boolean(item));
 
@@ -623,6 +640,34 @@ function Home() {
                                 </li>
                             ))}
                         </ul>
+                    </div>
+                </section>
+            )}
+
+            {PARTNERS.length > 0 && (
+                <section className="partners-band" id="mitra">
+                    <div className="partners-band__inner">
+                        <div className="partners-band__head">
+                            <div>
+                                <h2 className="partners-band__title">
+                                    Bengkel <span className="partners-band__highlight">Mitra</span>
+                                </h2>
+                                <p className="partners-band__lead">
+                                    Mau dipasangkan langsung? Datangi bengkel dan detailer yang sudah
+                                    memakai Hörnet di kotamu.
+                                </p>
+                            </div>
+                            <a
+                                className="button button--lg button--dark partners-band__join"
+                                href={partnerWhatsAppUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <span>Jadi mitra</span>
+                            </a>
+                        </div>
+
+                        <Partners partners={PARTNERS} />
                     </div>
                 </section>
             )}

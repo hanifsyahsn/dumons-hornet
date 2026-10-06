@@ -7,6 +7,7 @@
 .products__inner,
 .testimonials__inner,
 .results__inner,
+.partners-band__inner,
 .cta__inner {
     position: relative;
     width: 100%;
@@ -1546,6 +1547,59 @@
     .result-filler__sparkle {
         animation: none;
     }
+}
+
+/* Partner workshops: yellow band between the white results and the dark CTA */
+.partners-band {
+    padding: 72px 0;
+    border-top: var(--border-thick);
+    background: var(--hornet-yellow);
+
+    @media (--medium) {
+        padding: 96px 0;
+    }
+}
+
+.partners-band__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px 48px;
+    margin-bottom: 36px;
+}
+
+.partners-band__title {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+/* Ink block behind a word (the yellow marker wouldn't show on the yellow band) */
+.partners-band__highlight {
+    padding: 0 0.15em;
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+}
+
+.partners-band__lead {
+    max-width: 34em;
+    margin: 0;
+    font-size: var(--fs-md);
+    font-weight: 500;
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
+}
+
+.partners-band__join {
+    flex: none;
+    margin-right: 8px;
 }
 
 /* Contact CTA */
