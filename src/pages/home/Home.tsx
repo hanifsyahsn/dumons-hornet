@@ -168,6 +168,13 @@ const RESULTS: Result[] = [
 
 const productByCode = (code: string) => PRODUCTS.find((product) => product.code === code);
 
+// Empty grid cells after the last result, filled with ornament tiles. Three columns: the
+// big tile takes 4 cells, so n results use n + 3. Two columns: it's a full-width banner,
+// then the other n - 1 tiles in pairs. One column (phones) never has a gap.
+const RESULT_GAPS_LARGE = (3 - (RESULTS.length % 3)) % 3;
+const RESULT_GAPS_MEDIUM = RESULTS.length > 0 ? (RESULTS.length - 1) % 2 : 0;
+const RESULT_FILLERS = Math.max(RESULT_GAPS_LARGE, RESULT_GAPS_MEDIUM);
+
 // Four-point sparkle used as a background ornament
 const SPARKLE_PATH = "M12 0c.9 6.4 5.6 11.1 12 12-6.4.9-11.1 5.6-12 12-.9-6.4-5.6-11.1-12-12C6.4 11.1 11.1 6.4 12 0z";
 
@@ -535,6 +542,37 @@ function Home() {
                                     </li>
                                 );
                             })}
+
+                            {/* Ornament tiles in the leftover cells; each shows only on the
+                                layout that has that gap */}
+                            {Array.from({ length: RESULT_FILLERS }, (_, i) => (
+                                <li
+                                    key={`filler-${i}`}
+                                    aria-hidden="true"
+                                    className={[
+                                        "result-filler",
+                                        i === 0 ? "result-filler--mascot" : "result-filler--shine",
+                                        i < RESULT_GAPS_MEDIUM && "result-filler--medium",
+                                        i < RESULT_GAPS_LARGE && "result-filler--large",
+                                    ]
+                                        .filter(Boolean)
+                                        .join(" ")}
+                                >
+                                    {[1, 2, 3].map((n) => (
+                                        <svg className={`result-filler__sparkle result-filler__sparkle--${n}`} viewBox="0 0 24 24" key={n}>
+                                            <path d={SPARKLE_PATH} />
+                                        </svg>
+                                    ))}
+                                    {i === 0 ? (
+                                        <>
+                                            <span className="result-filler__bubble">Giliran mobilmu?</span>
+                                            <Mascot className="result-filler__mascot" />
+                                        </>
+                                    ) : (
+                                        <span className="result-filler__word">Kilau!</span>
+                                    )}
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </section>
