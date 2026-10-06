@@ -1,9 +1,11 @@
 import React, { type CSSProperties, type ReactNode } from "react";
+import { Link } from "react-router-dom";
 import { CountUp } from "../../components/count-up";
 import { Mascot } from "../../components/mascot";
 import { Partners } from "../../components/partners";
 import { Reviews } from "../../components/reviews";
-import { Shell, type NavItem } from "../../components/shell";
+import { ProductCard } from "../../components/product-card";
+import { Shell } from "../../components/shell";
 import { WhatsAppFloat } from "../../components/whatsapp-float";
 import {
     CONTACT_EMAIL,
@@ -14,13 +16,14 @@ import {
     WHATSAPP_DISPLAY,
     WHATSAPP_URL,
 } from "../../constants/brand";
-import { content, type FeatureIcon } from "../../content";
+import { PRODUCTS_PATH } from "../../constants/routing";
+import { content, productByCode, type FeatureIcon } from "../../content";
 import "./styles.css";
 
-const { hero: HERO, features: FEATURES, stats: STATS, promotions: PROMOTIONS, products: PRODUCTS } = content;
+const { hero: HERO, features: FEATURES, stats: STATS, promotions: PROMOTIONS } = content;
 const { reviews: REVIEWS, results: RESULTS, partners: PARTNERS, faqs: FAQS, tickerWords: TICKER_WORDS } = content;
 
-// Everything editable lives in src/content/home.json (validated in src/content/index.ts)
+// Everything editable lives in src/content/home.json and products.json (validated in src/content/index.ts)
 
 // Feature icons (24x24 stroke paths), picked by the `icon` key in home.json
 const FEATURE_ICONS: Record<FeatureIcon, ReactNode> = {
@@ -47,8 +50,6 @@ const FEATURE_ICONS: Record<FeatureIcon, ReactNode> = {
     ),
 };
 
-const POWER_MAX = 5;
-
 const partnerWhatsAppUrl = `${WHATSAPP_URL}?text=${encodeURIComponent(
     "Halo, saya tertarik jadi bengkel mitra Hörnet.",
 )}`;
@@ -65,18 +66,8 @@ const FAQ_JSON_LD = JSON.stringify({
     })),
 }).replace(/</g, "\\u003c");
 
-// Header links to the sections below (ids on the <section>s); sections hidden while
-// their list is empty drop out of the nav too
-const NAV: NavItem[] = [
-    { label: "Produk", href: "#produk" },
-    PROMOTIONS.length > 0 && { label: "Promo", href: "#promo" },
-    RESULTS.length > 0 && { label: "Hasil", href: "#hasil" },
-    PARTNERS.length > 0 && { label: "Mitra", href: "#mitra" },
-    FAQS.length > 0 && { label: "FAQ", href: "#faq" },
-    { label: "Kontak", href: "#kontak" },
-].filter((item): item is NavItem => Boolean(item));
-
-const productByCode = (code: string) => PRODUCTS.find((product) => product.code === code);
+// The two "Produk Unggulan" cards (codes checked against the catalog at load)
+const FEATURED = content.featuredProducts.map((code) => productByCode(code)!);
 
 // Product featured in the hero: its photo fills the hero frame
 const HERO_PRODUCT = productByCode(HERO.productCode);
@@ -102,7 +93,7 @@ const [EMAIL_USER, EMAIL_DOMAIN] = CONTACT_EMAIL.split("@");
 
 function Home() {
     return (
-        <Shell nav={NAV}>
+        <Shell>
             <section className="hero">
                 <div className="hero__slab" aria-hidden="true" />
 
@@ -275,60 +266,15 @@ function Home() {
                     </p>
 
                     <div className="products__grid">
-                        {PRODUCTS.map(
-                            ({ code, name, tagline, description, powers, image, detailHref }) => (
-                                <article className="product" key={code}>
-                                    <div className="product__canvas">
-                                        {image ? (
-                                            <img src={image} alt={`${name} ${code}`} loading="lazy" decoding="async" />
-                                        ) : (
-                                            // Placeholder until the product photo is ready: set `image`
-                                            <div className="product__photo--placeholder">
-                                                <img src={HORNET_MARK_SRC} alt="" {...HORNET_MARK_SIZE} loading="lazy" />
-                                            </div>
-                                        )}
-                                        <span className="product__sticker">{code}</span>
-                                    </div>
+                        {FEATURED.map((product) => (
+                            <ProductCard product={product} key={product.code} />
+                        ))}
+                    </div>
 
-                                    <div className="product__body">
-                                        <span className="product__tag">{tagline}</span>
-                                        <h3 className="product__name">{name}</h3>
-                                        <p className="product__text">{description}</p>
-
-                                        <ul className="product__powers">
-                                            {powers.map(({ label, level }) => (
-                                                <li className="power" key={label}>
-                                                    <span className="power__label">{label}</span>
-                                                    <span
-                                                        className="power__meter"
-                                                        role="img"
-                                                        aria-label={`${level} dari ${POWER_MAX}`}
-                                                    >
-                                                        {Array.from({ length: POWER_MAX }, (_, i) => (
-                                                            <span
-                                                                className={`power__cell${i < level ? " power__cell--on" : ""}`}
-                                                                key={i}
-                                                            />
-                                                        ))}
-                                                    </span>
-                                                </li>
-                                            ))}
-                                        </ul>
-
-                                        {detailHref ? (
-                                            <a className="button button--lg button--yellow product__action" href={detailHref}>
-                                                <span>Lihat detail</span>
-                                            </a>
-                                        ) : (
-                                            // No action yet: the detail pages don't exist.
-                                            <button type="button" className="button button--lg button--yellow product__action">
-                                                <span>Lihat detail</span>
-                                            </button>
-                                        )}
-                                    </div>
-                                </article>
-                            ),
-                        )}
+                    <div className="products__more">
+                        <Link className="button button--lg button--dark" to={PRODUCTS_PATH}>
+                            <span>Lihat semua produk</span>
+                        </Link>
                     </div>
                 </div>
             </section>

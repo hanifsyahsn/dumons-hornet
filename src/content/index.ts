@@ -1,11 +1,13 @@
-// Typed access to src/content/home.json, the one file holding everything on /home that can
-// change over time (contacts, numbers, promos, products, reviews, results, partners, FAQ).
+// Typed access to the editable content: src/content/home.json (everything on /home that can
+// change over time: contacts, numbers, promos, reviews, results, partners, FAQ) and
+// src/content/products.json (the product catalog shown on /produk, referenced by code from home).
 // The build uses Babel (no type checking), so the JSON is also validated at runtime below:
 // a missing or mistyped field throws while prerendering, failing the Netlify build with a
 // message naming the item, instead of deploying a broken page.
 import type { Partner } from "../components/partners";
 import type { Review } from "../components/reviews";
 import data from "./home.json";
+import productData from "./products.json";
 
 export interface Contact {
     // International format without "+", for wa.me links
@@ -59,6 +61,14 @@ export interface ProductPower {
     level: number;
 }
 
+export interface ProductColor {
+    name: string;
+    // "#rrggbb", fills the swatch (and tints the photo placeholder)
+    hex: string;
+    // Photo of the product in this color (square), served from /public; omitted -> the product's `image`
+    image?: string;
+}
+
 export interface Product {
     code: string;
     name: string;
@@ -70,8 +80,10 @@ export interface Product {
     // Transparent cutout of the product (PNG/WebP with alpha), placed on the result photos;
     // omitted until it exists (the hornet mark stands in)
     cutout?: string;
-    // Detail page; omitted until it exists (the button has no action yet)
-    detailHref?: string;
+    // URL of the detail page: /produk/<slug>
+    slug: string;
+    // Color choices on the detail page; [] -> no color picker
+    colors: ProductColor[];
 }
 
 export interface Result {
@@ -98,20 +110,36 @@ export interface HomeContent {
     stats: Stat[];
     tickerWords: string[];
     promotions: Promotion[];
-    // Exactly two are designed for (side by side)
-    products: Product[];
+    // Codes of the two products in "Produk Unggulan" (exactly two are designed for: side by side)
+    featuredProducts: string[];
     reviews: Review[];
     results: Result[];
     partners: Partner[];
     faqs: Faq[];
 }
 
+export interface ProductsPage {
+    tag: string;
+    // Each entry is one line of the big title
+    titleLines: string[];
+    lead: string;
+}
+
+export interface ProductsContent {
+    page: ProductsPage;
+    // Whole catalog, in display order
+    products: Product[];
+}
+
 type Json = Record<string, unknown>;
 
 const FEATURE_ICONS: FeatureIcon[] = ["sparkle", "drop", "shield", "spray"];
 
+// File being validated, named in the error messages
+let file = "";
+
 function fail(path: string, problem: string): never {
-    throw new Error(`src/content/home.json: ${path} ${problem}`);
+    throw new Error(`src/content/${file}: ${path} ${problem}`);
 }
 
 function object(value: unknown, path: string): Json {
@@ -148,8 +176,53 @@ function each(value: unknown, name: string, check: (item: Json, path: string) =>
     });
 }
 
-function validate(raw: unknown): HomeContent {
+function textLines(value: unknown, path: string) {
+    list(value, path).forEach((line, i) => {
+        if (typeof line !== "string" || line.trim() === "") fail(`${path} #${i + 1}`, "harus berupa teks");
+    });
+}
+
+function validateProducts(raw: unknown): ProductsContent {
+    file = "products.json";
     const root = object(raw, "(file)");
+
+    const page = object(root.page, "page");
+    ["tag", "lead"].forEach((key) => text(page, key, "page"));
+    textLines(page.titleLines, "page.titleLines");
+
+    each(root.products, "products", (item, path) => {
+        ["code", "name", "tagline", "description"].forEach((key) => text(item, key, path));
+        ["image", "cutout"].forEach((key) => text(item, key, path, true));
+        text(item, "slug", path);
+        if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(String(item.slug))) {
+            fail(`${path}.slug`, "harus huruf kecil, angka dan tanda minus saja, contoh hs-470");
+        }
+        each(item.colors, `${path}.colors`, (color, colorPath) => {
+            text(color, "name", colorPath);
+            text(color, "image", colorPath, true);
+            if (!/^#[0-9a-fA-F]{6}$/.test(String(color.hex))) fail(`${colorPath}.hex`, "harus kode warna #rrggbb, contoh #ffff00");
+        });
+        each(item.powers, `${path}.powers`, (power, powerPath) => {
+            text(power, "label", powerPath);
+            number(power, "level", powerPath, false, 1, 5);
+        });
+    });
+    (["code", "slug"] as const).forEach((key) => {
+        const values = (root.products as Json[]).map((product) => product[key]);
+        values.forEach((value, i) => {
+            if (values.indexOf(value) !== i) fail(`products #${i + 1}.${key}`, `"${value}" sudah dipakai produk lain`);
+        });
+    });
+
+    return root as unknown as ProductsContent;
+}
+
+function validate(raw: unknown, codes: string[]): HomeContent {
+    file = "home.json";
+    const root = object(raw, "(file)");
+    const checkCode = (value: unknown, path: string) => {
+        if (!codes.includes(value as string)) fail(path, `harus kode salah satu produk di products.json: ${codes.join(", ")}`);
+    };
 
     const contact = object(root.contact, "contact");
     ["whatsappNumber", "whatsappDisplay", "email", "shopeeUrl", "shopeeDisplay", "instagramUrl", "instagramDisplay"].forEach(
@@ -161,9 +234,8 @@ function validate(raw: unknown): HomeContent {
 
     const hero = object(root.hero, "hero");
     ["tag", "message", "productCode"].forEach((key) => text(hero, key, "hero"));
-    list(hero.titleLines, "hero.titleLines").forEach((line, i) => {
-        if (typeof line !== "string" || line.trim() === "") fail(`hero.titleLines #${i + 1}`, "harus berupa teks");
-    });
+    textLines(hero.titleLines, "hero.titleLines");
+    checkCode(hero.productCode, "hero.productCode");
 
     each(root.features, "features", (item, path) => {
         text(item, "title", path);
@@ -188,15 +260,9 @@ function validate(raw: unknown): HomeContent {
         number(item, "height", path, false, 1);
     });
 
-    each(root.products, "products", (item, path) => {
-        ["code", "name", "tagline", "description"].forEach((key) => text(item, key, path));
-        ["image", "cutout", "detailHref"].forEach((key) => text(item, key, path, true));
-        each(item.powers, `${path}.powers`, (power, powerPath) => {
-            text(power, "label", powerPath);
-            number(power, "level", powerPath, false, 1, 5);
-        });
-    });
-    const codes = (root.products as Json[]).map((product) => product.code);
+    const featured = list(root.featuredProducts, "featuredProducts");
+    if (featured.length !== 2) fail("featuredProducts", "harus berisi tepat dua kode produk");
+    featured.forEach((code, i) => checkCode(code, `featuredProducts #${i + 1}`));
 
     each(root.reviews, "reviews", (item, path) => {
         ["quote", "name", "company", "city"].forEach((key) => text(item, key, path));
@@ -208,7 +274,7 @@ function validate(raw: unknown): HomeContent {
     each(root.results, "results", (item, path) => {
         ["surface", "caption", "product"].forEach((key) => text(item, key, path));
         text(item, "photo", path, true);
-        if (!codes.includes(item.product)) fail(`${path}.product`, `harus kode salah satu produk: ${codes.join(", ")}`);
+        checkCode(item.product, `${path}.product`);
     });
 
     each(root.partners, "partners", (item, path) => {
@@ -224,4 +290,11 @@ function validate(raw: unknown): HomeContent {
     return root as unknown as HomeContent;
 }
 
-export const content: HomeContent = validate(data);
+export const catalog: ProductsContent = validateProducts(productData);
+export const content: HomeContent = validate(
+    data,
+    catalog.products.map((product) => product.code),
+);
+
+export const productByCode = (code: string) => catalog.products.find((product) => product.code === code);
+export const productBySlug = (slug: string) => catalog.products.find((product) => product.slug === slug);

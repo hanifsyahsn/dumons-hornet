@@ -1,15 +1,13 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
-import { matchPath } from "react-router-dom";
 import App from "../pages/App";
 import { Loading } from "../components/loading";
-import { routes } from "../routes";
+import { pageTitle } from "../routes";
+import { NOT_FOUND_TITLE } from "../constants/routing";
 import type { RouteContext } from "../types/routing";
 import { HORNET_MARK_SIZE, HORNET_MARK_SRC, SITE_URL } from "../constants/brand";
 
-const DEFAULT_TITLE = "Hörnet Supercoat | Dumons Coating";
-const NOT_FOUND_TITLE = "404 Halaman Tidak Ditemukan | Hörnet Supercoat";
 const DESCRIPTION =
     "Hörnet Supercoat, inovasi terbaru dari lineup performance coating Dumons. Kilau ekstrem, super hidrofobik, dan proteksi maksimal untuk cat kendaraanmu.";
 const DISPLAY_FONT_SRC = "/assets/fonts/roboto-condensed-italic-latin.woff2";
@@ -41,8 +39,7 @@ export function renderPage(url: string): RenderResult {
     }
 
     const pathname = url.split(/[?#]/)[0];
-    const route = routes.find(r => r.path !== "*" && matchPath(r.path, pathname));
-    const title = status === 404 ? NOT_FOUND_TITLE : route?.title || DEFAULT_TITLE;
+    const title = status === 404 ? NOT_FOUND_TITLE : pageTitle(pathname);
 
     // The 404 page has no canonical URL of its own and shouldn't be indexed.
     const canonical = status === 200 ? `${SITE_URL}${pathname}` : undefined;

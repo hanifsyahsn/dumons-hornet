@@ -15,10 +15,16 @@
     scroll-snap-type: x mandatory;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
+    transition: opacity 0.18s ease;
 
     &::-webkit-scrollbar {
         display: none;
     }
+}
+
+/* Multi-slide jump (see FADE_MS): out, jump, back in */
+.reviews__track--fading {
+    opacity: 0;
 }
 
 .review {

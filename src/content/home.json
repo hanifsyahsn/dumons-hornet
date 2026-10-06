@@ -1,11 +1,12 @@
 {
     "_petunjuk": [
-        "Semua konten halaman /home yang bisa berubah sewaktu-waktu ada di file ini. Simpan, commit, push: Netlify build ulang otomatis.",
+        "Semua konten halaman /home yang bisa berubah sewaktu-waktu ada di file ini (kecuali data produk: ada di src/content/products.json). Simpan, commit, push: Netlify build ulang otomatis.",
         "Kalau ada isian yang salah format (field wajib kosong, angka ditulis sebagai teks, dll), build gagal dengan pesan yang menyebut bagian dan nomor itemnya, jadi situs lama tetap tampil.",
         "Daftar mana pun (promotions, reviews, results, partners, faqs, stats) boleh dikosongkan menjadi []: section-nya otomatis disembunyikan, termasuk link-nya di menu.",
         "Gambar ditaruh di folder public/, lalu ditulis path-nya mulai dari /assets/... (contoh: /assets/promos/promo-juli.webp).",
-        "Field opsional (photo, rating, image, cutout, detailHref, mapsUrl, whatsappUrl) cukup dihapus kalau belum ada.",
-        "MASIH CONTOH, wajib diganti sebelum launch: stats (angka), reviews, partners, produk kedua (HS 220), jawaban FAQ tentang beda dengan Dumons / motor / daya tahan / pengiriman, poster promo, foto hasil."
+        "featuredProducts: kode dua produk (dari products.json) yang tampil di section Produk Unggulan. hero.productCode dan results[].product juga memakai kode dari products.json.",
+        "Field opsional (photo, rating, mapsUrl, whatsappUrl) cukup dihapus kalau belum ada.",
+        "MASIH CONTOH, wajib diganti sebelum launch: stats (angka), reviews, partners, jawaban FAQ tentang beda dengan Dumons / motor / daya tahan / pengiriman, poster promo, foto hasil."
     ],
 
     "contact": {
@@ -78,30 +79,7 @@
         }
     ],
 
-    "products": [
-        {
-            "code": "HS 470",
-            "name": "Hörnet Supercoat",
-            "tagline": "Coating andalan",
-            "description": "Lapisan pelindung dengan kilau ekstrem dan efek daun talas yang membuat air dan kotoran langsung meluncur.",
-            "powers": [
-                { "label": "Kilau", "level": 5 },
-                { "label": "Hidrofobik", "level": 5 },
-                { "label": "Ketahanan", "level": 4 }
-            ]
-        },
-        {
-            "code": "HS 220",
-            "name": "Hörnet Quick Coat",
-            "tagline": "Semprot & lap",
-            "description": "Booster praktis untuk perawatan rutin: semprot, lap, dan kilau serta sifat hidrofobik coating kembali segar.",
-            "powers": [
-                { "label": "Kilau", "level": 4 },
-                { "label": "Hidrofobik", "level": 4 },
-                { "label": "Kemudahan", "level": 5 }
-            ]
-        }
-    ],
+    "featuredProducts": ["HS 470", "HS 220"],
 
     "reviews": [
         {

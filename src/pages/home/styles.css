@@ -745,174 +745,24 @@
     }
 }
 
-.product {
+/* "Lihat semua produk": to the full catalog on /produk */
+.products__more {
     display: flex;
-    flex-direction: column;
-    background: var(--hornet-white);
-    border: var(--border-thick);
-    box-shadow: var(--shadow-lg);
-}
-
-/* Product image area: square canvas, photo shown whole */
-.product__canvas {
-    position: relative;
-    aspect-ratio: 1;
-    border-bottom: var(--border-thick);
-    background: var(--gray-100);
-
-    > img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-}
-
-.product__photo--placeholder {
-    display: flex;
-    align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
-    background:
-        repeating-linear-gradient(-45deg, transparent 0 18px, var(--gray-300) 18px 20px),
-        var(--hornet-white);
-
-    img {
-        width: 62%;
-        height: auto;
-    }
-}
-
-/* Code sticker; mirrored on the right-hand card so the pair faces each other */
-.product__sticker {
-    position: absolute;
-    left: -10px;
-    bottom: 24px;
-    padding: 8px 16px;
-    background: var(--hornet-yellow);
-    border: var(--border);
-    box-shadow: var(--shadow-sm);
-    transform: rotate(-4deg);
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 900;
-    font-size: var(--fs-xl);
-    text-transform: uppercase;
+    margin-top: 56px;
 
     @media (--medium) {
-        left: -18px;
-        font-size: 28px;
-    }
-
-    .product:nth-child(2) & {
-        @media (--medium) {
-            left: auto;
-            right: -18px;
-            transform: rotate(4deg);
-        }
+        margin-top: 72px;
     }
 }
 
-.product__body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 28px 20px 24px;
-
-    @media (--small) {
-        padding: 32px 28px 28px;
-    }
-}
-
-.product__tag {
-    align-self: flex-start;
-    margin-bottom: 14px;
-    padding: 4px 12px;
-    background: var(--hornet-ink);
-    color: var(--hornet-yellow);
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 800;
-    font-size: var(--fs-sm);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-}
-
-.product__name {
-    margin: 0 0 12px;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 900;
-    font-size: clamp(28px, 3vw, 44px);
-    line-height: 1;
-    text-transform: uppercase;
-}
-
-.product__text {
-    margin: 0 0 24px;
-    font-size: var(--fs-base);
-    line-height: 1.6;
-
+/* Mirror the right-hand card's code sticker so the pair faces each other */
+.products__grid .product:nth-child(2) .product__sticker {
     @media (--medium) {
-        font-size: var(--fs-md);
+        left: auto;
+        right: -18px;
+        transform: rotate(4deg);
     }
-}
-
-/* Power meters: label + five skewed cells, filled up to the level */
-.product__powers {
-    display: grid;
-    gap: 12px;
-    margin: 0 0 28px;
-    padding: 16px 0 0;
-    border-top: 2px solid var(--hornet-ink);
-    list-style: none;
-}
-
-.power {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 16px;
-}
-
-.power__label {
-    font-size: var(--fs-sm);
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-
-    @media (--small) {
-        font-size: var(--fs-base);
-    }
-}
-
-.power__meter {
-    display: flex;
-    gap: 6px;
-}
-
-.power__cell {
-    width: 22px;
-    height: 16px;
-    background: var(--hornet-white);
-    border: 2px solid var(--hornet-ink);
-    transform: skewX(var(--skew));
-
-    @media (--small) {
-        width: 28px;
-        height: 18px;
-    }
-}
-
-.power__cell--on {
-    background: var(--hornet-yellow);
-}
-
-/* Pinned to the bottom so both cards' buttons line up */
-.product__action {
-    align-self: flex-start;
-    margin-top: auto;
 }
 
 /* Customer reviews: yellow band between the white products and the dark CTA */
