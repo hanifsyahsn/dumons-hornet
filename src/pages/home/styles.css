@@ -310,11 +310,7 @@
     overflow: hidden;
 
     @media (--small) {
-        margin-bottom: 48px;
-    }
-
-    @media (--medium) {
-        margin-bottom: 64px;
+        margin-bottom: 40px;
     }
 }
 
@@ -385,11 +381,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 16px;
-        margin-bottom: 40px;
-    }
-
-    @media (--medium) {
-        margin-bottom: 48px;
+        margin-bottom: 32px;
     }
 }
 
@@ -411,7 +403,7 @@
     margin: 28px 8px 0 0;
 
     @media (--small) {
-        width: clamp(160px, 28vw, 340px);
+        width: clamp(160px, 24vw, 300px);
         margin: 0 8px 0 0;
     }
 }
@@ -468,8 +460,8 @@
     text-transform: uppercase;
 
     @media (--small) {
-        margin-bottom: 16px;
-        font-size: clamp(36px, 4.5vw, 64px);
+        margin-bottom: 20px;
+        font-size: clamp(40px, 6vw, 88px);
         line-height: 1;
     }
 }
@@ -484,7 +476,7 @@
 .promos__lead {
     grid-area: lead;
     max-width: 38em;
-    /* Phones: set off with an ink bar so it reads as part of the header */
+    /* Set off with an ink bar so it reads as part of the header */
     margin: 20px 0 0;
     padding-left: 14px;
     border-left: 6px solid var(--hornet-ink);
@@ -494,10 +486,8 @@
 
     @media (--small) {
         margin: 0;
-        padding-left: 0;
-        border-left: 0;
+        padding-left: 18px;
         font-size: var(--fs-md);
-        font-weight: 400;
     }
 
     @media (--medium) {
