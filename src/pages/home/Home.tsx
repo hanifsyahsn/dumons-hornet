@@ -55,6 +55,41 @@ const FEATURES: Feature[] = [
     },
 ];
 
+interface Promotion {
+    // Short deal on the skewed badge, e.g. "Diskon 20%"
+    badge: string;
+    title: string;
+    text: string;
+    // Validity shown under the text; omit for open-ended promos
+    period?: string;
+}
+
+// Any number of items: the grid picks its columns from the count (see .promos__grid),
+// and the whole section is hidden while the list is empty.
+// Placeholder copy until the real promotions are confirmed.
+const PROMOTIONS: Promotion[] = [
+    {
+        badge: "Diskon 20%",
+        title: "Promo perkenalan",
+        text: "Potongan harga untuk pembelian pertama Hörnet Supercoat HS 470.",
+        period: "Berlaku s.d. 31 Desember 2026",
+    },
+    {
+        badge: "Beli 2",
+        title: "Gratis microfiber",
+        text: "Setiap pembelian 2 botol HS 470 dapat bonus kain microfiber premium.",
+        period: "Selama persediaan masih ada",
+    },
+    {
+        badge: "Bengkel",
+        title: "Harga khusus mitra",
+        text: "Harga spesial untuk bengkel, detailer, dan salon mobil yang jadi mitra resmi.",
+    },
+];
+
+const promoWhatsAppUrl = (title: string) =>
+    `${WHATSAPP_URL}?text=${encodeURIComponent(`Halo, saya mau tanya tentang promo "${title}" Hörnet.`)}`;
+
 const [EMAIL_USER, EMAIL_DOMAIN] = CONTACT_EMAIL.split("@");
 
 function Home() {
@@ -134,6 +169,40 @@ function Home() {
                     </div>
                 </div>
             </section>
+
+            {PROMOTIONS.length > 0 && (
+                <section className="promos">
+                    <div className="promos__inner">
+                        <h2 className="promos__title">
+                            Promo <span className="promos__highlight">Hörnet</span>
+                        </h2>
+                        <p className="promos__lead">
+                            Penawaran spesial yang sedang berlaku. Tanyakan langsung ke tim kami.
+                        </p>
+
+                        <ul className="promos__grid">
+                            {PROMOTIONS.map(({ badge, title, text, period }) => (
+                                <li className="promo" key={title}>
+                                    <span className="promo__badge">
+                                        <span>{badge}</span>
+                                    </span>
+                                    <h3 className="promo__title">{title}</h3>
+                                    <p className="promo__text">{text}</p>
+                                    {period && <p className="promo__period">{period}</p>}
+                                    <a
+                                        className="button button--sm button--yellow promo__action"
+                                        href={promoWhatsAppUrl(title)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <span>Tanya promo</span>
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </section>
+            )}
 
             <section className="cta">
                 <div className="cta__inner">

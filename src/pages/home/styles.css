@@ -2,6 +2,7 @@
 
 .hero__inner,
 .features__inner,
+.promos__inner,
 .cta__inner {
     position: relative;
     width: 100%;
@@ -286,6 +287,175 @@
     @media (--medium) {
         font-size: var(--fs-md);
     }
+}
+
+/* Promotions: yellow band between the white features and the dark CTA */
+.promos {
+    padding: 72px 0;
+    border-top: var(--border-thick);
+    background: var(--hornet-yellow);
+
+    @media (--medium) {
+        padding: 96px 0;
+    }
+}
+
+.promos__title {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+/* Ink block behind a word (the yellow marker wouldn't show on the yellow band) */
+.promos__highlight {
+    padding: 0 0.15em;
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+}
+
+.promos__lead {
+    max-width: 38em;
+    margin: 0 0 48px;
+    font-size: var(--fs-md);
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
+}
+
+/*
+ * Works for any number of promos: --cols is picked from the item count (quantity
+ * queries), and a short last row is centered instead of leaving a gap on the right.
+ *   1 -> one card, capped width, centered
+ *   2 -> 2 columns, 3 -> 3, 4 -> 2x2 (4 in a row on wide screens)
+ *   5+ -> rows of 3 (rows of 2 on tablets)
+ */
+.promos__grid {
+    --cols: 1;
+    --gap: 28px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Taller row gap clears the shadow above plus the badge on the card's top edge */
+    gap: 56px var(--gap);
+    margin: 0;
+    /* Room for the cards' hard shadow inside the container on phones */
+    padding: 0 8px 0 0;
+    list-style: none;
+
+    @media (--medium) {
+        --cols: 2;
+    }
+
+    @media (--large) {
+        --cols: 3;
+
+        &:has(> :nth-child(2):last-child),
+        &:has(> :nth-child(4):last-child) {
+            --cols: 2;
+        }
+    }
+
+    @media (--xlarge) {
+        &:has(> :nth-child(4):last-child) {
+            --cols: 4;
+        }
+    }
+
+    &:has(> :only-child) {
+        --cols: 1;
+    }
+}
+
+.promo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+    max-width: 100%;
+    padding: 44px 24px 24px;
+    background: var(--hornet-white);
+    border: var(--border);
+    box-shadow: var(--shadow-md);
+
+    /* A lone promo shouldn't stretch across the whole page */
+    &:only-child {
+        flex-basis: 560px;
+    }
+}
+
+/* Skewed deal badge sitting on the card's top edge */
+.promo__badge {
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    padding: 8px 16px;
+    background: var(--hornet-ink);
+    border: 3px solid var(--hornet-ink);
+    box-shadow: 4px 4px 0 var(--hornet-orange);
+    transform: skewX(var(--skew));
+
+    > span {
+        display: inline-block;
+        transform: skewX(calc(var(--skew) * -1));
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 900;
+        font-size: var(--fs-lg);
+        line-height: 1;
+        color: var(--hornet-yellow);
+        text-transform: uppercase;
+    }
+}
+
+.promo__title {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 800;
+    font-size: var(--fs-xl);
+    line-height: 1.1;
+    text-transform: uppercase;
+
+    @media (--medium) {
+        font-size: var(--fs-2xl);
+    }
+}
+
+.promo__text {
+    margin: 0;
+    font-size: var(--fs-base);
+    line-height: 1.6;
+
+    @media (--medium) {
+        font-size: var(--fs-md);
+    }
+}
+
+.promo__period {
+    margin: 16px 0 0;
+    padding-top: 12px;
+    border-top: 2px dashed var(--hornet-ink);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--gray-700);
+}
+
+/* The last paragraph (text or period) fills the spare height, so buttons line up
+   at the bottom across cards of different lengths */
+.promo > p:last-of-type {
+    flex-grow: 1;
+    margin-bottom: 24px;
+}
+
+.promo__action {
+    align-self: flex-start;
 }
 
 /* Contact CTA */
