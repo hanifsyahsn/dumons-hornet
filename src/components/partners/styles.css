@@ -1,0 +1,143 @@
+@import '../../styles/variables.css';
+
+/* City filter: skewed chips like the buttons; the active one is filled ink */
+.partners__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 10px;
+    margin-bottom: 32px;
+}
+
+.partners__chip {
+    padding: 6px 16px;
+    background: var(--hornet-white);
+    border: var(--border);
+    border-radius: 0;
+    box-shadow: 3px 3px 0 var(--hornet-ink);
+    transform: skewX(var(--skew));
+    color: var(--hornet-ink);
+    font: inherit;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s;
+
+    > span {
+        display: inline-block;
+        transform: skewX(calc(var(--skew) * -1));
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 800;
+        font-size: var(--fs-base);
+        text-transform: uppercase;
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            transform: skewX(var(--skew)) translate(2px, 2px);
+            box-shadow: 1px 1px 0 var(--hornet-ink);
+        }
+    }
+
+    &:focus-visible {
+        outline: 3px solid var(--hornet-orange);
+        outline-offset: 3px;
+    }
+}
+
+.partners__chip--active {
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+}
+
+.partners__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 28px;
+    margin: 0;
+    /* Room for the cards' hard shadow inside the container */
+    padding: 0 8px 0 0;
+    list-style: none;
+}
+
+/* Card: white, ink border; the city hangs off the top edge as a tag */
+.partner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 14px;
+    padding: 30px 20px 20px;
+    background: var(--hornet-white);
+    border: var(--border);
+    box-shadow: var(--shadow-md);
+}
+
+.partner__city {
+    position: absolute;
+    top: -15px;
+    left: 16px;
+    padding: 4px 12px;
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+    transform: skewX(var(--skew));
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 800;
+    font-size: var(--fs-sm);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.partner__name {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-xl);
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.partner__address {
+    flex: 1;
+    margin: 0 0 18px;
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    color: var(--gray-700);
+
+    @media (--medium) {
+        font-size: var(--fs-base);
+    }
+}
+
+.partner__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    padding-top: 14px;
+    border-top: 2px solid var(--hornet-ink);
+}
+
+.partner__link {
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    color: var(--hornet-ink);
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-decoration-color: var(--hornet-yellow);
+    text-underline-offset: 4px;
+
+    &::after {
+        content: " →";
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            background: var(--hornet-yellow);
+        }
+    }
+}
+
+.partners__more {
+    display: flex;
+    justify-content: center;
+    margin-top: 36px;
+}

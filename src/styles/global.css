@@ -9,8 +9,16 @@ html, body {
     background: var(--hornet-white);
     color: var(--hornet-ink);
     font-family: var(--font-body);
+}
+
+/* No sideways scroll. On html it applies to the viewport; body uses clip, since hidden
+   would make it a scroll container and break the sticky header. */
+html {
     overflow-x: hidden;
-    overflow-y: auto;
+}
+
+body {
+    overflow-x: clip;
 }
 
 *, *::before, *::after {
@@ -26,7 +34,18 @@ a:focus-visible {
     outline-offset: 4px;
 }
 
+/* In-page links (hero "Lihat produk" -> #produk) glide instead of jumping */
+html {
+    scroll-behavior: smooth;
+    /* Anchored sections land right below the sticky header (~95px at most) */
+    scroll-padding-top: 96px;
+}
+
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
     * {
         transition: none !important;
     }

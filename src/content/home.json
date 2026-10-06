@@ -1,0 +1,185 @@
+{
+    "_petunjuk": [
+        "Semua konten halaman /home yang bisa berubah sewaktu-waktu ada di file ini. Simpan, commit, push: Netlify build ulang otomatis.",
+        "Kalau ada isian yang salah format (field wajib kosong, angka ditulis sebagai teks, dll), build gagal dengan pesan yang menyebut bagian dan nomor itemnya, jadi situs lama tetap tampil.",
+        "Daftar mana pun (promotions, reviews, results, partners, faqs, stats) boleh dikosongkan menjadi []: section-nya otomatis disembunyikan, termasuk link-nya di menu.",
+        "Gambar ditaruh di folder public/, lalu ditulis path-nya mulai dari /assets/... (contoh: /assets/promos/promo-juli.webp).",
+        "Field opsional (photo, rating, image, cutout, detailHref, mapsUrl, whatsappUrl) cukup dihapus kalau belum ada.",
+        "MASIH CONTOH, wajib diganti sebelum launch: stats (angka), reviews, partners, produk kedua (HS 220), jawaban FAQ tentang beda dengan Dumons / motor / daya tahan / pengiriman, poster promo, foto hasil."
+    ],
+
+    "contact": {
+        "whatsappNumber": "6285159122501",
+        "whatsappDisplay": "0851-5912-2501",
+        "email": "dumonscoatingindonesia@gmail.com",
+        "shopeeUrl": "https://shopee.co.id/dumonsindonesia",
+        "shopeeDisplay": "dumonsindonesia",
+        "instagramUrl": "https://www.instagram.com/dumons.id/",
+        "instagramDisplay": "@dumons.id"
+    },
+
+    "hero": {
+        "tag": "Supercoat",
+        "titleLines": ["Kilau yang", "menyengat."],
+        "message": "Hörnet Supercoat adalah inovasi terbaru dari lineup performance coating Dumons. Kilau ekstrem, proteksi maksimal, dan tampilan yang bikin setiap mata menoleh.",
+        "productCode": "HS 470"
+    },
+
+    "features": [
+        {
+            "icon": "sparkle",
+            "title": "Kilau ekstrem",
+            "text": "Kilap tajam dan dalam yang bikin cat tampak seperti baru keluar dari ruang poles."
+        },
+        {
+            "icon": "drop",
+            "title": "Super hidrofobik",
+            "text": "Air langsung membulat dan meluncur, membawa debu dan kotoran ikut pergi."
+        },
+        {
+            "icon": "shield",
+            "title": "Proteksi maksimal",
+            "text": "Lapisan tangguh yang menjaga cat dari paparan UV, kotoran, dan noda membandel."
+        },
+        {
+            "icon": "spray",
+            "title": "Perawatan mudah",
+            "text": "Kotoran sulit menempel, cuci jadi lebih cepat dan kilau bertahan lebih lama."
+        }
+    ],
+
+    "stats": [
+        { "value": 500, "suffix": "+", "label": "Bengkel & detailer" },
+        { "value": 10000, "suffix": "+", "label": "Botol terjual" },
+        { "value": 34, "label": "Provinsi terjangkau" },
+        { "value": 98, "suffix": "%", "label": "Pelanggan puas" }
+    ],
+
+    "tickerWords": ["Promo", "Diskon", "Hörnet Supercoat", "Hemat", "Promo", "Bonus"],
+
+    "promotions": [
+        {
+            "src": "/assets/promos/placeholder-portrait.svg",
+            "alt": "Promo perkenalan: diskon 20% Hörnet Supercoat HS 470",
+            "width": 1080,
+            "height": 1350
+        },
+        {
+            "src": "/assets/promos/placeholder-landscape.svg",
+            "alt": "Beli 2 botol HS 470 gratis kain microfiber",
+            "width": 1600,
+            "height": 900
+        },
+        {
+            "src": "/assets/promos/placeholder-square.svg",
+            "alt": "Harga khusus untuk bengkel dan detailer mitra",
+            "width": 1080,
+            "height": 1080
+        }
+    ],
+
+    "products": [
+        {
+            "code": "HS 470",
+            "name": "Hörnet Supercoat",
+            "tagline": "Coating andalan",
+            "description": "Lapisan pelindung dengan kilau ekstrem dan efek daun talas yang membuat air dan kotoran langsung meluncur.",
+            "powers": [
+                { "label": "Kilau", "level": 5 },
+                { "label": "Hidrofobik", "level": 5 },
+                { "label": "Ketahanan", "level": 4 }
+            ]
+        },
+        {
+            "code": "HS 220",
+            "name": "Hörnet Quick Coat",
+            "tagline": "Semprot & lap",
+            "description": "Booster praktis untuk perawatan rutin: semprot, lap, dan kilau serta sifat hidrofobik coating kembali segar.",
+            "powers": [
+                { "label": "Kilau", "level": 4 },
+                { "label": "Hidrofobik", "level": 4 },
+                { "label": "Kemudahan", "level": 5 }
+            ]
+        }
+    ],
+
+    "reviews": [
+        {
+            "quote": "Hasil kilapnya beda kelas. Mobil pelanggan keluar dari bengkel kami dengan tampilan yang benar-benar seperti baru, dan efek airnya masih terasa berbulan-bulan kemudian.",
+            "name": "Budi Santoso",
+            "company": "PT Kilau Motor Sejahtera",
+            "city": "Jakarta",
+            "year": 2025,
+            "rating": 5
+        },
+        {
+            "quote": "Aplikasinya gampang dan hasilnya konsisten. Sejak pakai Hörnet, pelanggan detailing kami makin banyak yang repeat order.",
+            "name": "Rina Wijaya",
+            "company": "PT Detailindo Prima",
+            "city": "Surabaya",
+            "year": 2025,
+            "rating": 5
+        },
+        {
+            "quote": "Kami pakai untuk armada kendaraan operasional. Cuci jadi jauh lebih cepat karena kotoran tidak gampang menempel.",
+            "name": "Agus Pratama",
+            "company": "PT Armada Nusantara Logistik",
+            "city": "Bandung",
+            "year": 2024,
+            "rating": 4
+        }
+    ],
+
+    "results": [
+        { "surface": "Body mobil", "caption": "Kilau dalam seperti cat baru setelah satu lapis.", "product": "HS 470" },
+        { "surface": "Kaca depan", "caption": "Air hujan langsung membulat dan meluncur.", "product": "HS 470" },
+        { "surface": "Velg", "caption": "Debu rem tidak gampang menempel.", "product": "HS 470" },
+        { "surface": "Body motor", "caption": "Warna tampak lebih pekat dan segar.", "product": "HS 220" },
+        { "surface": "Cat hitam", "caption": "Pantulan tajam tanpa kesan kusam.", "product": "HS 470" },
+        { "surface": "Lampu depan", "caption": "Mika tetap bening dan terlindungi.", "product": "HS 220" }
+    ],
+
+    "partners": [
+        { "name": "Contoh Detailing Studio", "city": "Jakarta", "address": "Jl. Contoh No. 1, Jakarta Selatan" },
+        { "name": "Contoh Auto Care", "city": "Jakarta", "address": "Jl. Contoh No. 2, Jakarta Barat" },
+        { "name": "Contoh Kilau Garage", "city": "Bandung", "address": "Jl. Contoh No. 3, Bandung" },
+        { "name": "Contoh Car Wash & Coating", "city": "Surabaya", "address": "Jl. Contoh No. 4, Surabaya" },
+        { "name": "Contoh Motor Shine", "city": "Yogyakarta", "address": "Jl. Contoh No. 5, Sleman" },
+        { "name": "Contoh Pro Detailer", "city": "Medan", "address": "Jl. Contoh No. 6, Medan" }
+    ],
+
+    "faqs": [
+        {
+            "question": "Apa itu Hörnet?",
+            "answer": "Hörnet adalah lini coating dari Dumons Coating yang lebih ringkas dan terjangkau, untuk menjaga kilau dan proteksi kendaraan sehari-hari."
+        },
+        {
+            "question": "Apa bedanya Hörnet dengan produk Dumons lainnya?",
+            "answer": "Hörnet dirancang untuk perawatan yang praktis dengan harga lebih bersahabat, sementara lini utama Dumons ditujukan untuk hasil dan daya tahan maksimal."
+        },
+        {
+            "question": "Di mana saya bisa membeli produk Hörnet?",
+            "answer": "Lewat toko resmi kami di Shopee (dumonsindonesia), langsung via WhatsApp, atau di bengkel mitra Hörnet di kotamu."
+        },
+        {
+            "question": "Bagaimana cara pemakaiannya?",
+            "answer": "Setiap produk punya langkah pemakaian sendiri, lengkap di halaman detail produknya. Kalau masih ragu, tim kami siap memandu lewat WhatsApp."
+        },
+        {
+            "question": "Apakah bisa dipakai untuk motor?",
+            "answer": "Bisa. Produk Hörnet dapat diaplikasikan pada cat mobil maupun motor."
+        },
+        {
+            "question": "Berapa lama hasilnya bertahan?",
+            "answer": "Tergantung produk, cara aplikasi, dan perawatan. Detail daya tahan tiap produk tercantum di halaman detail produknya."
+        },
+        {
+            "question": "Apakah bisa kirim ke seluruh Indonesia?",
+            "answer": "Bisa. Pesanan lewat Shopee maupun WhatsApp kami kirim ke seluruh Indonesia."
+        },
+        {
+            "question": "Saya punya bengkel, bagaimana cara jadi mitra?",
+            "answer": "Hubungi kami lewat WhatsApp untuk info kemitraan dan harga khusus bengkel atau detailer."
+        }
+    ]
+}

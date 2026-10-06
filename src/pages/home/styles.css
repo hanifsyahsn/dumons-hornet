@@ -2,6 +2,13 @@
 
 .hero__inner,
 .features__inner,
+.stats__inner,
+.promos__inner,
+.products__inner,
+.testimonials__inner,
+.results__inner,
+.partners-band__inner,
+.faq__inner,
 .cta__inner {
     position: relative;
     width: 100%;
@@ -139,6 +146,15 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+}
+
+/* Product photo: shown whole on white, like the product cards */
+.hero__photo--product {
+    background: var(--hornet-white);
+
+    img {
+        object-fit: contain;
     }
 }
 
@@ -288,6 +304,1492 @@
     }
 }
 
+/* Trust numbers: ink band between the white features and the yellow promotions */
+.stats {
+    padding: 48px 0;
+    border-top: var(--border-thick);
+    background: var(--hornet-ink);
+    color: var(--hornet-white);
+
+    @media (--medium) {
+        padding: 56px 0;
+    }
+}
+
+.stats__inner {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 16px;
+    margin: 0 auto;
+    list-style: none;
+
+    /* One equal column per stat, whatever the count */
+    @media (--medium) {
+        grid-template-columns: none;
+        grid-auto-columns: minmax(0, 1fr);
+        grid-auto-flow: column;
+        gap: 0;
+    }
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+
+    /* Skewed yellow divider between the numbers (one row only) */
+    @media (--medium) {
+        position: relative;
+        padding: 0 16px 0 40px;
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        & + &::before {
+            content: "";
+            position: absolute;
+            top: 6px;
+            bottom: 6px;
+            left: 12px;
+            width: 6px;
+            background: var(--hornet-yellow);
+            transform: skewX(var(--skew));
+        }
+    }
+}
+
+.stat__value {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(40px, 4.2vw, 76px);
+    line-height: 1;
+    color: var(--hornet-yellow);
+    white-space: nowrap;
+    /* Equal-width digits, so the number doesn't wobble while counting */
+    font-variant-numeric: tabular-nums;
+}
+
+.stat__suffix {
+    color: var(--hornet-orange);
+}
+
+.stat__label {
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--hornet-on-dark);
+
+    @media (--medium) {
+        font-size: var(--fs-base);
+    }
+}
+
+/* Promotions: yellow band between the white features and the dark CTA, opened by a ticker */
+.promos {
+    padding: 0 0 72px;
+    border-top: var(--border-thick);
+    background: var(--hornet-yellow);
+    overflow: hidden;
+
+    @media (--medium) {
+        padding-bottom: 96px;
+    }
+}
+
+/* Ink ticker tape scrolling "PROMO • DISKON • ..." across the top of the band */
+.ticker {
+    margin-bottom: 24px;
+    padding: 12px 0;
+    background: var(--hornet-ink);
+    border-bottom: var(--border-thick);
+    overflow: hidden;
+
+    @media (--small) {
+        margin-bottom: 40px;
+    }
+}
+
+.ticker__track {
+    display: flex;
+    width: max-content;
+    /* Slides one copy (half the track) per loop; scale with TICKER_COPY's length to keep the speed */
+    animation: ticker-scroll 88s linear infinite;
+}
+
+.ticker__group {
+    display: flex;
+}
+
+.ticker__item {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-xl);
+    line-height: 1;
+    color: var(--hornet-yellow);
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    /* Skewed orange chip between words */
+    &::after {
+        content: "";
+        width: 18px;
+        height: 18px;
+        margin: 0 24px;
+        background: var(--hornet-orange);
+        transform: skewX(var(--skew));
+    }
+}
+
+@keyframes ticker-scroll {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ticker__track {
+        animation: none;
+    }
+}
+
+/* Title + lead with the mascot flying beside them */
+/*
+ * Phones: a grid with the title (stacked PROMO / HÖRNET) beside the mascot and the lead
+ * across the full width under both; .promos__copy dissolves so its children join the
+ * grid. From --small up: title + lead on the left, mascot on the right.
+ */
+.promos__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+        "title mascot"
+        "lead  lead";
+    align-items: center;
+    column-gap: 8px;
+    margin-bottom: 36px;
+
+    @media (--small) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 32px;
+    }
+}
+
+.promos__copy {
+    display: contents;
+
+    @media (--small) {
+        display: block;
+        min-width: 0;
+    }
+}
+
+.promos__mascot {
+    grid-area: mascot;
+    position: relative;
+    flex: none;
+    width: clamp(112px, 38vw, 172px);
+    /* Room for the "PROMO!" burst above the head and the hard shadow on the right */
+    margin: 28px 8px 0 0;
+
+    @media (--small) {
+        width: clamp(160px, 24vw, 300px);
+        margin: 0 8px 0 0;
+    }
+}
+
+/* Speech burst shouted by the mascot, next to its head */
+.promos__shout {
+    position: absolute;
+    top: -8%;
+    right: -2%;
+    z-index: 1;
+    padding: 4px 10px;
+    background: var(--hornet-white);
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+    transform: rotate(-10deg);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(14px, 2.4vw, 28px);
+    line-height: 1;
+    text-transform: uppercase;
+    animation: shout-pop 1.2s ease-in-out infinite;
+
+    @media (--medium) {
+        padding: 6px 14px;
+    }
+}
+
+@keyframes shout-pop {
+    0%, 100% {
+        transform: rotate(-10deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(-6deg) scale(1.1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .promos__shout {
+        animation: none;
+    }
+}
+
+.promos__title {
+    grid-area: title;
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    /* Phones: big, and the narrow column wraps it onto two lines (PROMO / HÖRNET) */
+    font-size: clamp(40px, 13vw, 60px);
+    line-height: 1.05;
+    text-transform: uppercase;
+
+    @media (--small) {
+        margin-bottom: 20px;
+        font-size: clamp(40px, 6vw, 88px);
+        line-height: 1;
+    }
+}
+
+/* Ink block behind a word (the yellow marker wouldn't show on the yellow band) */
+.promos__highlight {
+    padding: 0 0.15em;
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+}
+
+.promos__lead {
+    grid-area: lead;
+    max-width: 38em;
+    /* Set off with an ink bar so it reads as part of the header */
+    margin: 20px 0 0;
+    padding-left: 14px;
+    border-left: 6px solid var(--hornet-ink);
+    font-size: var(--fs-base);
+    font-weight: 500;
+    line-height: 1.5;
+
+    @media (--small) {
+        margin: 0;
+        padding-left: 18px;
+        font-size: var(--fs-md);
+    }
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
+}
+
+/*
+ * Justified rows for posters of any orientation and count. Each card's width follows
+ * its own aspect ratio (--ratio, set inline from the image size), so every poster in a
+ * row ends up the same height and is shown whole: no cropping, no letterboxing.
+ *   flex-basis  = ratio x --row-h      ideal row height; a row wraps when it's full
+ *   flex-grow   = ratio                spare width shared so heights stay equal
+ *   max-width   = ratio x --row-max-h  a short last row stays about as tall as the full
+ *                                      rows instead of blowing up; it's centered
+ * Phones: one poster per row at full width, so the text on it stays readable.
+ */
+.promos__grid {
+    --row-h: 220px;
+    --row-max-h: 290px;
+    --gap: 28px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 36px var(--gap);
+    margin: 0;
+    /* Room for the cards' hard shadow inside the container */
+    padding: 0 8px 0 0;
+    list-style: none;
+
+    @media (--large) {
+        --row-h: 260px;
+        --row-max-h: 340px;
+    }
+
+    @media (--xxlarge) {
+        --row-h: 320px;
+        --row-max-h: 420px;
+    }
+}
+
+.promo {
+    /* Layout ratio, clamped to 9:16 (story) .. 2.2:1: a very tall poster would otherwise become a thin strip next to
+       the others (and huge on phones), a very wide banner a sliver. Beyond the clamp the
+       poster is still shown whole, centered on the hatched background. */
+    --r: clamp(0.55, var(--ratio), 2.2);
+
+    /* Sizes below apply to the image area; the border sits outside, so heights match exactly */
+    box-sizing: content-box;
+    flex: var(--r) 1 calc(var(--r) * var(--row-h));
+    max-width: min(calc(var(--r) * var(--row-max-h)), calc(100% - 6px));
+    aspect-ratio: var(--r);
+    background:
+        repeating-linear-gradient(-45deg, transparent 0 14px, var(--gray-300) 14px 16px),
+        var(--hornet-white);
+    border: var(--border);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.08s, box-shadow 0.08s;
+
+    @media (--xsmall) {
+        flex-basis: 100%;
+        max-width: calc(100% - 6px);
+    }
+
+    /* Pressed in like the buttons (hover-capable devices only) */
+    @media (hover: hover) {
+        &:hover {
+            transform: translate(3px, 3px);
+            box-shadow: 5px 5px 0 var(--hornet-ink);
+        }
+    }
+
+    /* A lone poster gets more room than a row of them */
+    &:only-child {
+        max-width: min(calc(var(--r) * var(--row-max-h) * 1.4), calc(100% - 6px));
+    }
+
+    &:active {
+        transform: translate(8px, 8px);
+        box-shadow: none;
+    }
+
+    &:focus-within {
+        outline: 3px solid var(--hornet-orange);
+        outline-offset: 4px;
+    }
+}
+
+.promo__link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    outline: none;
+}
+
+.promo__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* Never cropped: same ratio as the card, except past the clamp (or with a wrong
+       width/height in PROMOTIONS), where it's fitted inside the card instead */
+    object-fit: contain;
+}
+
+/* Highlighted products: two cards side by side (stacked on phones), on the white grid */
+.products {
+    padding: 72px 0;
+    border-top: var(--border-thick);
+    background-color: var(--hornet-white);
+    background-image:
+        linear-gradient(var(--gray-100) 2px, transparent 2px),
+        linear-gradient(90deg, var(--gray-100) 2px, transparent 2px);
+    background-size: 40px 40px;
+
+    @media (--medium) {
+        padding: 96px 0;
+    }
+}
+
+.products__title {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.products__highlight {
+    padding: 0 0.1em;
+    background: linear-gradient(transparent 55%, var(--hornet-yellow) 55%);
+}
+
+.products__lead {
+    max-width: 38em;
+    margin: 0 0 48px;
+    font-size: var(--fs-md);
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
+}
+
+.products__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+    /* Room for the cards' hard shadow inside the container */
+    padding-right: 14px;
+
+    @media (--medium) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(32px, 4vw, 72px);
+    }
+}
+
+.product {
+    display: flex;
+    flex-direction: column;
+    background: var(--hornet-white);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Product image area: square canvas, photo shown whole */
+.product__canvas {
+    position: relative;
+    aspect-ratio: 1;
+    border-bottom: var(--border-thick);
+    background: var(--gray-100);
+
+    > img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+
+.product__photo--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background:
+        repeating-linear-gradient(-45deg, transparent 0 18px, var(--gray-300) 18px 20px),
+        var(--hornet-white);
+
+    img {
+        width: 62%;
+        height: auto;
+    }
+}
+
+/* Code sticker; mirrored on the right-hand card so the pair faces each other */
+.product__sticker {
+    position: absolute;
+    left: -10px;
+    bottom: 24px;
+    padding: 8px 16px;
+    background: var(--hornet-yellow);
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+    transform: rotate(-4deg);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-xl);
+    text-transform: uppercase;
+
+    @media (--medium) {
+        left: -18px;
+        font-size: 28px;
+    }
+
+    .product:nth-child(2) & {
+        @media (--medium) {
+            left: auto;
+            right: -18px;
+            transform: rotate(4deg);
+        }
+    }
+}
+
+.product__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 20px 24px;
+
+    @media (--small) {
+        padding: 32px 28px 28px;
+    }
+}
+
+.product__tag {
+    align-self: flex-start;
+    margin-bottom: 14px;
+    padding: 4px 12px;
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 800;
+    font-size: var(--fs-sm);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.product__name {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(28px, 3vw, 44px);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.product__text {
+    margin: 0 0 24px;
+    font-size: var(--fs-base);
+    line-height: 1.6;
+
+    @media (--medium) {
+        font-size: var(--fs-md);
+    }
+}
+
+/* Power meters: label + five skewed cells, filled up to the level */
+.product__powers {
+    display: grid;
+    gap: 12px;
+    margin: 0 0 28px;
+    padding: 16px 0 0;
+    border-top: 2px solid var(--hornet-ink);
+    list-style: none;
+}
+
+.power {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+}
+
+.power__label {
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    @media (--small) {
+        font-size: var(--fs-base);
+    }
+}
+
+.power__meter {
+    display: flex;
+    gap: 6px;
+}
+
+.power__cell {
+    width: 22px;
+    height: 16px;
+    background: var(--hornet-white);
+    border: 2px solid var(--hornet-ink);
+    transform: skewX(var(--skew));
+
+    @media (--small) {
+        width: 28px;
+        height: 18px;
+    }
+}
+
+.power__cell--on {
+    background: var(--hornet-yellow);
+}
+
+/* Pinned to the bottom so both cards' buttons line up */
+.product__action {
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+/* Customer reviews: yellow band between the white products and the dark CTA */
+.testimonials {
+    position: relative;
+    padding: 72px 0;
+    border-top: var(--border-thick);
+    background: var(--hornet-yellow);
+    overflow: hidden;
+
+    @media (--medium) {
+        padding: 96px 0;
+    }
+}
+
+/* Ornaments sit behind the content (which is position: relative, later in the DOM) */
+.testimonials__decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* Ink halftone dots fading out from the top-right corner */
+.testimonials__halftone {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(70%, 720px);
+    height: 70%;
+    background-image: radial-gradient(var(--hornet-ink) 2px, transparent 2.5px);
+    background-size: 16px 16px;
+    mask-image: radial-gradient(ellipse at top right, #000 0%, transparent 70%);
+    opacity: 0.35;
+}
+
+/* Giant outlined quote mark between the title and the stamp (phones: no room) */
+.testimonials__bigquote {
+    display: none;
+    position: absolute;
+    top: -0.12em;
+    left: 52%;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(240px, 30vw, 520px);
+
+    @media (--medium) {
+        display: block;
+    }
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 4px var(--hornet-ink);
+    opacity: 0.18;
+}
+
+/* Four-point sparkles scattered over the band, twinkling */
+.sparkle {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    fill: var(--hornet-white);
+    stroke: var(--hornet-ink);
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+    animation: sparkle-twinkle 2.4s ease-in-out infinite;
+}
+
+.sparkle--1 {
+    top: 40px;
+    left: 46%;
+    width: 36px;
+    height: 36px;
+}
+
+.sparkle--2 {
+    top: 30%;
+    right: 3%;
+    animation-delay: 0.6s;
+}
+
+.sparkle--3 {
+    bottom: 64px;
+    right: 12%;
+    width: 22px;
+    height: 22px;
+    animation-delay: 1.2s;
+}
+
+.sparkle--4 {
+    bottom: 36%;
+    left: 1.5%;
+    width: 20px;
+    height: 20px;
+    fill: var(--hornet-orange);
+    animation-delay: 1.8s;
+}
+
+@keyframes sparkle-twinkle {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+        transform: scale(0.6) rotate(45deg);
+    }
+}
+
+/* Skewed orange chips, like the ticker separators */
+.testimonials__chip {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background: var(--hornet-orange);
+    border: 3px solid var(--hornet-ink);
+    transform: skewX(var(--skew));
+}
+
+.testimonials__chip--1 {
+    top: 22px;
+    left: 8%;
+}
+
+.testimonials__chip--2 {
+    top: 46%;
+    right: 1%;
+    width: 18px;
+    height: 40px;
+}
+
+.testimonials__chip--3 {
+    bottom: 28px;
+    left: 38%;
+    width: 40px;
+    height: 16px;
+    background: var(--hornet-white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sparkle {
+        animation: none;
+    }
+}
+
+/* Title + lead with the spinning stamp beside them */
+.testimonials__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.testimonials__copy {
+    min-width: 0;
+}
+
+.stamp {
+    flex: none;
+    width: clamp(96px, 22vw, 200px);
+    height: auto;
+    margin-right: 8px;
+    transform: rotate(-8deg);
+    filter: drop-shadow(6px 6px 0 var(--hornet-ink));
+}
+
+.stamp__outer {
+    fill: var(--hornet-white);
+    stroke: var(--hornet-ink);
+    stroke-width: 4;
+}
+
+.stamp__inner {
+    fill: var(--hornet-yellow);
+    stroke: var(--hornet-ink);
+    stroke-width: 3;
+}
+
+.stamp__ring {
+    transform-origin: 100px 100px;
+    animation: stamp-spin 18s linear infinite;
+}
+
+.stamp__text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: 20px;
+    text-transform: uppercase;
+    fill: var(--hornet-ink);
+}
+
+@keyframes stamp-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stamp__ring {
+        animation: none;
+    }
+}
+
+.testimonials__title {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+/* Ink block behind a word (the yellow marker wouldn't show on the yellow band) */
+.testimonials__highlight {
+    padding: 0 0.15em;
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+}
+
+.testimonials__lead {
+    max-width: 38em;
+    margin: 0;
+    font-size: var(--fs-md);
+    font-weight: 500;
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
+}
+
+/* Results gallery: white grid band, a bento of result photos with the product cut out on them */
+.results {
+    padding: 72px 0;
+    background-color: var(--hornet-white);
+    background-image:
+        linear-gradient(var(--gray-100) 2px, transparent 2px),
+        linear-gradient(90deg, var(--gray-100) 2px, transparent 2px);
+    background-size: 40px 40px;
+
+    @media (--medium) {
+        padding: 96px 0;
+    }
+}
+
+.results__head {
+    margin-bottom: 40px;
+
+    @media (--large) {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 48px;
+    }
+}
+
+.results__title {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+
+    @media (--large) {
+        margin: 0;
+    }
+}
+
+.results__highlight {
+    padding: 0 0.1em;
+    background: linear-gradient(transparent 55%, var(--hornet-yellow) 55%);
+}
+
+.results__lead {
+    max-width: 30em;
+    margin: 0;
+    font-size: var(--fs-md);
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
+}
+
+/*
+ * Bento grid of square tiles; the first tile spans 2x2. Phones: one column, every tile
+ * the same. Dense flow fills the holes, whatever the count.
+ */
+.results__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-flow: dense;
+    gap: 28px;
+    margin: 0;
+    /* Room for the tiles' hard shadow inside the container */
+    padding: 0 10px 0 0;
+    list-style: none;
+
+    @media (--small) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    @media (--large) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 28px;
+    }
+}
+
+.result {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--hornet-white);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-md);
+
+    /* Two columns: full-width banner. Three columns: 2x2 next to two small tiles */
+    &:first-child {
+        @media (--small) {
+            grid-column: span 2;
+        }
+
+        @media (--large) {
+            grid-row: span 2;
+        }
+    }
+}
+
+.result__canvas {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-bottom: var(--border-thick);
+
+    /* Tablet up: square tiles. The big one is a 16:9 banner on two columns, and on
+       three it stretches to its 2x2 area (rows sized by the small tiles beside it) */
+    @media (--small) {
+        aspect-ratio: 1;
+    }
+
+    .result:first-child & {
+        @media (--small) {
+            aspect-ratio: 16 / 9;
+        }
+
+        @media (--large) {
+            aspect-ratio: auto;
+        }
+    }
+}
+
+.result__photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+
+    @media (hover: hover) {
+        .result:hover & {
+            transform: scale(1.05);
+        }
+    }
+}
+
+.result__photo--placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    /* Centered in the part the product cutout doesn't cover */
+    padding-right: 42%;
+    background:
+        repeating-linear-gradient(-45deg, transparent 0 14px, var(--gray-300) 14px 16px),
+        var(--gray-100);
+    color: var(--gray-700);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+
+    svg {
+        width: 40px;
+        height: 40px;
+        fill: none;
+        stroke: var(--gray-500);
+        stroke-width: 1.6;
+        stroke-linejoin: round;
+    }
+}
+
+/* Surface label, skewed chip on the top-left */
+.result__surface {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 6px 14px;
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+    border: 2px solid var(--hornet-yellow);
+    transform: skewX(var(--skew));
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-sm);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    .result:first-child & {
+        @media (--medium) {
+            top: 24px;
+            left: 24px;
+            font-size: var(--fs-lg);
+        }
+    }
+}
+
+/* Product cutout standing in the bottom-right corner, die-cut like the mascot */
+.result__product {
+    position: absolute;
+    right: 6%;
+    bottom: 0;
+    width: 36%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.result__cutout {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter:
+        drop-shadow(3px 0 0 var(--hornet-white))
+        drop-shadow(-3px 0 0 var(--hornet-white))
+        drop-shadow(0 3px 0 var(--hornet-white))
+        drop-shadow(0 -3px 0 var(--hornet-white))
+        drop-shadow(6px 6px 0 var(--hornet-ink));
+    transform: rotate(6deg);
+    transform-origin: bottom center;
+    transition: transform 0.2s;
+
+    @media (hover: hover) {
+        .result:hover & {
+            transform: rotate(0deg) translateY(-6px);
+        }
+    }
+}
+
+.result__code {
+    margin: -4px 0 12px;
+    padding: 2px 10px;
+    background: var(--hornet-yellow);
+    border: 2px solid var(--hornet-ink);
+    transform: rotate(-4deg);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-sm);
+    white-space: nowrap;
+
+    .result:first-child & {
+        @media (--medium) {
+            margin-bottom: 20px;
+            font-size: var(--fs-xl);
+        }
+    }
+}
+
+.result__caption {
+    margin: 0;
+    padding: 14px 16px;
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    line-height: 1.4;
+
+    @media (--medium) {
+        font-size: var(--fs-base);
+    }
+
+    .result:first-child & {
+        background: var(--hornet-yellow);
+
+        @media (--medium) {
+            padding: 18px 24px;
+            font-size: var(--fs-lg);
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .result__photo,
+    .result__cutout {
+        transition: none;
+    }
+}
+
+/*
+ * Ornaments floating in the empty cells after the last result (counts in Home.tsx): no
+ * tile around them, just stickers on the grid background.
+ * Hidden by default; --medium shows on two columns, --large on three.
+ */
+.result-filler {
+    display: none;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-width: 0;
+    /* At least square; stretches to the row when a real tile beside it is taller */
+    aspect-ratio: 1;
+    align-self: stretch;
+}
+
+.result-filler--medium {
+    @media (--small) {
+        display: flex;
+    }
+
+    @media (--large) {
+        display: none;
+    }
+}
+
+.result-filler--large {
+    @media (--large) {
+        display: flex;
+    }
+}
+
+/* The mascot flying in, asking for the next result */
+.result-filler__mascot {
+    width: 62%;
+}
+
+.result-filler__bubble {
+    position: relative;
+    z-index: 1;
+    padding: 6px 14px;
+    background: var(--hornet-white);
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+    transform: rotate(-6deg);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(16px, 2vw, 26px);
+    line-height: 1.1;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Halftone blob behind a shouted sticker */
+.result-filler--shine::before {
+    content: "";
+    position: absolute;
+    inset: 12%;
+    background-image: radial-gradient(var(--hornet-ink) 2px, transparent 2.5px);
+    background-size: 14px 14px;
+    mask-image: radial-gradient(circle, #000 0%, transparent 68%);
+    opacity: 0.35;
+}
+
+.result-filler__word {
+    position: relative;
+    z-index: 1;
+    padding: 4px 18px;
+    background: var(--hornet-yellow);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-md);
+    transform: rotate(-8deg);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+/* Skewed chips, like the ticker separators */
+.result-filler__chip {
+    position: absolute;
+    background: var(--hornet-orange);
+    border: 3px solid var(--hornet-ink);
+    transform: skewX(var(--skew));
+}
+
+.result-filler__chip--1 {
+    top: 14%;
+    right: 18%;
+    width: 22px;
+    height: 22px;
+}
+
+.result-filler__chip--2 {
+    bottom: 16%;
+    right: 10%;
+    width: 44px;
+    height: 16px;
+    background: var(--hornet-yellow);
+}
+
+.result-filler__sparkle {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    fill: var(--hornet-yellow);
+    stroke: var(--hornet-ink);
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+    animation: sparkle-twinkle 2.4s ease-in-out infinite;
+}
+
+.result-filler__sparkle--1 {
+    top: 12%;
+    left: 12%;
+}
+
+.result-filler__sparkle--2 {
+    top: 20%;
+    right: 12%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 0.8s;
+}
+
+.result-filler__sparkle--3 {
+    bottom: 12%;
+    left: 22%;
+    width: 22px;
+    height: 22px;
+    animation-delay: 1.6s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .result-filler__sparkle {
+        animation: none;
+    }
+}
+
+/* Partner workshops: yellow band between the white results and the dark CTA */
+.partners-band {
+    padding: 72px 0;
+    border-top: var(--border-thick);
+    background: var(--hornet-yellow);
+
+    @media (--medium) {
+        padding: 96px 0;
+    }
+}
+
+.partners-band__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px 48px;
+    margin-bottom: 36px;
+}
+
+.partners-band__title {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+/* Ink block behind a word (the yellow marker wouldn't show on the yellow band) */
+.partners-band__highlight {
+    padding: 0 0.15em;
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+}
+
+.partners-band__lead {
+    max-width: 34em;
+    margin: 0;
+    font-size: var(--fs-md);
+    font-weight: 500;
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
+}
+
+.partners-band__join {
+    flex: none;
+    margin-right: 8px;
+}
+
+/* FAQ: white band before the CTA; intro on the left, accordion on the right */
+.faq {
+    padding: 72px 0;
+    border-top: var(--border-thick);
+    background: var(--hornet-white);
+
+    @media (--medium) {
+        padding: 96px 0;
+    }
+}
+
+.faq__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+
+    @media (--large) {
+        grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+        align-items: start;
+        gap: clamp(48px, 6vw, 120px);
+    }
+}
+
+/* Intro stays in view while the long list scrolls past (desktop) */
+.faq__intro {
+    @media (--large) {
+        position: sticky;
+        top: 120px;
+    }
+}
+
+.faq__title {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.faq__highlight {
+    padding: 0 0.1em;
+    background: linear-gradient(transparent 55%, var(--hornet-yellow) 55%);
+}
+
+.faq__lead {
+    max-width: 26em;
+    margin: 0 0 28px;
+    font-size: var(--fs-md);
+
+    @media (--medium) {
+        font-size: var(--fs-lg);
+    }
+}
+
+.faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    /* Room for the items' hard shadow */
+    padding-right: 8px;
+}
+
+.faq-item {
+    background: var(--hornet-white);
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+
+    &[open] {
+        box-shadow: var(--shadow-md);
+    }
+}
+
+.faq-item__question {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    cursor: pointer;
+    list-style: none;
+
+    /* Hide the default disclosure triangle */
+    &::-webkit-details-marker {
+        display: none;
+    }
+
+    .faq-item[open] & {
+        background: var(--hornet-yellow);
+        border-bottom: var(--border);
+    }
+
+    @media (hover: hover) {
+        &:hover .faq-item__text {
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+            text-decoration-color: var(--hornet-yellow);
+            text-underline-offset: 4px;
+        }
+
+        .faq-item[open] &:hover .faq-item__text {
+            text-decoration-color: var(--hornet-ink);
+        }
+    }
+
+    &:focus-visible {
+        outline: 3px solid var(--hornet-orange);
+        outline-offset: 3px;
+    }
+}
+
+.faq-item__number {
+    flex: none;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-lg);
+    color: var(--gray-500);
+
+    .faq-item[open] & {
+        color: var(--hornet-ink);
+    }
+}
+
+.faq-item__text {
+    flex: 1;
+    min-width: 0;
+    font-weight: 700;
+    font-size: var(--fs-base);
+    line-height: 1.35;
+
+    @media (--medium) {
+        font-size: var(--fs-md);
+    }
+}
+
+/* Skewed ink chip with a plus that turns into a minus when open */
+.faq-item__toggle {
+    position: relative;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    background: var(--hornet-ink);
+    transform: skewX(var(--skew));
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 14px;
+        height: 3px;
+        background: var(--hornet-yellow);
+        transform: translate(-50%, -50%) skewX(calc(var(--skew) * -1));
+        transition: transform 0.2s;
+    }
+
+    &::after {
+        transform: translate(-50%, -50%) skewX(calc(var(--skew) * -1)) rotate(90deg);
+    }
+
+    .faq-item[open] &::after {
+        transform: translate(-50%, -50%) skewX(calc(var(--skew) * -1)) rotate(0deg);
+    }
+}
+
+.faq-item__answer {
+    margin: 0;
+    padding: 16px 18px 20px 52px;
+    font-size: var(--fs-base);
+    line-height: 1.6;
+
+    @media (--medium) {
+        font-size: var(--fs-md);
+    }
+}
+
 /* Contact CTA */
 .cta {
     padding: 72px 0;
@@ -373,9 +1875,14 @@
     text-transform: uppercase;
 }
 
-.contact-card__whatsapp {
+.contact-card__whatsapp,
+.contact-card__shop {
     display: block;
     text-align: center;
+}
+
+.contact-card__shop {
+    margin-top: 18px;
 }
 
 .contact-card__list {
