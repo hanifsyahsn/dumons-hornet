@@ -62,6 +62,16 @@ async function main() {
         }
     }
 
+    // A page that also has pages under it (/produk and /produk/hs-470) is a file next to a
+    // folder of the same name (produk.html, produk/); serve the file explicitly so Netlify
+    // never treats /produk as that folder.
+    for (const url of pages) {
+        if (pages.some(other => other.startsWith(`${url}/`))) {
+            redirects.push(`${url} /${htmlFileFor(url)} 200`);
+            console.log(`  ${url} -> ${htmlFileFor(url)} (200 rewrite)`);
+        }
+    }
+
     if (!pages.includes(DEFAULT_PATH)) {
         throw new Error(`Default path "${DEFAULT_PATH}" is not a prerendered page`);
     }

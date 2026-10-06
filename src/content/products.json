@@ -2,9 +2,11 @@
     "_petunjuk": [
         "Katalog semua produk Hörnet: tampil di halaman /produk, dan dipakai halaman /home (Produk Unggulan, hero, galeri hasil) lewat kodenya.",
         "Urutan di daftar products = urutan tampil di halaman /produk. Kode (code) harus unik.",
-        "Field opsional (image, cutout, detailHref) cukup dihapus kalau belum ada. image: foto produk (persegi), cutout: foto produk transparan (PNG/WebP), detailHref: link halaman detail.",
+        "slug: alamat halaman detail produk, huruf kecil/angka/tanda minus saja (contoh hs-470 -> /produk/hs-470). Harus unik; kalau diganti, link lama ikut berubah.",
+        "colors: pilihan warna di halaman detail. name = nama warna, hex = kode warna untuk kotak contoh (#rrggbb), image (opsional) = foto produk warna itu (persegi). Boleh [] kalau produk tidak punya pilihan warna: bagian warnanya disembunyikan.",
+        "Field opsional (image, cutout) cukup dihapus kalau belum ada. image: foto produk (persegi), cutout: foto produk transparan (PNG/WebP).",
         "powers: 1 sampai 5 meter per produk, level 1..5.",
-        "MASIH CONTOH, wajib diganti sebelum launch: produk kedua (HS 220)."
+        "MASIH CONTOH, wajib diganti sebelum launch: produk kedua (HS 220), pilihan warna (colors) semua produk."
     ],
 
     "page": {
@@ -16,6 +18,7 @@
     "products": [
         {
             "code": "HS 470",
+            "slug": "hs-470",
             "name": "Hörnet Supercoat",
             "tagline": "Coating andalan",
             "description": "Lapisan pelindung dengan kilau ekstrem dan efek daun talas yang membuat air dan kotoran langsung meluncur.",
@@ -23,10 +26,17 @@
                 { "label": "Kilau", "level": 5 },
                 { "label": "Hidrofobik", "level": 5 },
                 { "label": "Ketahanan", "level": 4 }
+            ],
+            "colors": [
+                { "name": "Kuning Hornet", "hex": "#ffff00" },
+                { "name": "Hitam Pekat", "hex": "#271b1d" },
+                { "name": "Putih Mutiara", "hex": "#f4f1ea" },
+                { "name": "Merah Racing", "hex": "#d62828" }
             ]
         },
         {
             "code": "HS 220",
+            "slug": "hs-220",
             "name": "Hörnet Quick Coat",
             "tagline": "Semprot & lap",
             "description": "Booster praktis untuk perawatan rutin: semprot, lap, dan kilau serta sifat hidrofobik coating kembali segar.",
@@ -34,6 +44,10 @@
                 { "label": "Kilau", "level": 4 },
                 { "label": "Hidrofobik", "level": 4 },
                 { "label": "Kemudahan", "level": 5 }
+            ],
+            "colors": [
+                { "name": "Kuning Hornet", "hex": "#ffff00" },
+                { "name": "Hitam Pekat", "hex": "#271b1d" }
             ]
         }
     ]

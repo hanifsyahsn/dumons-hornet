@@ -7,6 +7,12 @@ export const MAINTENANCE_MODE = process.env.MAINTENANCE_MODE === "true";
 export const UNDER_CONSTRUCTION_PATH = "/under-construction";
 export const HOME_PATH = "/home";
 export const PRODUCTS_PATH = "/produk";
+// Product detail pages: /produk/<slug from products.json>
+export const productPath = (slug: string) => `${PRODUCTS_PATH}/${slug}`;
+
+// <title> fallbacks (per-page titles are on the routes in routes.ts)
+export const DEFAULT_TITLE = "Hörnet Supercoat | Dumons Coating";
+export const NOT_FOUND_TITLE = "404 Halaman Tidak Ditemukan | Hörnet Supercoat";
 
 // Where "/" redirects to: server.tsx, App.tsx (client navigation) and prerender's _redirects.
 export const DEFAULT_PATH = MAINTENANCE_MODE ? UNDER_CONSTRUCTION_PATH : HOME_PATH;

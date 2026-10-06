@@ -71,10 +71,12 @@ export function Shell({ children, nav = SITE_NAV }: ShellProps) {
                 </a>
             );
         }
+        // Highlighted on the page and on pages under it (Produk on /produk/hs-470)
         const current = !section && path === pathname;
+        const within = !section && (current || pathname.startsWith(`${path}/`));
         return (
             <Link
-                className={`shell__nav-link${current ? " shell__nav-link--current" : ""}`}
+                className={`shell__nav-link${within ? " shell__nav-link--current" : ""}`}
                 to={section ? `${path}#${section}` : path}
                 aria-current={current ? "page" : undefined}
                 onClick={close}

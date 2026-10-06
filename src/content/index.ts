@@ -61,6 +61,14 @@ export interface ProductPower {
     level: number;
 }
 
+export interface ProductColor {
+    name: string;
+    // "#rrggbb", fills the swatch (and tints the photo placeholder)
+    hex: string;
+    // Photo of the product in this color (square), served from /public; omitted -> the product's `image`
+    image?: string;
+}
+
 export interface Product {
     code: string;
     name: string;
@@ -72,8 +80,10 @@ export interface Product {
     // Transparent cutout of the product (PNG/WebP with alpha), placed on the result photos;
     // omitted until it exists (the hornet mark stands in)
     cutout?: string;
-    // Detail page; omitted until it exists (the button has no action yet)
-    detailHref?: string;
+    // URL of the detail page: /produk/<slug>
+    slug: string;
+    // Color choices on the detail page; [] -> no color picker
+    colors: ProductColor[];
 }
 
 export interface Result {
@@ -182,15 +192,26 @@ function validateProducts(raw: unknown): ProductsContent {
 
     each(root.products, "products", (item, path) => {
         ["code", "name", "tagline", "description"].forEach((key) => text(item, key, path));
-        ["image", "cutout", "detailHref"].forEach((key) => text(item, key, path, true));
+        ["image", "cutout"].forEach((key) => text(item, key, path, true));
+        text(item, "slug", path);
+        if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(String(item.slug))) {
+            fail(`${path}.slug`, "harus huruf kecil, angka dan tanda minus saja, contoh hs-470");
+        }
+        each(item.colors, `${path}.colors`, (color, colorPath) => {
+            text(color, "name", colorPath);
+            text(color, "image", colorPath, true);
+            if (!/^#[0-9a-fA-F]{6}$/.test(String(color.hex))) fail(`${colorPath}.hex`, "harus kode warna #rrggbb, contoh #ffff00");
+        });
         each(item.powers, `${path}.powers`, (power, powerPath) => {
             text(power, "label", powerPath);
             number(power, "level", powerPath, false, 1, 5);
         });
     });
-    const codes = (root.products as Json[]).map((product) => product.code);
-    codes.forEach((code, i) => {
-        if (codes.indexOf(code) !== i) fail(`products #${i + 1}.code`, `"${code}" sudah dipakai produk lain`);
+    (["code", "slug"] as const).forEach((key) => {
+        const values = (root.products as Json[]).map((product) => product[key]);
+        values.forEach((value, i) => {
+            if (values.indexOf(value) !== i) fail(`products #${i + 1}.${key}`, `"${value}" sudah dipakai produk lain`);
+        });
     });
 
     return root as unknown as ProductsContent;
@@ -276,3 +297,4 @@ export const content: HomeContent = validate(
 );
 
 export const productByCode = (code: string) => catalog.products.find((product) => product.code === code);
+export const productBySlug = (slug: string) => catalog.products.find((product) => product.slug === slug);

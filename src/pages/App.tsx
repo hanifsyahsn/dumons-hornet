@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate, useLocation, useNavigationType } from "react-router-dom";
 import { DEFAULT_PATH } from "../constants/routing";
-import { routes } from "../routes";
+import { pageTitle, routes } from "../routes";
 import type { RouteContext } from "../types/routing";
 
 interface AppProps {
@@ -22,6 +22,12 @@ function ScrollToLocation() {
         if (target) target.scrollIntoView({ behavior: "instant" });
         else window.scrollTo({ top: 0, behavior: "instant" });
     }, [pathname, hash, navigationType]);
+
+    // The server wrote the first page's <title>; keep it in step on client-side navigation.
+    // Runs before the page's own effects, so NotFound can still override it.
+    useEffect(() => {
+        document.title = pageTitle(pathname);
+    }, [pathname]);
 
     return null;
 }

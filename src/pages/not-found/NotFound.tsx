@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Shell } from "../../components/shell";
-import { DEFAULT_PATH } from "../../constants/routing";
+import { DEFAULT_PATH, NOT_FOUND_TITLE } from "../../constants/routing";
 import type { RouteContext } from "../../types/routing";
 import "../home/styles.css";
 
@@ -11,6 +11,12 @@ interface NotFoundProps {
 
 function NotFound({ context }: NotFoundProps) {
     if (context) context.status = 404;
+
+    // Client-side navigation to a missing page (the server sets the title on a full load).
+    // Every render, since it can stay mounted from one missing URL to the next.
+    useEffect(() => {
+        document.title = NOT_FOUND_TITLE;
+    });
 
     return (
         <Shell>
