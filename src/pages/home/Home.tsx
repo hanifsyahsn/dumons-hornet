@@ -203,6 +203,65 @@ const partnerWhatsAppUrl = `${WHATSAPP_URL}?text=${encodeURIComponent(
     "Halo, saya tertarik jadi bengkel mitra Hörnet.",
 )}`;
 
+interface Faq {
+    question: string;
+    // Plain text: also goes into the FAQPage structured data for search engines
+    answer: string;
+}
+
+// Questions about the Hörnet line as a whole (usage steps live on each product's detail
+// page). Any count; hidden while empty. Answers marked PLACEHOLDER need the real facts.
+const FAQS: Faq[] = [
+    {
+        question: "Apa itu Hörnet?",
+        answer: "Hörnet adalah lini coating dari Dumons Coating yang lebih ringkas dan terjangkau, untuk menjaga kilau dan proteksi kendaraan sehari-hari.",
+    },
+    {
+        question: "Apa bedanya Hörnet dengan produk Dumons lainnya?",
+        // PLACEHOLDER
+        answer: "Hörnet dirancang untuk perawatan yang praktis dengan harga lebih bersahabat, sementara lini utama Dumons ditujukan untuk hasil dan daya tahan maksimal.",
+    },
+    {
+        question: "Di mana saya bisa membeli produk Hörnet?",
+        answer: "Lewat toko resmi kami di Shopee (dumonsindonesia), langsung via WhatsApp, atau di bengkel mitra Hörnet di kotamu.",
+    },
+    {
+        question: "Bagaimana cara pemakaiannya?",
+        answer: "Setiap produk punya langkah pemakaian sendiri, lengkap di halaman detail produknya. Kalau masih ragu, tim kami siap memandu lewat WhatsApp.",
+    },
+    {
+        question: "Apakah bisa dipakai untuk motor?",
+        // PLACEHOLDER
+        answer: "Bisa. Produk Hörnet dapat diaplikasikan pada cat mobil maupun motor.",
+    },
+    {
+        question: "Berapa lama hasilnya bertahan?",
+        // PLACEHOLDER
+        answer: "Tergantung produk, cara aplikasi, dan perawatan. Detail daya tahan tiap produk tercantum di halaman detail produknya.",
+    },
+    {
+        question: "Apakah bisa kirim ke seluruh Indonesia?",
+        // PLACEHOLDER
+        answer: "Bisa. Pesanan lewat Shopee maupun WhatsApp kami kirim ke seluruh Indonesia.",
+    },
+    {
+        question: "Saya punya bengkel, bagaimana cara jadi mitra?",
+        answer: "Hubungi kami lewat WhatsApp untuk info kemitraan dan harga khusus bengkel atau detailer.",
+    },
+];
+
+// FAQPage structured data (schema.org), so search engines can show the Q&A directly;
+// "<" escaped so an answer can never close the script tag
+const FAQ_JSON_LD = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQS.map(({ question, answer }) => ({
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+}).replace(/</g, "\\u003c");
+
 // Header links to the sections below (ids on the <section>s); sections hidden while
 // their list is empty drop out of the nav too
 const NAV: NavItem[] = [
@@ -210,6 +269,7 @@ const NAV: NavItem[] = [
     PROMOTIONS.length > 0 && { label: "Promo", href: "#promo" },
     RESULTS.length > 0 && { label: "Hasil", href: "#hasil" },
     PARTNERS.length > 0 && { label: "Mitra", href: "#mitra" },
+    FAQS.length > 0 && { label: "FAQ", href: "#faq" },
     { label: "Kontak", href: "#kontak" },
 ].filter((item): item is NavItem => Boolean(item));
 
@@ -669,6 +729,48 @@ function Home() {
 
                         <Partners partners={PARTNERS} />
                     </div>
+                </section>
+            )}
+
+            {FAQS.length > 0 && (
+                <section className="faq" id="faq">
+                    <div className="faq__inner">
+                        <div className="faq__intro">
+                            <h2 className="faq__title">
+                                Tanya <span className="faq__highlight">Jawab</span>
+                            </h2>
+                            <p className="faq__lead">
+                                Yang paling sering ditanyakan soal Hörnet. Belum ketemu jawabannya?
+                            </p>
+                            <a
+                                className="button button--lg button--yellow"
+                                href={WHATSAPP_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <span>Tanya via WhatsApp</span>
+                            </a>
+                        </div>
+
+                        {/* Native disclosure: opens without JS, and the answers stay in the HTML */}
+                        <div className="faq__list">
+                            {FAQS.map(({ question, answer }, i) => (
+                                <details className="faq-item" key={question}>
+                                    <summary className="faq-item__question">
+                                        <span className="faq-item__number">{String(i + 1).padStart(2, "0")}</span>
+                                        <span className="faq-item__text">{question}</span>
+                                        <span className="faq-item__toggle" aria-hidden="true" />
+                                    </summary>
+                                    <p className="faq-item__answer">{answer}</p>
+                                </details>
+                            ))}
+                        </div>
+                    </div>
+
+                    <script
+                        type="application/ld+json"
+                        dangerouslySetInnerHTML={{ __html: FAQ_JSON_LD }}
+                    />
                 </section>
             )}
 
