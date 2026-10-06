@@ -317,7 +317,8 @@
 .ticker__track {
     display: flex;
     width: max-content;
-    animation: ticker-scroll 22s linear infinite;
+    /* Slides one copy (half the track) per loop; scale with TICKER_COPY's length to keep the speed */
+    animation: ticker-scroll 88s linear infinite;
 }
 
 .ticker__group {

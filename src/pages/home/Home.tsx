@@ -92,6 +92,9 @@ const PROMOTIONS: Promotion[] = [
 ];
 
 const TICKER_WORDS = ["Promo", "Diskon", "Hörnet Supercoat", "Hemat", "Promo", "Bonus"];
+// One loop copy of the ticker: the words repeated until it's wider than any screen
+// (~3800px), otherwise the right side runs empty before the loop snaps back.
+const TICKER_COPY = Array.from({ length: 4 }, () => TICKER_WORDS).flat();
 
 const promoWhatsAppUrl = (alt: string) =>
     `${WHATSAPP_URL}?text=${encodeURIComponent(`Halo, saya mau tanya tentang promo Hörnet: ${alt}`)}`;
@@ -183,7 +186,7 @@ function Home() {
                         <div className="ticker__track">
                             {[0, 1].map((copy) => (
                                 <span className="ticker__group" key={copy}>
-                                    {TICKER_WORDS.map((word, i) => (
+                                    {TICKER_COPY.map((word, i) => (
                                         <span className="ticker__item" key={i}>
                                             {word}
                                         </span>
