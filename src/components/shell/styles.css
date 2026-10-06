@@ -25,29 +25,114 @@
     flex-direction: column;
 }
 
-/* Header: logo only for now, no navigation */
+/* Sticky header: logo plus the page's section links. Fixed height (no shrinking on
+   scroll), so anchor jumps land exactly under it (scroll-padding-top in global.css). */
 .shell__header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
     border-bottom: var(--border-thick);
     background: var(--hornet-white);
 }
 
 .shell__header-inner {
+    position: relative;
     display: flex;
     align-items: center;
-    padding-top: 16px;
-    padding-bottom: 20px;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 12px;
+    padding-bottom: 14px;
 }
 
 /* The logo PNG is transparent outside its frame, so drop-shadow gives a hard black
    backing that follows the skewed frame. */
 .shell__logo {
     display: block;
-    width: 180px;
+    width: 150px;
     height: auto;
-    filter: drop-shadow(5px 5px 0 var(--hornet-ink));
+    filter: drop-shadow(4px 4px 0 var(--hornet-ink));
 
     @media (--small) {
-        width: 230px;
+        width: 180px;
+    }
+}
+
+/* Scoped under the header so it wins over .button's display (declared later) */
+.shell__header .shell__menu-button {
+    margin-right: 6px;
+
+    @media (--large) {
+        display: none;
+    }
+}
+
+/*
+ * Section links. Phones/tablets: a panel dropping under the header, toggled by the menu
+ * button. Desktop: inline in the header.
+ */
+.shell__nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    padding: 12px var(--gutter) 20px;
+    background: var(--hornet-white);
+    border-bottom: var(--border-thick);
+
+    @media (--large) {
+        display: block;
+        position: static;
+        margin: 0;
+        padding: 0;
+        background: none;
+        border: 0;
+    }
+}
+
+.shell__nav--open {
+    display: block;
+}
+
+.shell__nav-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (--large) {
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+    }
+}
+
+.shell__nav-link {
+    display: block;
+    padding: 12px 4px;
+    border-bottom: 2px solid var(--gray-300);
+    color: var(--hornet-ink);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-xl);
+    text-decoration: none;
+    text-transform: uppercase;
+
+    @media (--large) {
+        padding: 6px 14px;
+        border: 0;
+        font-size: var(--fs-lg);
+    }
+
+    /* Yellow skewed block slides in behind the hovered link */
+    @media (hover: hover) {
+        &:hover {
+            background: linear-gradient(transparent 55%, var(--hornet-yellow) 55%);
+        }
     }
 }
 

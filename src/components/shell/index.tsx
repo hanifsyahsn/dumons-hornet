@@ -1,4 +1,4 @@
-import React, { type ReactNode } from "react";
+import React, { useEffect, useState, type ReactNode } from "react";
 import {
     HORNET_LOGO_SIZE,
     HORNET_LOGO_SRC,
@@ -44,12 +44,33 @@ const SOCIALS: Social[] = [
     },
 ];
 
-interface ShellProps {
-    children: ReactNode;
+export interface NavItem {
+    label: string;
+    // In-page anchor ("#produk") on the page that passes the nav
+    href: string;
 }
 
-// Page frame shared by every page: header with the logo, content, hazard strip and footer.
-export function Shell({ children }: ShellProps) {
+interface ShellProps {
+    children: ReactNode;
+    // Section links in the header; omitted -> logo-only header
+    nav?: NavItem[];
+}
+
+// Page frame shared by every page: sticky header with the logo (and the page's section
+// links, if any), content, hazard strip and footer.
+export function Shell({ children, nav = [] }: ShellProps) {
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    // Close the phone menu with Escape
+    useEffect(() => {
+        if (!menuOpen) return;
+        const onKey = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setMenuOpen(false);
+        };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, [menuOpen]);
+
     return (
         <div className="shell">
             <header className="shell__header">
@@ -61,6 +82,41 @@ export function Shell({ children }: ShellProps) {
                         alt="Hörnet Supercoat"
                         {...HORNET_LOGO_SIZE}
                     />
+
+                    {nav.length > 0 && (
+                        <>
+                            {/* Phones/tablets: the links fold into a panel under the header */}
+                            <button
+                                type="button"
+                                className="button button--sm button--dark shell__menu-button"
+                                aria-expanded={menuOpen}
+                                aria-controls="shell-nav"
+                                onClick={() => setMenuOpen((open) => !open)}
+                            >
+                                <span>{menuOpen ? "Tutup" : "Menu"}</span>
+                            </button>
+
+                            <nav
+                                id="shell-nav"
+                                className={`shell__nav${menuOpen ? " shell__nav--open" : ""}`}
+                                aria-label="Navigasi halaman"
+                            >
+                                <ul className="shell__nav-list">
+                                    {nav.map(({ label, href }) => (
+                                        <li key={href}>
+                                            <a
+                                                className="shell__nav-link"
+                                                href={href}
+                                                onClick={() => setMenuOpen(false)}
+                                            >
+                                                {label}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </nav>
+                        </>
+                    )}
                 </div>
             </header>
 

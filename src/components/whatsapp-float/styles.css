@@ -1,0 +1,79 @@
+@import '../../styles/variables.css';
+
+/*
+ * Floating WhatsApp button: skewed yellow chip with a hard ink shadow, bottom-right.
+ * Slides in from below when shown; the label only fits from --small up.
+ */
+.wa-float {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--hornet-yellow);
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+    color: var(--hornet-ink);
+    text-decoration: none;
+    transform: skewX(var(--skew)) translateY(140%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.25s ease-out, opacity 0.25s, box-shadow 0.08s;
+
+    @media (--medium) {
+        right: 28px;
+        bottom: 28px;
+        padding: 12px 20px;
+    }
+
+    &:focus-visible {
+        outline: 3px solid var(--hornet-orange);
+        outline-offset: 4px;
+    }
+}
+
+.wa-float--visible {
+    transform: skewX(var(--skew));
+    opacity: 1;
+    pointer-events: auto;
+
+    @media (hover: hover) {
+        &:hover {
+            transform: skewX(var(--skew)) translate(2px, 2px);
+            box-shadow: 3px 3px 0 var(--hornet-ink);
+        }
+    }
+
+    &:active {
+        transform: skewX(var(--skew)) translate(5px, 5px);
+        box-shadow: none;
+    }
+}
+
+.wa-float__icon {
+    display: flex;
+    transform: skewX(calc(var(--skew) * -1));
+
+    svg {
+        width: 26px;
+        height: 26px;
+        stroke: var(--hornet-ink);
+    }
+}
+
+.wa-float__label {
+    display: none;
+    transform: skewX(calc(var(--skew) * -1));
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-lg);
+    text-transform: uppercase;
+
+    @media (--small) {
+        display: inline;
+    }
+}

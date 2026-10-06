@@ -1,7 +1,8 @@
 import React, { type CSSProperties, type ReactNode } from "react";
 import { Mascot } from "../../components/mascot";
 import { Reviews, type Review } from "../../components/reviews";
-import { Shell } from "../../components/shell";
+import { Shell, type NavItem } from "../../components/shell";
+import { WhatsAppFloat } from "../../components/whatsapp-float";
 import {
     CONTACT_EMAIL,
     HORNET_MARK_SIZE,
@@ -168,6 +169,15 @@ const RESULTS: Result[] = [
     { surface: "Lampu depan", caption: "Mika tetap bening dan terlindungi.", product: "HS 220" },
 ];
 
+// Header links to the sections below (ids on the <section>s); sections hidden while
+// their list is empty drop out of the nav too
+const NAV: NavItem[] = [
+    { label: "Produk", href: "#produk" },
+    PROMOTIONS.length > 0 && { label: "Promo", href: "#promo" },
+    RESULTS.length > 0 && { label: "Hasil", href: "#hasil" },
+    { label: "Kontak", href: "#kontak" },
+].filter((item): item is NavItem => Boolean(item));
+
 const productByCode = (code: string) => PRODUCTS.find((product) => product.code === code);
 
 // Empty grid cells after the last result, filled with ornaments. Three columns: the
@@ -223,7 +233,7 @@ const [EMAIL_USER, EMAIL_DOMAIN] = CONTACT_EMAIL.split("@");
 
 function Home() {
     return (
-        <Shell>
+        <Shell nav={NAV}>
             <section className="hero">
                 <div className="hero__slab" aria-hidden="true" />
 
@@ -299,7 +309,7 @@ function Home() {
             </section>
 
             {PROMOTIONS.length > 0 && (
-                <section className="promos">
+                <section className="promos" id="promo">
                     {/* Scrolling ticker; the text is doubled so the loop is seamless */}
                     <div className="ticker" aria-hidden="true">
                         <div className="ticker__track">
@@ -487,7 +497,7 @@ function Home() {
             <div className="hazard" aria-hidden="true" />
 
             {RESULTS.length > 0 && (
-                <section className="results">
+                <section className="results" id="hasil">
                     <div className="results__inner">
                         <div className="results__head">
                             <h2 className="results__title">
@@ -583,7 +593,7 @@ function Home() {
                 </section>
             )}
 
-            <section className="cta">
+            <section className="cta" id="kontak">
                 <div className="cta__inner">
                     <div className="cta__copy">
                         <h2 className="cta__title">
@@ -670,6 +680,7 @@ function Home() {
                     </div>
                 </div>
             </section>
+            <WhatsAppFloat hideOverId="kontak" />
         </Shell>
     );
 }
