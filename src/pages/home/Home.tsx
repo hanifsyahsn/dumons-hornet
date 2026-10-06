@@ -1,4 +1,5 @@
 import React, { type CSSProperties, type ReactNode } from "react";
+import { CountUp } from "../../components/count-up";
 import { Mascot } from "../../components/mascot";
 import { Reviews, type Review } from "../../components/reviews";
 import { Shell, type NavItem } from "../../components/shell";
@@ -58,6 +59,23 @@ const FEATURES: Feature[] = [
             </>
         ),
     },
+];
+
+interface Stat {
+    value: number;
+    // Shown after the number, e.g. "+"
+    suffix?: string;
+    label: string;
+}
+
+// Trust numbers in the ink band after the features; any count (2 per row on phones,
+// all in one row from --medium). Hidden while empty.
+// PLACEHOLDERS: replace with real figures before launch, never publish made-up numbers.
+const STATS: Stat[] = [
+    { value: 500, suffix: "+", label: "Bengkel & detailer" },
+    { value: 10000, suffix: "+", label: "Botol terjual" },
+    { value: 34, label: "Provinsi terjangkau" },
+    { value: 98, suffix: "%", label: "Pelanggan puas" },
 ];
 
 interface Promotion {
@@ -307,6 +325,22 @@ function Home() {
                     </div>
                 </div>
             </section>
+
+            {STATS.length > 0 && (
+                <section className="stats" aria-label="Hörnet dalam angka">
+                    <ul className="stats__inner">
+                        {STATS.map(({ value, suffix, label }) => (
+                            <li className="stat" key={label}>
+                                <span className="stat__value">
+                                    <CountUp value={value} />
+                                    {suffix && <span className="stat__suffix">{suffix}</span>}
+                                </span>
+                                <span className="stat__label">{label}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )}
 
             {PROMOTIONS.length > 0 && (
                 <section className="promos" id="promo">

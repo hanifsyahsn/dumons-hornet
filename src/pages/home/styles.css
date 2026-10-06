@@ -2,6 +2,7 @@
 
 .hero__inner,
 .features__inner,
+.stats__inner,
 .promos__inner,
 .products__inner,
 .testimonials__inner,
@@ -289,6 +290,90 @@
 
     @media (--medium) {
         font-size: var(--fs-md);
+    }
+}
+
+/* Trust numbers: ink band between the white features and the yellow promotions */
+.stats {
+    padding: 48px 0;
+    border-top: var(--border-thick);
+    background: var(--hornet-ink);
+    color: var(--hornet-white);
+
+    @media (--medium) {
+        padding: 56px 0;
+    }
+}
+
+.stats__inner {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 16px;
+    margin: 0 auto;
+    list-style: none;
+
+    /* One equal column per stat, whatever the count */
+    @media (--medium) {
+        grid-template-columns: none;
+        grid-auto-columns: minmax(0, 1fr);
+        grid-auto-flow: column;
+        gap: 0;
+    }
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+
+    /* Skewed yellow divider between the numbers (one row only) */
+    @media (--medium) {
+        position: relative;
+        padding: 0 16px 0 40px;
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        & + &::before {
+            content: "";
+            position: absolute;
+            top: 6px;
+            bottom: 6px;
+            left: 12px;
+            width: 6px;
+            background: var(--hornet-yellow);
+            transform: skewX(var(--skew));
+        }
+    }
+}
+
+.stat__value {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(40px, 4.2vw, 76px);
+    line-height: 1;
+    color: var(--hornet-yellow);
+    white-space: nowrap;
+    /* Equal-width digits, so the number doesn't wobble while counting */
+    font-variant-numeric: tabular-nums;
+}
+
+.stat__suffix {
+    color: var(--hornet-orange);
+}
+
+.stat__label {
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--hornet-on-dark);
+
+    @media (--medium) {
+        font-size: var(--fs-base);
     }
 }
 
