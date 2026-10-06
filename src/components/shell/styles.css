@@ -97,7 +97,80 @@
     }
 }
 
+/* Social links: yellow skewed icon chip + label/handle, like the contact card rows */
+.shell__socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.shell__social {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--hornet-white);
+    text-decoration: none;
+
+    @media (hover: hover) {
+        &:hover .shell__social-icon {
+            transform: skewX(var(--skew)) translate(2px, 2px);
+            box-shadow: 1px 1px 0 var(--hornet-orange);
+        }
+
+        &:hover .shell__social-handle {
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+        }
+    }
+}
+
+.shell__social-icon {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--hornet-yellow);
+    box-shadow: 3px 3px 0 var(--hornet-orange);
+    transform: skewX(var(--skew));
+    transition: transform 0.08s, box-shadow 0.08s;
+
+    svg {
+        width: 22px;
+        height: 22px;
+        stroke: var(--hornet-ink);
+        transform: skewX(calc(var(--skew) * -1));
+    }
+}
+
+.shell__social-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.shell__social-label {
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--hornet-on-dark);
+}
+
+.shell__social-handle {
+    font-weight: 700;
+    color: var(--hornet-yellow);
+}
+
+/* Full-width line under the logo and the links */
 .shell__copyright {
+    flex-basis: 100%;
+    padding-top: 20px;
+    border-top: 1px solid rgb(233 228 229 / 0.2);
     font-size: var(--fs-sm);
     color: var(--hornet-on-dark);
 }

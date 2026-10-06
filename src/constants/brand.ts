@@ -17,3 +17,10 @@ export const WHATSAPP_URL = "https://wa.me/6285159122501";
 export const WHATSAPP_DISPLAY = "0851-5912-2501";
 
 export const CONTACT_EMAIL = "dumonscoatingindonesia@gmail.com";
+
+// Shop and social accounts (shared with the main Dumons Coating brand).
+export const SHOPEE_URL = "https://shopee.co.id/dumonsindonesia";
+export const SHOPEE_DISPLAY = "dumonsindonesia";
+export const INSTAGRAM_URL = "https://www.instagram.com/dumons.id/";
+export const INSTAGRAM_DISPLAY = "@dumons.id";
+export const MAIN_SITE_DISPLAY = "dumonscoating.com";

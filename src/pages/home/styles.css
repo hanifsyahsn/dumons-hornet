@@ -1548,9 +1548,14 @@
     text-transform: uppercase;
 }
 
-.contact-card__whatsapp {
+.contact-card__whatsapp,
+.contact-card__shop {
     display: block;
     text-align: center;
+}
+
+.contact-card__shop {
+    margin-top: 18px;
 }
 
 .contact-card__list {

@@ -6,6 +6,8 @@ import {
     CONTACT_EMAIL,
     HORNET_MARK_SIZE,
     HORNET_MARK_SRC,
+    SHOPEE_DISPLAY,
+    SHOPEE_URL,
     WHATSAPP_DISPLAY,
     WHATSAPP_URL,
 } from "../../constants/brand";
@@ -607,6 +609,15 @@ function Home() {
                             <span>Chat via WhatsApp</span>
                         </a>
 
+                        <a
+                            className="button button--lg button--dark contact-card__shop"
+                            href={SHOPEE_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <span>Beli di Shopee</span>
+                        </a>
+
                         <ul className="contact-card__list">
                             <li className="contact-card__row">
                                 <span className="contact-card__icon" aria-hidden="true">
@@ -622,6 +633,23 @@ function Home() {
                                     rel="noopener noreferrer"
                                 >
                                     {WHATSAPP_DISPLAY}
+                                </a>
+                            </li>
+                            <li className="contact-card__row">
+                                <span className="contact-card__icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M4 8h16l-1.2 12.5a1 1 0 0 1-1 .9H6.2a1 1 0 0 1-1-.9z" />
+                                        <path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10" />
+                                    </svg>
+                                </span>
+                                <span className="contact-card__label">Shopee</span>
+                                <a
+                                    className="contact-card__value"
+                                    href={SHOPEE_URL}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {SHOPEE_DISPLAY}
                                 </a>
                             </li>
                             <li className="contact-card__row">
