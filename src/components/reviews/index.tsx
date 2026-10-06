@@ -23,6 +23,11 @@ interface ReviewsProps {
 // and it resumes RESUME_MS after the last one. Off entirely under prefers-reduced-motion.
 const AUTOPLAY_MS = 7000;
 const RESUME_MS = 3 * 60 * 1000;
+// Jumps of more than one slide (and the wrap from last to first) fade out, jump, fade
+// back in, instead of scrolling past every slide in between. Matches the CSS transition.
+const FADE_MS = 180;
+// Safety net for settling a programmatic scroll (browsers without the scrollend event)
+const SETTLE_MS = 1200;
 
 const initials = (name: string) =>
     name
@@ -42,6 +47,20 @@ export function Reviews({ reviews }: ReviewsProps) {
     const [index, setIndex] = useState(0);
     const [paused, setPaused] = useState(false);
     const [reducedMotion, setReducedMotion] = useState(false);
+    const [fading, setFading] = useState(false);
+    // Slide a button, dot or autoplay is scrolling to: until the track gets there, scroll
+    // events must not move the index (they'd report the slides it passes on the way)
+    const targetRef = useRef<number | null>(null);
+    const settleTimer = useRef<number | undefined>(undefined);
+    const fadeTimer = useRef<number | undefined>(undefined);
+
+    useEffect(
+        () => () => {
+            window.clearTimeout(settleTimer.current);
+            window.clearTimeout(fadeTimer.current);
+        },
+        [],
+    );
 
     useEffect(() => {
         const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -51,16 +70,52 @@ export function Reviews({ reviews }: ReviewsProps) {
         return () => query.removeEventListener("change", update);
     }, []);
 
+    // The slide the track actually shows
+    const slideAt = (track: HTMLDivElement) => Math.round(track.scrollLeft / track.clientWidth);
+
+    // Ends a programmatic scroll: the index follows the track again
+    const settle = useCallback(() => {
+        window.clearTimeout(settleTimer.current);
+        targetRef.current = null;
+        const track = trackRef.current;
+        if (track && track.clientWidth > 0) setIndex(Math.min(Math.max(slideAt(track), 0), count - 1));
+    }, [count]);
+
     const goTo = useCallback(
         (target: number) => {
             const track = trackRef.current;
-            if (!track || count === 0) return;
+            if (!track || count === 0 || track.clientWidth === 0) return;
             const next = (target + count) % count;
+            const left = next * track.clientWidth;
+            const distance = Math.abs(next - slideAt(track));
+            if (distance === 0) return;
+
             setIndex(next);
-            track.scrollTo({ left: next * track.clientWidth, behavior: reducedMotion ? "auto" : "smooth" });
+            targetRef.current = next;
+            window.clearTimeout(settleTimer.current);
+            window.clearTimeout(fadeTimer.current);
+            settleTimer.current = window.setTimeout(settle, SETTLE_MS + FADE_MS);
+
+            if (reducedMotion) {
+                track.scrollTo({ left, behavior: "instant" });
+            } else if (distance > 1) {
+                setFading(true);
+                fadeTimer.current = window.setTimeout(() => {
+                    track.scrollTo({ left, behavior: "instant" });
+                    setFading(false);
+                }, FADE_MS);
+            } else {
+                track.scrollTo({ left, behavior: "smooth" });
+            }
         },
-        [count, reducedMotion],
+        [count, reducedMotion, settle],
     );
+
+    // A swipe takes over from a programmatic scroll still under way
+    const onTouchStart = () => {
+        pause();
+        if (targetRef.current !== null) settle();
+    };
 
     // Manual switch: stop autoplay; every further switch restarts the RESUME_MS wait
     // (the resume effect below depends on pauseKey).
@@ -84,11 +139,16 @@ export function Reviews({ reviews }: ReviewsProps) {
         return () => window.clearTimeout(timer);
     }, [autoplay, index, goTo]);
 
-    // Keeps the dots in sync while the track is swiped (or scrolled by goTo)
+    // Keeps the dots in sync while the track is swiped. During goTo's own scroll the index
+    // already points at the destination, so just wait for the track to arrive.
     const onScroll = () => {
         const track = trackRef.current;
         if (!track || track.clientWidth === 0) return;
-        const current = Math.round(track.scrollLeft / track.clientWidth);
+        if (targetRef.current !== null) {
+            if (Math.abs(track.scrollLeft - targetRef.current * track.clientWidth) < 2) settle();
+            return;
+        }
+        const current = slideAt(track);
         if (current !== index && current >= 0 && current < count) setIndex(current);
     };
 
@@ -96,14 +156,14 @@ export function Reviews({ reviews }: ReviewsProps) {
     useEffect(() => {
         const onResize = () => {
             const track = trackRef.current;
-            if (track) track.scrollTo({ left: index * track.clientWidth });
+            if (track) track.scrollTo({ left: index * track.clientWidth, behavior: "instant" });
         };
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);
     }, [index]);
 
     const onWheel = (event: React.WheelEvent) => {
-        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) pause();
+        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) onTouchStart();
     };
 
     if (count === 0) return null;
@@ -111,10 +171,11 @@ export function Reviews({ reviews }: ReviewsProps) {
     return (
         <div className="reviews" role="region" aria-roledescription="carousel" aria-label="Ulasan pelanggan">
             <div
-                className="reviews__track"
+                className={`reviews__track${fading ? " reviews__track--fading" : ""}`}
                 ref={trackRef}
                 onScroll={onScroll}
-                onTouchStart={pause}
+                onScrollEnd={() => targetRef.current !== null && settle()}
+                onTouchStart={onTouchStart}
                 onWheel={onWheel}
                 // Announce slide changes only when the visitor is driving them
                 aria-live={autoplay ? "off" : "polite"}
