@@ -1,4 +1,4 @@
-import React, { useState, type CSSProperties } from "react";
+import React, { useRef, useState, type CSSProperties } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ProductCard, ProductPowers } from "../../components/product-card";
 import { Shell } from "../../components/shell";
@@ -29,6 +29,24 @@ function ProductView({ product }: { product: Product }) {
     const { code, name, tagline, description, powers, image, colors } = product;
     const [colorIndex, setColorIndex] = useState(0);
     const color = colors[colorIndex];
+    const canvasRef = useRef<HTMLDivElement>(null);
+    // Set by a tap/click on a swatch, so keyboard arrows (which also fire change) don't scroll
+    const pointerPick = useRef(false);
+
+    // Picking a color with a tap: if the photo is cut off (phones/tablets, where it sits above
+    // the picker), bring it into view so the change can be seen. scroll-padding-top keeps it
+    // clear of the sticky header. On desktop the photo is pinned in view, so nothing moves.
+    const pickColor = (i: number) => {
+        setColorIndex(i);
+        const canvas = canvasRef.current;
+        if (!pointerPick.current || !canvas) return;
+        pointerPick.current = false;
+        const { top, bottom } = canvas.getBoundingClientRect();
+        const headerBottom = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+        if (top >= headerBottom && bottom <= window.innerHeight) return;
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        canvas.scrollIntoView({ behavior: reduce ? "instant" : "smooth", block: "start" });
+    };
 
     // The chosen color's photo, else the product photo, else the placeholder (tinted with the color)
     const photo = color?.image ?? image;
@@ -51,6 +69,7 @@ function ProductView({ product }: { product: Product }) {
                         <div className="detail__media">
                             <div
                                 className="detail__canvas"
+                                ref={canvasRef}
                                 style={color ? ({ "--swatch": color.hex } as CSSProperties) : undefined}
                             >
                                 {photo ? (
@@ -83,14 +102,20 @@ function ProductView({ product }: { product: Product }) {
 
                                     <div className="colors__list">
                                         {colors.map(({ name: colorName, hex }, i) => (
-                                            <label className="swatch" key={colorName} title={colorName}>
+                                            <label
+                                                className="swatch"
+                                                key={colorName}
+                                                title={colorName}
+                                                onPointerDown={() => (pointerPick.current = true)}
+                                            >
                                                 <input
                                                     className="swatch__input"
                                                     type="radio"
                                                     name={`warna-${code}`}
                                                     value={colorName}
                                                     checked={i === colorIndex}
-                                                    onChange={() => setColorIndex(i)}
+                                                    onChange={() => pickColor(i)}
+                                                    onKeyDown={() => (pointerPick.current = false)}
                                                 />
                                                 <span
                                                     className="swatch__chip"

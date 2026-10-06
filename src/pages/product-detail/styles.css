@@ -81,11 +81,19 @@
     }
 }
 
-/* Square canvas; --swatch is the chosen color */
+/* Square canvas; --swatch is the chosen color. Stacked (below --large) it's capped to fit
+   the screen under the header, so a color tap can bring the whole photo into view */
 .detail__canvas {
     --swatch: var(--hornet-yellow);
     position: relative;
     aspect-ratio: 1;
+    max-width: max(280px, calc(100svh - 140px));
+    margin: 0 auto;
+
+    @media (--large) {
+        max-width: none;
+    }
+
     background: var(--hornet-white);
     border: var(--border-thick);
     box-shadow: var(--shadow-lg);
