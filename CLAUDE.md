@@ -20,6 +20,8 @@ npm run typecheck  # tsc --noEmit; the only static check (no linter, no tests)
 
 `.env` (copy from `.env.example`) holds `PORT` (default 3000) and optionally `MAINTENANCE_MODE` (build time, see Routing).
 
+Commits are titled `[development][x.y.z] summary` (semver: minor for a feature, patch for a fix). Bump `package.json` to the same version in that commit with `npm version x.y.z --no-git-tag-version` (it updates `package-lock.json` too).
+
 ## Architecture
 
 React 19 SSR with two webpack builds sharing the same `src/`:
