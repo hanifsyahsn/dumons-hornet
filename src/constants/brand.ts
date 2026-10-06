@@ -1,3 +1,5 @@
+import { content } from "../content";
+
 // Served from /public/assets.
 // Bordered wordmark (transparent outside the frame): header, footer.
 export const HORNET_LOGO_SRC = "/assets/logo-bordered.webp";
@@ -12,15 +14,17 @@ export const SITE_URL = "https://hornet.dumonscoating.com";
 
 export const MAIN_SITE_URL = "https://dumonscoating.com/home";
 
-// WhatsApp contact: international format for wa.me, local format for display.
-export const WHATSAPP_URL = "https://wa.me/6285159122501";
-export const WHATSAPP_DISPLAY = "0851-5912-2501";
+// Contacts and shop/social accounts come from src/content/home.json (editable content);
+// re-exported here under the names the rest of the code uses.
+const { contact } = content;
 
-export const CONTACT_EMAIL = "dumonscoatingindonesia@gmail.com";
+export const WHATSAPP_URL = `https://wa.me/${contact.whatsappNumber}`;
+export const WHATSAPP_DISPLAY = contact.whatsappDisplay;
 
-// Shop and social accounts (shared with the main Dumons Coating brand).
-export const SHOPEE_URL = "https://shopee.co.id/dumonsindonesia";
-export const SHOPEE_DISPLAY = "dumonsindonesia";
-export const INSTAGRAM_URL = "https://www.instagram.com/dumons.id/";
-export const INSTAGRAM_DISPLAY = "@dumons.id";
+export const CONTACT_EMAIL = contact.email;
+
+export const SHOPEE_URL = contact.shopeeUrl;
+export const SHOPEE_DISPLAY = contact.shopeeDisplay;
+export const INSTAGRAM_URL = contact.instagramUrl;
+export const INSTAGRAM_DISPLAY = contact.instagramDisplay;
 export const MAIN_SITE_DISPLAY = "dumonscoating.com";

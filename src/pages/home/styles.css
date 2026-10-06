@@ -149,6 +149,15 @@
     }
 }
 
+/* Product photo: shown whole on white, like the product cards */
+.hero__photo--product {
+    background: var(--hornet-white);
+
+    img {
+        object-fit: contain;
+    }
+}
+
 .hero__photo--placeholder {
     display: flex;
     align-items: center;

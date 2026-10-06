@@ -1,8 +1,8 @@
 import React, { type CSSProperties, type ReactNode } from "react";
 import { CountUp } from "../../components/count-up";
 import { Mascot } from "../../components/mascot";
-import { Partners, type Partner } from "../../components/partners";
-import { Reviews, type Review } from "../../components/reviews";
+import { Partners } from "../../components/partners";
+import { Reviews } from "../../components/reviews";
 import { Shell, type NavItem } from "../../components/shell";
 import { WhatsAppFloat } from "../../components/whatsapp-float";
 import {
@@ -14,241 +14,44 @@ import {
     WHATSAPP_DISPLAY,
     WHATSAPP_URL,
 } from "../../constants/brand";
+import { content, type FeatureIcon } from "../../content";
 import "./styles.css";
 
-interface Feature {
-    title: string;
-    text: string;
-    icon: ReactNode;
-}
+const { hero: HERO, features: FEATURES, stats: STATS, promotions: PROMOTIONS, products: PRODUCTS } = content;
+const { reviews: REVIEWS, results: RESULTS, partners: PARTNERS, faqs: FAQS, tickerWords: TICKER_WORDS } = content;
 
-const FEATURES: Feature[] = [
-    {
-        title: "Kilau ekstrem",
-        text: "Kilap tajam dan dalam yang bikin cat tampak seperti baru keluar dari ruang poles.",
-        icon: (
-            <>
-                <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" />
-                <path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z" />
-            </>
-        ),
-    },
-    {
-        title: "Super hidrofobik",
-        text: "Air langsung membulat dan meluncur, membawa debu dan kotoran ikut pergi.",
-        icon: <path d="M12 3c3.5 4.2 6 7.6 6 10.5A6 6 0 0 1 6 13.5C6 10.6 8.5 7.2 12 3z" />,
-    },
-    {
-        title: "Proteksi maksimal",
-        text: "Lapisan tangguh yang menjaga cat dari paparan UV, kotoran, dan noda membandel.",
-        icon: (
-            <>
-                <path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z" />
-                <path d="M8.5 12l2.5 2.5 4.5-5" />
-            </>
-        ),
-    },
-    {
-        title: "Perawatan mudah",
-        text: "Kotoran sulit menempel, cuci jadi lebih cepat dan kilau bertahan lebih lama.",
-        icon: (
-            <>
-                <rect x="7" y="9" width="8" height="12" rx="1" />
-                <path d="M9 9V6h4v3" />
-                <path d="M13 6h3l2-2" />
-                <path d="M19 8h2M19 11h2M18 14l1.5 1" />
-            </>
-        ),
-    },
-];
+// Everything editable lives in src/content/home.json (validated in src/content/index.ts)
 
-interface Stat {
-    value: number;
-    // Shown after the number, e.g. "+"
-    suffix?: string;
-    label: string;
-}
-
-// Trust numbers in the ink band after the features; any count (2 per row on phones,
-// all in one row from --medium). Hidden while empty.
-// PLACEHOLDERS: replace with real figures before launch, never publish made-up numbers.
-const STATS: Stat[] = [
-    { value: 500, suffix: "+", label: "Bengkel & detailer" },
-    { value: 10000, suffix: "+", label: "Botol terjual" },
-    { value: 34, label: "Provinsi terjangkau" },
-    { value: 98, suffix: "%", label: "Pelanggan puas" },
-];
-
-interface Promotion {
-    // Promo poster (the design carries the whole message), served from /public
-    src: string;
-    // Describes the promo for screen readers and the prefilled WhatsApp message
-    alt: string;
-    // Intrinsic pixel size: sets the card's aspect ratio (no layout shift while loading)
-    width: number;
-    height: number;
-}
-
-// Any number of posters, in any order and orientation: see .promos__grid. Ratios from
-// 9:16 (story) to 2.2:1 fill their card exactly; anything beyond is shown whole on a
-// hatched background. The whole section is hidden while the list is empty.
-// Placeholders until the real posters are ready.
-const PROMOTIONS: Promotion[] = [
-    {
-        src: "/assets/promos/placeholder-portrait.svg",
-        alt: "Promo perkenalan: diskon 20% Hörnet Supercoat HS 470",
-        width: 1080,
-        height: 1350,
-    },
-    {
-        src: "/assets/promos/placeholder-landscape.svg",
-        alt: "Beli 2 botol HS 470 gratis kain microfiber",
-        width: 1600,
-        height: 900,
-    },
-    {
-        src: "/assets/promos/placeholder-square.svg",
-        alt: "Harga khusus untuk bengkel dan detailer mitra",
-        width: 1080,
-        height: 1080,
-    },
-];
-
-interface ProductPower {
-    label: string;
-    // 1..5, drawn as skewed meter segments
-    level: number;
-}
-
-interface Product {
-    code: string;
-    name: string;
-    tagline: string;
-    description: string;
-    powers: ProductPower[];
-    // Product photo served from /public; omitted until it exists (hatched placeholder with the hornet mark)
-    image?: string;
-    // Transparent cutout of the product (PNG/WebP with alpha), placed on the result photos;
-    // omitted until it exists (the hornet mark stands in)
-    cutout?: string;
-    // Detail page; omitted until it exists (the button has no action yet)
-    detailHref?: string;
-}
+// Feature icons (24x24 stroke paths), picked by the `icon` key in home.json
+const FEATURE_ICONS: Record<FeatureIcon, ReactNode> = {
+    sparkle: (
+        <>
+            <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" />
+            <path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z" />
+        </>
+    ),
+    drop: <path d="M12 3c3.5 4.2 6 7.6 6 10.5A6 6 0 0 1 6 13.5C6 10.6 8.5 7.2 12 3z" />,
+    shield: (
+        <>
+            <path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z" />
+            <path d="M8.5 12l2.5 2.5 4.5-5" />
+        </>
+    ),
+    spray: (
+        <>
+            <rect x="7" y="9" width="8" height="12" rx="1" />
+            <path d="M9 9V6h4v3" />
+            <path d="M13 6h3l2-2" />
+            <path d="M19 8h2M19 11h2M18 14l1.5 1" />
+        </>
+    ),
+};
 
 const POWER_MAX = 5;
-
-// Exactly two highlighted products, shown side by side (stacked on phones).
-// The second one is a placeholder until the real lineup is final.
-const PRODUCTS: [Product, Product] = [
-    {
-        code: "HS 470",
-        name: "Hörnet Supercoat",
-        tagline: "Coating andalan",
-        description:
-            "Lapisan pelindung dengan kilau ekstrem dan efek daun talas yang membuat air dan kotoran langsung meluncur.",
-        powers: [
-            { label: "Kilau", level: 5 },
-            { label: "Hidrofobik", level: 5 },
-            { label: "Ketahanan", level: 4 },
-        ],
-    },
-    {
-        code: "HS 220",
-        name: "Hörnet Quick Coat",
-        tagline: "Semprot & lap",
-        description:
-            "Booster praktis untuk perawatan rutin: semprot, lap, dan kilau serta sifat hidrofobik coating kembali segar.",
-        powers: [
-            { label: "Kilau", level: 4 },
-            { label: "Hidrofobik", level: 4 },
-            { label: "Kemudahan", level: 5 },
-        ],
-    },
-];
-
-interface Result {
-    // Surface the coating was applied to, shown as a label on the photo
-    surface: string;
-    // One short line about the result, shown under the photo
-    caption: string;
-    // Code of the PRODUCTS entry used: its cutout is placed on the photo
-    product: string;
-    // Photo of the coated surface (cropped to fill the tile); omitted -> hatched placeholder
-    photo?: string;
-}
-
-// Results gallery, any number: the first tile is shown big, the rest fill the grid around
-// it. The section is hidden while the list is empty. Placeholders until the photos exist.
-const RESULTS: Result[] = [
-    { surface: "Body mobil", caption: "Kilau dalam seperti cat baru setelah satu lapis.", product: "HS 470" },
-    { surface: "Kaca depan", caption: "Air hujan langsung membulat dan meluncur.", product: "HS 470" },
-    { surface: "Velg", caption: "Debu rem tidak gampang menempel.", product: "HS 470" },
-    { surface: "Body motor", caption: "Warna tampak lebih pekat dan segar.", product: "HS 220" },
-    { surface: "Cat hitam", caption: "Pantulan tajam tanpa kesan kusam.", product: "HS 470" },
-    { surface: "Lampu depan", caption: "Mika tetap bening dan terlindungi.", product: "HS 220" },
-];
-
-// Partner workshops, any number, filterable by city (see components/partners). Hidden
-// while empty. PLACEHOLDERS: replace with the real partner list.
-const PARTNERS: Partner[] = [
-    { name: "Contoh Detailing Studio", city: "Jakarta", address: "Jl. Contoh No. 1, Jakarta Selatan" },
-    { name: "Contoh Auto Care", city: "Jakarta", address: "Jl. Contoh No. 2, Jakarta Barat" },
-    { name: "Contoh Kilau Garage", city: "Bandung", address: "Jl. Contoh No. 3, Bandung" },
-    { name: "Contoh Car Wash & Coating", city: "Surabaya", address: "Jl. Contoh No. 4, Surabaya" },
-    { name: "Contoh Motor Shine", city: "Yogyakarta", address: "Jl. Contoh No. 5, Sleman" },
-    { name: "Contoh Pro Detailer", city: "Medan", address: "Jl. Contoh No. 6, Medan" },
-];
 
 const partnerWhatsAppUrl = `${WHATSAPP_URL}?text=${encodeURIComponent(
     "Halo, saya tertarik jadi bengkel mitra Hörnet.",
 )}`;
-
-interface Faq {
-    question: string;
-    // Plain text: also goes into the FAQPage structured data for search engines
-    answer: string;
-}
-
-// Questions about the Hörnet line as a whole (usage steps live on each product's detail
-// page). Any count; hidden while empty. Answers marked PLACEHOLDER need the real facts.
-const FAQS: Faq[] = [
-    {
-        question: "Apa itu Hörnet?",
-        answer: "Hörnet adalah lini coating dari Dumons Coating yang lebih ringkas dan terjangkau, untuk menjaga kilau dan proteksi kendaraan sehari-hari.",
-    },
-    {
-        question: "Apa bedanya Hörnet dengan produk Dumons lainnya?",
-        // PLACEHOLDER
-        answer: "Hörnet dirancang untuk perawatan yang praktis dengan harga lebih bersahabat, sementara lini utama Dumons ditujukan untuk hasil dan daya tahan maksimal.",
-    },
-    {
-        question: "Di mana saya bisa membeli produk Hörnet?",
-        answer: "Lewat toko resmi kami di Shopee (dumonsindonesia), langsung via WhatsApp, atau di bengkel mitra Hörnet di kotamu.",
-    },
-    {
-        question: "Bagaimana cara pemakaiannya?",
-        answer: "Setiap produk punya langkah pemakaian sendiri, lengkap di halaman detail produknya. Kalau masih ragu, tim kami siap memandu lewat WhatsApp.",
-    },
-    {
-        question: "Apakah bisa dipakai untuk motor?",
-        // PLACEHOLDER
-        answer: "Bisa. Produk Hörnet dapat diaplikasikan pada cat mobil maupun motor.",
-    },
-    {
-        question: "Berapa lama hasilnya bertahan?",
-        // PLACEHOLDER
-        answer: "Tergantung produk, cara aplikasi, dan perawatan. Detail daya tahan tiap produk tercantum di halaman detail produknya.",
-    },
-    {
-        question: "Apakah bisa kirim ke seluruh Indonesia?",
-        // PLACEHOLDER
-        answer: "Bisa. Pesanan lewat Shopee maupun WhatsApp kami kirim ke seluruh Indonesia.",
-    },
-    {
-        question: "Saya punya bengkel, bagaimana cara jadi mitra?",
-        answer: "Hubungi kami lewat WhatsApp untuk info kemitraan dan harga khusus bengkel atau detailer.",
-    },
-];
 
 // FAQPage structured data (schema.org), so search engines can show the Q&A directly;
 // "<" escaped so an answer can never close the script tag
@@ -275,6 +78,9 @@ const NAV: NavItem[] = [
 
 const productByCode = (code: string) => PRODUCTS.find((product) => product.code === code);
 
+// Product featured in the hero: its photo fills the hero frame
+const HERO_PRODUCT = productByCode(HERO.productCode);
+
 // Empty grid cells after the last result, filled with ornaments. Three columns: the
 // big tile takes 4 cells, so n results use n + 3. Two columns: it's a full-width banner,
 // then the other n - 1 tiles in pairs. One column (phones) never has a gap.
@@ -285,38 +91,6 @@ const RESULT_FILLERS = Math.max(RESULT_GAPS_LARGE, RESULT_GAPS_MEDIUM);
 // Four-point sparkle used as a background ornament
 const SPARKLE_PATH = "M12 0c.9 6.4 5.6 11.1 12 12-6.4.9-11.1 5.6-12 12-.9-6.4-5.6-11.1-12-12C6.4 11.1 11.1 6.4 12 0z";
 
-// Customer reviews, any number: shown one at a time in a carousel (see components/reviews).
-// `photo` (initials until set) and `rating` (1..5 stars, hidden when unset) are optional.
-// The section is hidden while the list is empty.
-// Placeholders until real reviews are collected.
-const REVIEWS: Review[] = [
-    {
-        quote: "Hasil kilapnya beda kelas. Mobil pelanggan keluar dari bengkel kami dengan tampilan yang benar-benar seperti baru, dan efek airnya masih terasa berbulan-bulan kemudian.",
-        name: "Budi Santoso",
-        company: "PT Kilau Motor Sejahtera",
-        city: "Jakarta",
-        year: 2025,
-        rating: 5,
-    },
-    {
-        quote: "Aplikasinya gampang dan hasilnya konsisten. Sejak pakai Hörnet, pelanggan detailing kami makin banyak yang repeat order.",
-        name: "Rina Wijaya",
-        company: "PT Detailindo Prima",
-        city: "Surabaya",
-        year: 2025,
-        rating: 5,
-    },
-    {
-        quote: "Kami pakai untuk armada kendaraan operasional. Cuci jadi jauh lebih cepat karena kotoran tidak gampang menempel.",
-        name: "Agus Pratama",
-        company: "PT Armada Nusantara Logistik",
-        city: "Bandung",
-        year: 2024,
-        rating: 4,
-    },
-];
-
-const TICKER_WORDS = ["Promo", "Diskon", "Hörnet Supercoat", "Hemat", "Promo", "Bonus"];
 // One loop copy of the ticker: the words repeated until it's wider than any screen
 // (~3800px), otherwise the right side runs empty before the loop snaps back.
 const TICKER_COPY = Array.from({ length: 4 }, () => TICKER_WORDS).flat();
@@ -334,19 +108,18 @@ function Home() {
 
                 <div className="hero__inner">
                     <div className="hero__copy">
-                        <span className="hero__tag">Supercoat</span>
+                        <span className="hero__tag">{HERO.tag}</span>
 
                         <h1 className="hero__title">
-                            Kilau yang
-                            <br />
-                            menyengat.
+                            {HERO.titleLines.map((line, i) => (
+                                <React.Fragment key={i}>
+                                    {i > 0 && <br />}
+                                    {line}
+                                </React.Fragment>
+                            ))}
                         </h1>
 
-                        <p className="hero__message">
-                            Hörnet Supercoat adalah inovasi terbaru dari lineup performance
-                            coating Dumons. Kilau ekstrem, proteksi maksimal, dan tampilan
-                            yang bikin setiap mata menoleh.
-                        </p>
+                        <p className="hero__message">{HERO.message}</p>
 
                         <div className="hero__actions">
                             <a className="button button--lg button--dark" href="#produk">
@@ -357,11 +130,17 @@ function Home() {
 
                     <div className="hero__media">
                         <div className="hero__frame">
-                            {/* Placeholder until the HS 470 product photo is ready: swap the img src. */}
-                            <div className="hero__photo hero__photo--placeholder">
-                                <img src={HORNET_MARK_SRC} alt="" {...HORNET_MARK_SIZE} />
-                            </div>
-                            <div className="hero__sticker">HS 470</div>
+                            {/* The hero product's `image` from home.json; hatched placeholder until set */}
+                            {HERO_PRODUCT?.image ? (
+                                <div className="hero__photo hero__photo--product">
+                                    <img src={HERO_PRODUCT.image} alt={`${HERO_PRODUCT.name} ${HERO_PRODUCT.code}`} />
+                                </div>
+                            ) : (
+                                <div className="hero__photo hero__photo--placeholder">
+                                    <img src={HORNET_MARK_SRC} alt="" {...HORNET_MARK_SIZE} />
+                                </div>
+                            )}
+                            <div className="hero__sticker">{HERO.productCode}</div>
                         </div>
                     </div>
                 </div>
@@ -391,7 +170,7 @@ function Home() {
                                             strokeLinejoin="round"
                                             aria-hidden="true"
                                         >
-                                            {icon}
+                                            {FEATURE_ICONS[icon]}
                                         </svg>
                                     </span>
                                     <h3 className="feature__title">{title}</h3>
