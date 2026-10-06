@@ -47,6 +47,6 @@ PostCSS pipeline (`postcss.config.js`): `postcss-import` → Tailwind v4 → `po
 - Responsive breakpoints are `@custom-media` queries (`--small`, `--medium`, ...) used as `@media (--medium)`, nested inside BEM-style class blocks (e.g. `.construction__title`).
 - Tailwind utilities are used mainly for the loader markup.
 
-`src/components/mascot` is the hornet mascot: an inline-SVG cartoon of the logo hornet with a megaphone (die-cut white outline + hard ink shadow via stacked `drop-shadow`s), animated in CSS (bob, wing flap, sound waves); all motion, including the ticker, stops under `prefers-reduced-motion`.
+`src/components/mascot` is the hornet mascot: the logo hornet itself, traced from `logo.webp` into `paths.ts` by `scripts/trace-mascot.py` (Python + potrace; rerun it when the logo changes, never hand-edit the paths), with the wings as a separate part so they can flap. Die-cut white outline + hard ink shadow via stacked `drop-shadow`s, animated in CSS (bob, wing flap, speed lines); all motion, including the ticker, stops under `prefers-reduced-motion`.
 
 Brand constants (logo path, main-site URL, WhatsApp link, contact email) are in `src/constants/brand.ts`; logos live in `public/assets/` (`logo-bordered.webp` in header/footer with a hard black `drop-shadow` backing (the header logo is deliberately a plain `<img>`: no link, hover or pointer, since there is nowhere to go yet), `logo.webp` (square hornet mark) as favicon and the hero photo placeholder, `logo-borderless.webp` unused).

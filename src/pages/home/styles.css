@@ -396,11 +396,11 @@
     }
 }
 
-/* Speech burst shouted through the megaphone */
+/* Speech burst shouted by the mascot, next to its head */
 .promos__shout {
     position: absolute;
-    top: -6%;
-    left: -12%;
+    top: -8%;
+    right: -2%;
     z-index: 1;
     padding: 4px 10px;
     background: var(--hornet-white);
