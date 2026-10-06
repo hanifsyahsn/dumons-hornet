@@ -303,11 +303,15 @@
 
 /* Ink ticker tape scrolling "PROMO • DISKON • ..." across the top of the band */
 .ticker {
-    margin-bottom: 48px;
+    margin-bottom: 24px;
     padding: 12px 0;
     background: var(--hornet-ink);
     border-bottom: var(--border-thick);
     overflow: hidden;
+
+    @media (--small) {
+        margin-bottom: 48px;
+    }
 
     @media (--medium) {
         margin-bottom: 64px;
@@ -361,18 +365,27 @@
 }
 
 /* Title + lead with the mascot flying beside them */
-/* Phones: the mascot flies above the title, so the title keeps the full width */
+/*
+ * Phones: a grid with the title (stacked PROMO / HÖRNET) beside the mascot and the lead
+ * across the full width under both; .promos__copy dissolves so its children join the
+ * grid. From --small up: title + lead on the left, mascot on the right.
+ */
 .promos__head {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 8px;
-    margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+        "title mascot"
+        "lead  lead";
+    align-items: center;
+    column-gap: 8px;
+    margin-bottom: 36px;
 
     @media (--small) {
-        flex-direction: row;
+        display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 16px;
+        margin-bottom: 40px;
     }
 
     @media (--medium) {
@@ -381,19 +394,25 @@
 }
 
 .promos__copy {
-    min-width: 0;
+    display: contents;
+
+    @media (--small) {
+        display: block;
+        min-width: 0;
+    }
 }
 
 .promos__mascot {
+    grid-area: mascot;
     position: relative;
     flex: none;
-    align-self: flex-end;
-    width: 210px;
-    margin-right: 8px;
+    width: clamp(112px, 38vw, 172px);
+    /* Room for the "PROMO!" burst above the head and the hard shadow on the right */
+    margin: 28px 8px 0 0;
 
     @media (--small) {
-        align-self: auto;
         width: clamp(160px, 28vw, 340px);
+        margin: 0 8px 0 0;
     }
 }
 
@@ -438,13 +457,21 @@
 }
 
 .promos__title {
-    margin: 0 0 16px;
+    grid-area: title;
+    margin: 0;
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 900;
-    font-size: clamp(36px, 4.5vw, 64px);
-    line-height: 1;
+    /* Phones: big, and the narrow column wraps it onto two lines (PROMO / HÖRNET) */
+    font-size: clamp(40px, 13vw, 60px);
+    line-height: 1.05;
     text-transform: uppercase;
+
+    @media (--small) {
+        margin-bottom: 16px;
+        font-size: clamp(36px, 4.5vw, 64px);
+        line-height: 1;
+    }
 }
 
 /* Ink block behind a word (the yellow marker wouldn't show on the yellow band) */
@@ -455,9 +482,23 @@
 }
 
 .promos__lead {
+    grid-area: lead;
     max-width: 38em;
-    margin: 0;
-    font-size: var(--fs-md);
+    /* Phones: set off with an ink bar so it reads as part of the header */
+    margin: 20px 0 0;
+    padding-left: 14px;
+    border-left: 6px solid var(--hornet-ink);
+    font-size: var(--fs-base);
+    font-weight: 500;
+    line-height: 1.5;
+
+    @media (--small) {
+        margin: 0;
+        padding-left: 0;
+        border-left: 0;
+        font-size: var(--fs-md);
+        font-weight: 400;
+    }
 
     @media (--medium) {
         font-size: var(--fs-lg);
