@@ -106,6 +106,9 @@ interface Product {
     powers: ProductPower[];
     // Product photo served from /public; omitted until it exists (hatched placeholder with the hornet mark)
     image?: string;
+    // Transparent cutout of the product (PNG/WebP with alpha), placed on the result photos;
+    // omitted until it exists (the hornet mark stands in)
+    cutout?: string;
     // Detail page; omitted until it exists (the button has no action yet)
     detailHref?: string;
 }
@@ -140,6 +143,30 @@ const PRODUCTS: [Product, Product] = [
         ],
     },
 ];
+
+interface Result {
+    // Surface the coating was applied to, shown as a label on the photo
+    surface: string;
+    // One short line about the result, shown under the photo
+    caption: string;
+    // Code of the PRODUCTS entry used: its cutout is placed on the photo
+    product: string;
+    // Photo of the coated surface (cropped to fill the tile); omitted -> hatched placeholder
+    photo?: string;
+}
+
+// Results gallery, any number: the first tile is shown big, the rest fill the grid around
+// it. The section is hidden while the list is empty. Placeholders until the photos exist.
+const RESULTS: Result[] = [
+    { surface: "Body mobil", caption: "Kilau dalam seperti cat baru setelah satu lapis.", product: "HS 470" },
+    { surface: "Kaca depan", caption: "Air hujan langsung membulat dan meluncur.", product: "HS 470" },
+    { surface: "Velg", caption: "Debu rem tidak gampang menempel.", product: "HS 470" },
+    { surface: "Body motor", caption: "Warna tampak lebih pekat dan segar.", product: "HS 220" },
+    { surface: "Cat hitam", caption: "Pantulan tajam tanpa kesan kusam.", product: "HS 470" },
+    { surface: "Lampu depan", caption: "Mika tetap bening dan terlindungi.", product: "HS 220" },
+];
+
+const productByCode = (code: string) => PRODUCTS.find((product) => product.code === code);
 
 // Four-point sparkle used as a background ornament
 const SPARKLE_PATH = "M12 0c.9 6.4 5.6 11.1 12 12-6.4.9-11.1 5.6-12 12-.9-6.4-5.6-11.1-12-12C6.4 11.1 11.1 6.4 12 0z";
@@ -449,6 +476,69 @@ function Home() {
             )}
 
             <div className="hazard" aria-hidden="true" />
+
+            {RESULTS.length > 0 && (
+                <section className="results">
+                    <div className="results__inner">
+                        <div className="results__head">
+                            <h2 className="results__title">
+                                Hasil <span className="results__highlight">Nyata</span>
+                            </h2>
+                            <p className="results__lead">
+                                Bukti langsung di berbagai permukaan: dari body mobil sampai kaca,
+                                kilau dan proteksinya kelihatan.
+                            </p>
+                        </div>
+
+                        <ul className="results__grid">
+                            {RESULTS.map(({ surface, caption, product: code, photo }, i) => {
+                                const product = productByCode(code);
+                                return (
+                                    <li className="result" key={`${surface}-${i}`}>
+                                        <div className="result__canvas">
+                                            {photo ? (
+                                                <img
+                                                    className="result__photo"
+                                                    src={photo}
+                                                    alt={`${surface}: ${caption}`}
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                />
+                                            ) : (
+                                                // Placeholder until the result photo is ready: set `photo`
+                                                <div className="result__photo result__photo--placeholder">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                                        <path d="M3 8h4l2-3h6l2 3h4v12H3z" />
+                                                        <circle cx="12" cy="13.5" r="3.5" />
+                                                    </svg>
+                                                    <span>Foto hasil</span>
+                                                </div>
+                                            )}
+
+                                            <span className="result__surface">{surface}</span>
+
+                                            {product && (
+                                                <span className="result__product">
+                                                    <img
+                                                        className="result__cutout"
+                                                        src={product.cutout ?? HORNET_MARK_SRC}
+                                                        alt=""
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                    />
+                                                    <span className="result__code">{product.code}</span>
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <p className="result__caption">{caption}</p>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                </section>
+            )}
 
             <section className="cta">
                 <div className="cta__inner">
