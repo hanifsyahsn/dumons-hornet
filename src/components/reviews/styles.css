@@ -25,10 +25,35 @@
     flex: 0 0 100%;
     min-width: 0;
     margin: 0;
-    /* Room for the quote chip above the card and its hard shadow (the track clips overflow) */
-    padding: 28px 18px 18px 0;
+    /* Room for the quote chip, the paper stack above the card and its hard shadow
+       (the track clips overflow) */
+    padding: 40px 18px 18px 0;
     scroll-snap-align: start;
     scroll-snap-stop: always;
+    position: relative;
+    /* Keeps the paper stack (z-index: -1) behind the card but above the band */
+    isolation: isolate;
+
+    /* Stack of papers peeking out behind the card: more reviews underneath */
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        border: var(--border);
+    }
+
+    &::before {
+        inset: 0 0 40px 48px;
+        background: var(--hornet-orange);
+    }
+
+    &::after {
+        inset: 18px 8px 30px 24px;
+        background: var(--hornet-white);
+        background-image: radial-gradient(var(--gray-300) 1.5px, transparent 1.5px);
+        background-size: 12px 12px;
+    }
 }
 
 .review__card {
@@ -78,6 +103,53 @@
     @media (--large) {
         left: 56px;
     }
+}
+
+/* Strip of masking tape on the top-right corner */
+.review__tape {
+    position: absolute;
+    top: -14px;
+    right: 18px;
+    padding: 4px 22px;
+    background: rgb(255 255 255 / 0.85);
+    border-left: 2px dashed var(--gray-500);
+    border-right: 2px dashed var(--gray-500);
+    box-shadow: 2px 2px 0 rgb(39 27 29 / 0.25);
+    transform: rotate(4deg);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-md);
+    letter-spacing: 0.1em;
+
+    @media (--medium) {
+        right: 40px;
+        font-size: var(--fs-lg);
+    }
+}
+
+.review__stars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.review__star {
+    width: 22px;
+    height: 22px;
+    fill: var(--hornet-white);
+    stroke: var(--hornet-ink);
+    stroke-width: 2;
+    stroke-linejoin: round;
+
+    @media (--medium) {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+.review__star--on {
+    fill: var(--hornet-yellow);
 }
 
 .review__quote {

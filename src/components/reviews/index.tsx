@@ -9,7 +9,11 @@ export interface Review {
     year: number;
     // Profile photo served from /public (any size, shown square); omitted -> initials
     photo?: string;
+    // 1..5 stars; omitted -> no stars
+    rating?: number;
 }
+
+const STAR_PATH = "M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z";
 
 interface ReviewsProps {
     reviews: Review[];
@@ -115,7 +119,7 @@ export function Reviews({ reviews }: ReviewsProps) {
                 // Announce slide changes only when the visitor is driving them
                 aria-live={autoplay ? "off" : "polite"}
             >
-                {reviews.map(({ quote, name, company, city, year, photo }, i) => (
+                {reviews.map(({ quote, name, company, city, year, photo, rating }, i) => (
                     <figure
                         className="review"
                         key={`${name}-${i}`}
@@ -128,6 +132,28 @@ export function Reviews({ reviews }: ReviewsProps) {
                             <span className="review__mark" aria-hidden="true">
                                 &ldquo;
                             </span>
+                            {/* Strip of tape on the corner, numbering the review */}
+                            <span className="review__tape" aria-hidden="true">
+                                #{pad(i + 1)}
+                            </span>
+
+                            {rating !== undefined && (
+                                <span
+                                    className="review__stars"
+                                    role="img"
+                                    aria-label={`${rating} dari 5 bintang`}
+                                >
+                                    {Array.from({ length: 5 }, (_, star) => (
+                                        <svg
+                                            className={`review__star${star < rating ? " review__star--on" : ""}`}
+                                            viewBox="0 0 24 24"
+                                            key={star}
+                                        >
+                                            <path d={STAR_PATH} />
+                                        </svg>
+                                    ))}
+                                </span>
+                            )}
                             <blockquote className="review__quote">
                                 <p>{quote}</p>
                             </blockquote>

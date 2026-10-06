@@ -141,8 +141,12 @@ const PRODUCTS: [Product, Product] = [
     },
 ];
 
+// Four-point sparkle used as a background ornament
+const SPARKLE_PATH = "M12 0c.9 6.4 5.6 11.1 12 12-6.4.9-11.1 5.6-12 12-.9-6.4-5.6-11.1-12-12C6.4 11.1 11.1 6.4 12 0z";
+
 // Customer reviews, any number: shown one at a time in a carousel (see components/reviews).
-// `photo` is optional (initials until set). The section is hidden while the list is empty.
+// `photo` (initials until set) and `rating` (1..5 stars, hidden when unset) are optional.
+// The section is hidden while the list is empty.
 // Placeholders until real reviews are collected.
 const REVIEWS: Review[] = [
     {
@@ -151,6 +155,7 @@ const REVIEWS: Review[] = [
         company: "PT Kilau Motor Sejahtera",
         city: "Jakarta",
         year: 2025,
+        rating: 5,
     },
     {
         quote: "Aplikasinya gampang dan hasilnya konsisten. Sejak pakai Hörnet, pelanggan detailing kami makin banyak yang repeat order.",
@@ -158,6 +163,7 @@ const REVIEWS: Review[] = [
         company: "PT Detailindo Prima",
         city: "Surabaya",
         year: 2025,
+        rating: 5,
     },
     {
         quote: "Kami pakai untuk armada kendaraan operasional. Cuci jadi jauh lebih cepat karena kotoran tidak gampang menempel.",
@@ -165,6 +171,7 @@ const REVIEWS: Review[] = [
         company: "PT Armada Nusantara Logistik",
         city: "Bandung",
         year: 2024,
+        rating: 4,
     },
 ];
 
@@ -392,19 +399,56 @@ function Home() {
 
             {REVIEWS.length > 0 && (
                 <section className="testimonials">
+                    {/* Background ornaments: halftone, giant outlined quote, sparkles, chips */}
+                    <div className="testimonials__decor" aria-hidden="true">
+                        <span className="testimonials__halftone" />
+                        <span className="testimonials__bigquote">&ldquo;</span>
+                        {[1, 2, 3, 4].map((n) => (
+                            <svg className={`sparkle sparkle--${n}`} viewBox="0 0 24 24" key={n}>
+                                <path d={SPARKLE_PATH} />
+                            </svg>
+                        ))}
+                        {[1, 2, 3].map((n) => (
+                            <span className={`testimonials__chip testimonials__chip--${n}`} key={n} />
+                        ))}
+                    </div>
+
                     <div className="testimonials__inner">
-                        <h2 className="testimonials__title">
-                            Kata <span className="testimonials__highlight">Mereka</span>
-                        </h2>
-                        <p className="testimonials__lead">
-                            Cerita langsung dari bengkel, detailer, dan pemilik kendaraan yang sudah
-                            membuktikan Hörnet.
-                        </p>
+                        <div className="testimonials__head">
+                            <div className="testimonials__copy">
+                                <h2 className="testimonials__title">
+                                    Kata <span className="testimonials__highlight">Mereka</span>
+                                </h2>
+                                <p className="testimonials__lead">
+                                    Cerita langsung dari bengkel, detailer, dan pemilik kendaraan
+                                    yang sudah membuktikan Hörnet.
+                                </p>
+                            </div>
+
+                            {/* Rubber stamp: ring text spins around the hornet mark */}
+                            <svg className="stamp" viewBox="0 0 200 200" aria-hidden="true">
+                                <defs>
+                                    <path id="stamp-ring" d="M100 22a78 78 0 1 1 0 156a78 78 0 1 1 0-156" />
+                                </defs>
+                                <circle className="stamp__outer" cx="100" cy="100" r="96" />
+                                <g className="stamp__ring">
+                                    <text className="stamp__text">
+                                        <textPath href="#stamp-ring" textLength="486">
+                                            Pelanggan puas ✦ Terbukti ✦ Hörnet ✦
+                                        </textPath>
+                                    </text>
+                                </g>
+                                <circle className="stamp__inner" cx="100" cy="100" r="58" />
+                                <image href={HORNET_MARK_SRC} x="58" y="58" width="84" height="84" />
+                            </svg>
+                        </div>
 
                         <Reviews reviews={REVIEWS} />
                     </div>
                 </section>
             )}
+
+            <div className="hazard" aria-hidden="true" />
 
             <section className="cta">
                 <div className="cta__inner">
