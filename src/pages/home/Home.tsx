@@ -91,7 +91,56 @@ const PROMOTIONS: Promotion[] = [
     },
 ];
 
-const TICKER_WORDS = ["Promo", "Diskon", "Hörnet Supercoat", "Hemat", "Promo", "Bonus"];
+interface ProductPower {
+    label: string;
+    // 1..5, drawn as skewed meter segments
+    level: number;
+}
+
+interface Product {
+    code: string;
+    name: string;
+    tagline: string;
+    description: string;
+    powers: ProductPower[];
+    // Product photo served from /public; omitted until it exists (hatched placeholder with the hornet mark)
+    image?: string;
+    // Detail page; omitted until it exists (the button has no action yet)
+    detailHref?: string;
+}
+
+const POWER_MAX = 5;
+
+// Exactly two highlighted products, shown side by side (stacked on phones).
+// The second one is a placeholder until the real lineup is final.
+const PRODUCTS: [Product, Product] = [
+    {
+        code: "HS 470",
+        name: "Hörnet Supercoat",
+        tagline: "Coating andalan",
+        description:
+            "Lapisan pelindung dengan kilau ekstrem dan efek daun talas yang membuat air dan kotoran langsung meluncur.",
+        powers: [
+            { label: "Kilau", level: 5 },
+            { label: "Hidrofobik", level: 5 },
+            { label: "Ketahanan", level: 4 },
+        ],
+    },
+    {
+        code: "HS 220",
+        name: "Hörnet Quick Coat",
+        tagline: "Semprot & lap",
+        description:
+            "Booster praktis untuk perawatan rutin: semprot, lap, dan kilau serta sifat hidrofobik coating kembali segar.",
+        powers: [
+            { label: "Kilau", level: 4 },
+            { label: "Hidrofobik", level: 4 },
+            { label: "Kemudahan", level: 5 },
+        ],
+    },
+];
+
+const TICKER_WORDS =["Promo", "Diskon", "Hörnet Supercoat", "Hemat", "Promo", "Bonus"];
 // One loop copy of the ticker: the words repeated until it's wider than any screen
 // (~3800px), otherwise the right side runs empty before the loop snaps back.
 const TICKER_COPY = Array.from({ length: 4 }, () => TICKER_WORDS).flat();
@@ -124,10 +173,9 @@ function Home() {
                         </p>
 
                         <div className="hero__actions">
-                            {/* No action yet: the product section doesn't exist. */}
-                            <button type="button" className="button button--lg button--dark">
+                            <a className="button button--lg button--dark" href="#produk">
                                 <span>Lihat produk</span>
-                            </button>
+                            </a>
                         </div>
                     </div>
 
@@ -245,6 +293,74 @@ function Home() {
                     </div>
                 </section>
             )}
+
+            <section className="products" id="produk">
+                <div className="products__inner">
+                    <h2 className="products__title">
+                        Produk <span className="products__highlight">Unggulan</span>
+                    </h2>
+                    <p className="products__lead">
+                        Dua senjata utama lineup Hörnet untuk kilau dan proteksi maksimal.
+                    </p>
+
+                    <div className="products__grid">
+                        {PRODUCTS.map(
+                            ({ code, name, tagline, description, powers, image, detailHref }) => (
+                                <article className="product" key={code}>
+                                    <div className="product__canvas">
+                                        {image ? (
+                                            <img src={image} alt={`${name} ${code}`} loading="lazy" decoding="async" />
+                                        ) : (
+                                            // Placeholder until the product photo is ready: set `image`
+                                            <div className="product__photo--placeholder">
+                                                <img src={HORNET_MARK_SRC} alt="" {...HORNET_MARK_SIZE} loading="lazy" />
+                                            </div>
+                                        )}
+                                        <span className="product__sticker">{code}</span>
+                                    </div>
+
+                                    <div className="product__body">
+                                        <span className="product__tag">{tagline}</span>
+                                        <h3 className="product__name">{name}</h3>
+                                        <p className="product__text">{description}</p>
+
+                                        <ul className="product__powers">
+                                            {powers.map(({ label, level }) => (
+                                                <li className="power" key={label}>
+                                                    <span className="power__label">{label}</span>
+                                                    <span
+                                                        className="power__meter"
+                                                        role="img"
+                                                        aria-label={`${level} dari ${POWER_MAX}`}
+                                                    >
+                                                        {Array.from({ length: POWER_MAX }, (_, i) => (
+                                                            <span
+                                                                className={`power__cell${i < level ? " power__cell--on" : ""}`}
+                                                                key={i}
+                                                            />
+                                                        ))}
+                                                    </span>
+                                                </li>
+                                            ))}
+                                        </ul>
+
+                                        {detailHref ? (
+                                            <a className="button button--lg button--yellow product__action" href={detailHref}>
+                                                <span>Lihat detail</span>
+                                            </a>
+                                        ) : (
+                                            // No action yet: the detail pages don't exist.
+                                            <button type="button" className="button button--lg button--yellow product__action">
+                                                <span>Lihat detail</span>
+                                            </button>
+                                        )}
+                                    </div>
+                                </article>
+                            ),
+                        )}
+                    </div>
+                </div>
+            </section>
 
             <section className="cta">
                 <div className="cta__inner">

@@ -26,7 +26,16 @@ a:focus-visible {
     outline-offset: 4px;
 }
 
+/* In-page links (hero "Lihat produk" -> #produk) glide instead of jumping */
+html {
+    scroll-behavior: smooth;
+}
+
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
     * {
         transition: none !important;
     }
