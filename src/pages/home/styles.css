@@ -289,14 +289,150 @@
     }
 }
 
-/* Promotions: yellow band between the white features and the dark CTA */
+/* Promotions: yellow band between the white features and the dark CTA, opened by a ticker */
 .promos {
-    padding: 72px 0;
+    padding: 0 0 72px;
     border-top: var(--border-thick);
     background: var(--hornet-yellow);
+    overflow: hidden;
 
     @media (--medium) {
-        padding: 96px 0;
+        padding-bottom: 96px;
+    }
+}
+
+/* Ink ticker tape scrolling "PROMO • DISKON • ..." across the top of the band */
+.ticker {
+    margin-bottom: 48px;
+    padding: 12px 0;
+    background: var(--hornet-ink);
+    border-bottom: var(--border-thick);
+    overflow: hidden;
+
+    @media (--medium) {
+        margin-bottom: 64px;
+    }
+}
+
+.ticker__track {
+    display: flex;
+    width: max-content;
+    animation: ticker-scroll 22s linear infinite;
+}
+
+.ticker__group {
+    display: flex;
+}
+
+.ticker__item {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-xl);
+    line-height: 1;
+    color: var(--hornet-yellow);
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    /* Skewed orange chip between words */
+    &::after {
+        content: "";
+        width: 18px;
+        height: 18px;
+        margin: 0 24px;
+        background: var(--hornet-orange);
+        transform: skewX(var(--skew));
+    }
+}
+
+@keyframes ticker-scroll {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ticker__track {
+        animation: none;
+    }
+}
+
+/* Title + lead with the mascot flying beside them */
+/* Phones: the mascot flies above the title, so the title keeps the full width */
+.promos__head {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+    margin-bottom: 40px;
+
+    @media (--small) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    @media (--medium) {
+        margin-bottom: 48px;
+    }
+}
+
+.promos__copy {
+    min-width: 0;
+}
+
+.promos__mascot {
+    position: relative;
+    flex: none;
+    align-self: flex-end;
+    width: 210px;
+    margin-right: 8px;
+
+    @media (--small) {
+        align-self: auto;
+        width: clamp(160px, 28vw, 340px);
+    }
+}
+
+/* Speech burst shouted through the megaphone */
+.promos__shout {
+    position: absolute;
+    top: -6%;
+    left: -12%;
+    z-index: 1;
+    padding: 4px 10px;
+    background: var(--hornet-white);
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+    transform: rotate(-10deg);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(14px, 2.4vw, 28px);
+    line-height: 1;
+    text-transform: uppercase;
+    animation: shout-pop 1.2s ease-in-out infinite;
+
+    @media (--medium) {
+        padding: 6px 14px;
+    }
+}
+
+@keyframes shout-pop {
+    0%, 100% {
+        transform: rotate(-10deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(-6deg) scale(1.1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .promos__shout {
+        animation: none;
     }
 }
 
@@ -319,7 +455,7 @@
 
 .promos__lead {
     max-width: 38em;
-    margin: 0 0 48px;
+    margin: 0;
     font-size: var(--fs-md);
 
     @media (--medium) {

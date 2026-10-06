@@ -1,4 +1,5 @@
 import React, { type CSSProperties, type ReactNode } from "react";
+import { Mascot } from "../../components/mascot";
 import { Shell } from "../../components/shell";
 import {
     CONTACT_EMAIL,
@@ -88,6 +89,8 @@ const PROMOTIONS: Promotion[] = [
     },
 ];
 
+const TICKER_WORDS = ["Promo", "Diskon", "Hörnet Supercoat", "Hemat", "Promo", "Bonus"];
+
 const promoWhatsAppUrl = (alt: string) =>
     `${WHATSAPP_URL}?text=${encodeURIComponent(`Halo, saya mau tanya tentang promo Hörnet: ${alt}`)}`;
 
@@ -173,13 +176,40 @@ function Home() {
 
             {PROMOTIONS.length > 0 && (
                 <section className="promos">
+                    {/* Scrolling ticker; the text is doubled so the loop is seamless */}
+                    <div className="ticker" aria-hidden="true">
+                        <div className="ticker__track">
+                            {[0, 1].map((copy) => (
+                                <span className="ticker__group" key={copy}>
+                                    {TICKER_WORDS.map((word, i) => (
+                                        <span className="ticker__item" key={i}>
+                                            {word}
+                                        </span>
+                                    ))}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
                     <div className="promos__inner">
-                        <h2 className="promos__title">
-                            Promo <span className="promos__highlight">Hörnet</span>
-                        </h2>
-                        <p className="promos__lead">
-                            Penawaran spesial yang sedang berlaku. Klik promo untuk tanya langsung.
-                        </p>
+                        <div className="promos__head">
+                            <div className="promos__copy">
+                                <h2 className="promos__title">
+                                    Promo <span className="promos__highlight">Hörnet</span>
+                                </h2>
+                                <p className="promos__lead">
+                                    Penawaran spesial yang sedang berlaku. Klik promo untuk tanya
+                                    langsung.
+                                </p>
+                            </div>
+
+                            <div className="promos__mascot">
+                                <span className="promos__shout" aria-hidden="true">
+                                    Promo!
+                                </span>
+                                <Mascot />
+                            </div>
+                        </div>
 
                         <ul className="promos__grid">
                             {PROMOTIONS.map(({ src, alt, width, height }) => (
