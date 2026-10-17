@@ -86,6 +86,15 @@ export function Shell({ children, nav = SITE_NAV }: ShellProps) {
         );
     };
 
+    // Home logo: scroll to the top (smooth via the html scroll-behavior, instant under
+    // prefers-reduced-motion) and drop any #section from the URL so a reload starts at the top
+    const backToTop = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault();
+        setMenuOpen(false);
+        window.scrollTo({ top: 0 });
+        if (window.location.hash) window.history.replaceState(window.history.state, "", pathname);
+    };
+
     // Close the phone menu with Escape
     useEffect(() => {
         if (!menuOpen) return;
@@ -100,9 +109,16 @@ export function Shell({ children, nav = SITE_NAV }: ShellProps) {
         <div className="shell">
             <header className="shell__header">
                 <div className="shell__container shell__header-inner">
-                    {/* On the home page the logo is static (nowhere to go); elsewhere it leads home */}
+                    {/* On the home page the logo scrolls back to the top; elsewhere it leads home */}
                     {onHome ? (
-                        <img className="shell__logo" src={HORNET_LOGO_SRC} alt="Hörnet Supercoat" {...HORNET_LOGO_SIZE} />
+                        <a className="shell__logo-link" href="#" onClick={backToTop}>
+                            <img
+                                className="shell__logo"
+                                src={HORNET_LOGO_SRC}
+                                alt="Hörnet Supercoat, kembali ke atas"
+                                {...HORNET_LOGO_SIZE}
+                            />
+                        </a>
                     ) : (
                         <Link className="shell__logo-link" to={HOME_PATH}>
                             <img
