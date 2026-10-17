@@ -48,6 +48,13 @@ const FEATURE_ICONS: Record<FeatureIcon, ReactNode> = {
             <path d="M19 8h2M19 11h2M18 14l1.5 1" />
         </>
     ),
+    clock: (
+        <>
+            <circle cx="12" cy="13" r="8" />
+            <path d="M12 9v4l2.5 2.5" />
+            <path d="M10 2h4" />
+        </>
+    ),
 };
 
 const partnerWhatsAppUrl = `${WHATSAPP_URL}?text=${encodeURIComponent(
@@ -177,7 +184,7 @@ function Home() {
                         Kenapa <span className="features__highlight">Supercoat</span>
                     </h2>
                     <p className="features__lead">
-                        Satu lapisan, performa yang langsung terasa sejak cucian pertama.
+                        Keunggulan yang sama di setiap kaleng Hörnet, dari Cat NC dan Cat PU sampai Racing Clear.
                     </p>
 
                     <div className="features__grid">

@@ -44,7 +44,7 @@ export interface HeroLineup {
 }
 
 // Keys of the icons drawn in Home.tsx (FEATURE_ICONS)
-export type FeatureIcon = "sparkle" | "drop" | "shield" | "spray";
+export type FeatureIcon = "sparkle" | "drop" | "shield" | "spray" | "clock";
 
 export interface Feature {
     icon: FeatureIcon;
@@ -158,7 +158,7 @@ export interface ProductsContent {
 
 type Json = Record<string, unknown>;
 
-const FEATURE_ICONS: FeatureIcon[] = ["sparkle", "drop", "shield", "spray"];
+const FEATURE_ICONS: FeatureIcon[] = ["sparkle", "drop", "shield", "spray", "clock"];
 
 // File being validated, named in the error messages
 let file = "";

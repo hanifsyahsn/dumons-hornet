@@ -40,24 +40,24 @@
 
     "features": [
         {
-            "icon": "sparkle",
-            "title": "Kilau ekstrem",
-            "text": "Kilap tajam dan dalam yang bikin cat tampak seperti baru keluar dari ruang poles."
-        },
-        {
-            "icon": "drop",
-            "title": "Super hidrofobik",
-            "text": "Air langsung membulat dan meluncur, membawa debu dan kotoran ikut pergi."
-        },
-        {
-            "icon": "shield",
-            "title": "Proteksi maksimal",
-            "text": "Lapisan tangguh yang menjaga cat dari paparan UV, kotoran, dan noda membandel."
+            "icon": "clock",
+            "title": "Cepat kering",
+            "text": "Cat PU kering 15–20 menit, Cat NC 30–40 menit, dan Racing Clear MS 4:1 sudah kering sentuh dalam 15 menit."
         },
         {
             "icon": "spray",
-            "title": "Perawatan mudah",
-            "text": "Kotoran sulit menempel, cuci jadi lebih cepat dan kilau bertahan lebih lama."
+            "title": "Daya tutup tinggi",
+            "text": "Resin Nitrocellulose dan Polyurethane menutup permukaan dengan rata, daya tutupnya baik sampai sangat baik."
+        },
+        {
+            "icon": "shield",
+            "title": "Tahan lama & rekat kuat",
+            "text": "Warna yang awet dengan daya rekat yang baik, plus Racing Clear 2:1 yang tahan UV."
+        },
+        {
+            "icon": "sparkle",
+            "title": "Hasil jernih mengkilap",
+            "text": "Racing Clear mudah diaplikasikan untuk finishing jernih dan mengkilap; MS 4:1 bahkan bisa dipoles dalam waktu kurang dari 12 jam."
         }
     ],
 
