@@ -128,7 +128,14 @@ export interface Faq {
     answer: string;
 }
 
+// Search engine / link preview copy for /home
+export interface Seo {
+    title: string;
+    description: string;
+}
+
 export interface HomeContent {
+    seo: Seo;
     contact: Contact;
     hero: Hero;
     features: Feature[];
@@ -148,6 +155,9 @@ export interface ProductsPage {
     // Each entry is one line of the big title
     titleLines: string[];
     lead: string;
+    // <title> and meta description of /produk
+    seoTitle: string;
+    seoDescription: string;
 }
 
 export interface ProductsContent {
@@ -212,7 +222,7 @@ function validateProducts(raw: unknown): ProductsContent {
     const root = object(raw, "(file)");
 
     const page = object(root.page, "page");
-    ["tag", "lead"].forEach((key) => text(page, key, "page"));
+    ["tag", "lead", "seoTitle", "seoDescription"].forEach((key) => text(page, key, "page"));
     textLines(page.titleLines, "page.titleLines");
 
     each(root.products, "products", (item, path) => {
@@ -265,6 +275,9 @@ function validate(raw: unknown, codes: string[]): HomeContent {
     if (!/^\d{8,15}$/.test(String(contact.whatsappNumber))) {
         fail("contact.whatsappNumber", "harus angka saja dengan kode negara, contoh 6285159122501");
     }
+
+    const seo = object(root.seo, "seo");
+    ["title", "description"].forEach((key) => text(seo, key, "seo"));
 
     const hero = object(root.hero, "hero");
     ["tag", "message", "productCode"].forEach((key) => text(hero, key, "hero"));

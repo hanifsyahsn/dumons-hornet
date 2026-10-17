@@ -3,13 +3,11 @@ import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import App from "../pages/App";
 import { Loading } from "../components/loading";
-import { pageTitle } from "../routes";
+import { pageHead } from "../routes";
 import { NOT_FOUND_TITLE } from "../constants/routing";
-import type { RouteContext } from "../types/routing";
-import { HORNET_MARK_SIZE, HORNET_MARK_SRC, SITE_URL } from "../constants/brand";
+import type { PageHead, RouteContext } from "../types/routing";
+import { SITE_URL } from "../constants/brand";
 
-const DESCRIPTION =
-    "Hörnet Supercoat, inovasi terbaru dari lineup performance coating Dümons. Kilau ekstrem, super hidrofobik, dan proteksi maksimal untuk cat kendaraanmu.";
 const DISPLAY_FONT_SRC = "/assets/fonts/roboto-condensed-italic-latin.woff2";
 
 export interface RenderResult {
@@ -39,44 +37,59 @@ export function renderPage(url: string): RenderResult {
     }
 
     const pathname = url.split(/[?#]/)[0];
-    const title = status === 404 ? NOT_FOUND_TITLE : pageTitle(pathname);
+    const head = pageHead(pathname);
+    if (status === 404) head.title = NOT_FOUND_TITLE;
 
     // The 404 page has no canonical URL of its own and shouldn't be indexed.
     const canonical = status === 200 ? `${SITE_URL}${pathname}` : undefined;
 
-    return { status, html: renderDocument(title, appHtml, canonical) };
+    return { status, html: renderDocument(head, appHtml, canonical) };
 }
 
-// Canonical + link preview tags (WhatsApp, Facebook, X) for indexable pages, noindex otherwise.
-function renderShareMeta(title: string, canonical?: string): string {
+// Text going into an attribute or <title>
+const escape = (text: string) =>
+    text.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+// Canonical, link previews (WhatsApp, Facebook, X) and schema.org data for indexable pages,
+// noindex otherwise. "<" is escaped in JSON-LD so a value can never close the script tag.
+function renderSeoMeta({ title, description, image, jsonLd }: PageHead, canonical?: string): string {
     if (!canonical) return `<meta name="robots" content="noindex" />`;
 
-    return `<link rel="canonical" href="${canonical}" />
+    const imageUrl = `${SITE_URL}${image.src}`;
+    const scripts = jsonLd.map(
+        (data) => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`,
+    );
+    return `<meta name="robots" content="index, follow, max-image-preview:large" />
+        <link rel="canonical" href="${canonical}" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Hörnet Supercoat" />
         <meta property="og:locale" content="id_ID" />
         <meta property="og:url" content="${canonical}" />
-        <meta property="og:title" content="${title}" />
-        <meta property="og:description" content="${DESCRIPTION}" />
-        <meta property="og:image" content="${SITE_URL}${HORNET_MARK_SRC}" />
+        <meta property="og:title" content="${escape(title)}" />
+        <meta property="og:description" content="${escape(description)}" />
+        <meta property="og:image" content="${imageUrl}" />
         <meta property="og:image:type" content="image/webp" />
-        <meta property="og:image:width" content="${HORNET_MARK_SIZE.width}" />
-        <meta property="og:image:height" content="${HORNET_MARK_SIZE.height}" />
-        <meta property="og:image:alt" content="Logo Hörnet Supercoat" />
-        <meta name="twitter:card" content="summary" />`;
+        <meta property="og:image:width" content="${image.width}" />
+        <meta property="og:image:height" content="${image.height}" />
+        <meta property="og:image:alt" content="${escape(image.alt)}" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="${escape(title)}" />
+        <meta name="twitter:description" content="${escape(description)}" />
+        <meta name="twitter:image" content="${imageUrl}" />
+        ${scripts.join("\n        ")}`;
 }
 
-function renderDocument(title: string, appHtml: string, canonical?: string): string {
+function renderDocument(head: PageHead, appHtml: string, canonical?: string): string {
     return `<!DOCTYPE html>
 <html lang="id">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="${DESCRIPTION}" />
+        <meta name="description" content="${escape(head.description)}" />
         <meta name="theme-color" content="#ffff00" />
 
-        <title>${title}</title>
-        ${renderShareMeta(title, canonical)}
+        <title>${escape(head.title)}</title>
+        ${renderSeoMeta(head, canonical)}
 
         <link rel="icon" type="image/webp" href="/assets/logo.webp" />
         <link rel="preload" href="${DISPLAY_FONT_SRC}" as="font" type="font/woff2" crossorigin />

@@ -93,12 +93,13 @@ async function main() {
 
     writeFile("_redirects", redirects.join("\n") + "\n");
 
-    // Every prerendered page goes into the sitemap; redirects and the 404 page don't.
+    // Every prerendered page goes into the sitemap (dated with this build); redirects and the 404 page don't.
+    const BUILD_DATE = new Date().toISOString().slice(0, 10);
     writeFile(
         "sitemap.xml",
         `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${pages.map(url => `    <url><loc>${SITE_URL}${url}</loc></url>`).join("\n")}
+${pages.map(url => `    <url><loc>${SITE_URL}${url}</loc><lastmod>${BUILD_DATE}</lastmod></url>`).join("\n")}
 </urlset>
 `
     );
