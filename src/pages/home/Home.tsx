@@ -184,7 +184,7 @@ function Home() {
                         Kenapa <span className="features__highlight">Supercoat</span>
                     </h2>
                     <p className="features__lead">
-                        Keunggulan yang sama di setiap kaleng Hörnet, dari Cat NC dan Cat PU sampai Racing Clear.
+                        Satu lineup, keunggulan yang sama di setiap kaleng.
                     </p>
 
                     <div className="features__grid">
