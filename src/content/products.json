@@ -6,7 +6,8 @@
         "colors: pilihan warna di halaman detail. name = nama warna, hex = kode warna untuk kotak contoh (#rrggbb), image (opsional) = foto produk warna itu (persegi). Boleh [] kalau produk tidak punya pilihan warna: bagian warnanya disembunyikan.",
         "Field opsional (image, cutout) cukup dihapus kalau belum ada. image: foto produk (persegi), cutout: foto produk transparan (PNG/WebP).",
         "powers: 1 sampai 5 meter per produk, level 1..5.",
-        "MASIH CONTOH, wajib diganti sebelum launch: produk kedua (HS 220), pilihan warna (colors) semua produk."
+        "Cat NC: setiap warna punya foto kalengnya sendiri di public/assets/products/nc/ (kotak 1000x1000, sudah bertema web). Kode hex warnanya perkiraan dari nama warna, ganti kalau ada kode resminya.",
+        "MASIH CONTOH, wajib diganti sebelum launch: produk kedua (HS 220) beserta warnanya, deskripsi dan powers Cat NC."
     ],
 
     "page": {
@@ -17,21 +18,30 @@
 
     "products": [
         {
-            "code": "HS 470",
-            "slug": "hs-470",
-            "name": "Hörnet Supercoat",
-            "tagline": "Coating andalan",
-            "description": "Lapisan pelindung dengan kilau ekstrem dan efek daun talas yang membuat air dan kotoran langsung meluncur.",
+            "code": "NC",
+            "slug": "cat-nc",
+            "name": "Hörnet Cat NC",
+            "tagline": "Auto refinish",
+            "description": "Cat NC Hörnet Supercoat untuk refinish bodi kendaraan: cepat kering, warna pekat dan mudah diaplikasikan. Tersedia 11 warna, dari Super White sampai Ferrari Red.",
+            "image": "/assets/products/nc/hs-470.webp",
+            "cutout": "/assets/products/nc/cutout.webp",
             "powers": [
-                { "label": "Kilau", "level": 5 },
-                { "label": "Hidrofobik", "level": 5 },
-                { "label": "Ketahanan", "level": 4 }
+                { "label": "Cepat kering", "level": 5 },
+                { "label": "Daya tutup", "level": 4 },
+                { "label": "Kemudahan", "level": 5 }
             ],
             "colors": [
-                { "name": "Kuning Hornet", "hex": "#ffff00" },
-                { "name": "Hitam Pekat", "hex": "#271b1d" },
-                { "name": "Putih Mutiara", "hex": "#f4f1ea" },
-                { "name": "Merah Racing", "hex": "#d62828" }
+                { "name": "HS 470 Super White", "hex": "#f4f3ee", "image": "/assets/products/nc/hs-470.webp" },
+                { "name": "HS 480 Black", "hex": "#141414", "image": "/assets/products/nc/hs-480.webp" },
+                { "name": "HS 481 Black Doff", "hex": "#2b2b2b", "image": "/assets/products/nc/hs-481.webp" },
+                { "name": "HS 481 Black Semi Doff", "hex": "#202020", "image": "/assets/products/nc/hs-481-semi.webp" },
+                { "name": "HS 490 WF Black", "hex": "#0a0a0a", "image": "/assets/products/nc/hs-490.webp" },
+                { "name": "HS 1100 Silver", "hex": "#c4c8cc", "image": "/assets/products/nc/hs-1100.webp" },
+                { "name": "HS 661 Green TT", "hex": "#1e7b3c", "image": "/assets/products/nc/hs-661.webp" },
+                { "name": "HS 222 Lemon Yellow", "hex": "#fff44f", "image": "/assets/products/nc/hs-222.webp" },
+                { "name": "HS 343 Internasional Orange", "hex": "#ff4f00", "image": "/assets/products/nc/hs-343.webp" },
+                { "name": "HS 581 Cyanine Blue", "hex": "#1846b0", "image": "/assets/products/nc/hs-581.webp" },
+                { "name": "HS 301 Ferrari Red", "hex": "#ff2800", "image": "/assets/products/nc/hs-301.webp" }
             ]
         },
         {

@@ -24,7 +24,7 @@
         "tag": "Supercoat",
         "titleLines": ["Kilau yang", "menyengat."],
         "message": "Hörnet Supercoat adalah inovasi terbaru dari lineup performance coating Dumons. Kilau ekstrem, proteksi maksimal, dan tampilan yang bikin setiap mata menoleh.",
-        "productCode": "HS 470",
+        "productCode": "NC",
         "lineup": {
             "image": "/assets/hornet-lineup.webp",
             "alt": "Lineup kaleng Hörnet: 2K Racing Clear, Racing Clear 2:1, Thinner PU 900, HS 470 Super White dan HP 105 Super Fine Silver",
@@ -91,7 +91,7 @@
         }
     ],
 
-    "featuredProducts": ["HS 470", "HS 220"],
+    "featuredProducts": ["NC", "HS 220"],
 
     "reviews": [
         {
@@ -121,11 +121,11 @@
     ],
 
     "results": [
-        { "surface": "Body mobil", "caption": "Kilau dalam seperti cat baru setelah satu lapis.", "product": "HS 470" },
-        { "surface": "Kaca depan", "caption": "Air hujan langsung membulat dan meluncur.", "product": "HS 470" },
-        { "surface": "Velg", "caption": "Debu rem tidak gampang menempel.", "product": "HS 470" },
+        { "surface": "Body mobil", "caption": "Kilau dalam seperti cat baru setelah satu lapis.", "product": "NC" },
+        { "surface": "Kaca depan", "caption": "Air hujan langsung membulat dan meluncur.", "product": "NC" },
+        { "surface": "Velg", "caption": "Debu rem tidak gampang menempel.", "product": "NC" },
         { "surface": "Body motor", "caption": "Warna tampak lebih pekat dan segar.", "product": "HS 220" },
-        { "surface": "Cat hitam", "caption": "Pantulan tajam tanpa kesan kusam.", "product": "HS 470" },
+        { "surface": "Cat hitam", "caption": "Pantulan tajam tanpa kesan kusam.", "product": "NC" },
         { "surface": "Lampu depan", "caption": "Mika tetap bening dan terlindungi.", "product": "HS 220" }
     ],
 
