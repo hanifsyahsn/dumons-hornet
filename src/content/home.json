@@ -41,23 +41,23 @@
     "features": [
         {
             "icon": "clock",
-            "title": "Cepat kering",
-            "text": "Kering dalam hitungan menit, pengerjaan jadi lebih cepat."
+            "title": "Kering kilat",
+            "text": "Semprot, tinggal sebentar, sudah kering. Bengkel lebih ngebut, mobil lebih cepat pulang!"
         },
         {
             "icon": "spray",
-            "title": "Daya tutup tinggi",
-            "text": "Warna menutup permukaan dengan rata dan pekat."
+            "title": "Tutup total",
+            "text": "Warna pekat menutup rata sampai ke sudut, tanpa belang sedikit pun."
         },
         {
             "icon": "shield",
-            "title": "Awet & rekat kuat",
-            "text": "Warna tahan lama, melekat kuat, dan tahan paparan UV."
+            "title": "Nempel bandel",
+            "text": "Melekat kuat, cuek sama panas matahari, dan warnanya awet nggak gampang pudar."
         },
         {
             "icon": "sparkle",
-            "title": "Hasil jernih mengkilap",
-            "text": "Mudah diaplikasikan, hasil akhir jernih dan mengkilap."
+            "title": "Kilau bikin silau",
+            "text": "Gampang disemprot, hasilnya jernih mengkilap sampai bayanganmu sendiri ikut ngaca."
         }
     ],
 

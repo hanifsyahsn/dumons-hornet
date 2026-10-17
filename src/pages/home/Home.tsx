@@ -184,7 +184,7 @@ function Home() {
                         Kenapa <span className="features__highlight">Supercoat</span>
                     </h2>
                     <p className="features__lead">
-                        Satu lineup, keunggulan yang sama di setiap kaleng.
+                        Satu lineup, satu standar: galak di setiap kaleng.
                     </p>
 
                     <div className="features__grid">
