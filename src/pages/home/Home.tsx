@@ -72,6 +72,16 @@ const FEATURED = content.featuredProducts.map((code) => productByCode(code)!);
 // Product featured in the hero: its photo fills the hero frame
 const HERO_PRODUCT = productByCode(HERO.productCode);
 
+// Every size of the lineup cutout; the browser picks by screen width and pixel density
+const HERO_LINEUP_SRCSET = HERO.lineup
+    ? [...(HERO.lineup.smaller ?? []), { image: HERO.lineup.image, width: HERO.lineup.width }]
+          .map(({ image, width }) => `${image} ${width}w`)
+          .join(", ")
+    : undefined;
+// Drawn width of the cans: 106-110% of the stage, which is near full width on phones,
+// up to 720px from --large and 860px from --xxlarge (see .hero__stage)
+const HERO_LINEUP_SIZES = "(min-width: 1601px) 950px, (min-width: 961px) 800px, 100vw";
+
 // Empty grid cells after the last result, filled with ornaments. Three columns: the
 // big tile takes 4 cells, so n results use n + 3. Two columns: it's a full-width banner,
 // then the other n - 1 tiles in pairs. One column (phones) never has a gap.
@@ -132,6 +142,8 @@ function Home() {
                                     className="hero__stage-cans"
                                     src={HERO.lineup.image}
                                     alt={HERO.lineup.alt}
+                                    srcSet={HERO_LINEUP_SRCSET}
+                                    sizes={HERO_LINEUP_SIZES}
                                     width={HERO.lineup.width}
                                     height={HERO.lineup.height}
                                     fetchPriority="high"

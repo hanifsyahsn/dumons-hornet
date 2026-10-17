@@ -6,7 +6,7 @@
         "Gambar ditaruh di folder public/, lalu ditulis path-nya mulai dari /assets/... (contoh: /assets/promos/promo-juli.webp).",
         "featuredProducts: kode dua produk (dari products.json) yang tampil di section Produk Unggulan. hero.productCode dan results[].product juga memakai kode dari products.json.",
         "Field opsional (photo, rating, mapsUrl, whatsappUrl, hero.lineup) cukup dihapus kalau belum ada.",
-        "hero.lineup: foto deretan kaleng (PNG/WebP berlatar transparan) di section pertama, lengkap dengan width/height aslinya. Kalau dihapus, hero kembali memakai foto produk hero.productCode.",
+        "hero.lineup: foto deretan kaleng (PNG/WebP berlatar transparan) di section pertama, lengkap dengan width/height aslinya. Kalau dihapus, hero kembali memakai foto produk hero.productCode. smaller (opsional): versi lebih kecil dari gambar yang sama beserta lebarnya, supaya HP tidak mengunduh versi terbesar.",
         "MASIH CONTOH, wajib diganti sebelum launch: stats (angka), reviews, partners, jawaban FAQ tentang beda dengan Dumons / motor / daya tahan / pengiriman, poster promo, foto hasil."
     ],
 
@@ -28,8 +28,12 @@
         "lineup": {
             "image": "/assets/hornet-lineup.webp",
             "alt": "Lineup kaleng Hörnet: 2K Racing Clear, Racing Clear 2:1, Thinner PU 900, HS 470 Super White dan HP 105 Super Fine Silver",
-            "width": 1600,
-            "height": 655,
+            "width": 1605,
+            "height": 658,
+            "smaller": [
+                { "image": "/assets/hornet-lineup-800.webp", "width": 800 },
+                { "image": "/assets/hornet-lineup-1200.webp", "width": 1200 }
+            ],
             "sticker": "Lineup"
         }
     },

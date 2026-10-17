@@ -38,6 +38,8 @@ export interface HeroLineup {
     // Pixel size of the image, so the page reserves its space before it loads
     width: number;
     height: number;
+    // Downscaled copies of `image`, so phones don't download the full size
+    smaller?: { image: string; width: number }[];
     sticker: string;
 }
 
@@ -253,6 +255,12 @@ function validate(raw: unknown, codes: string[]): HomeContent {
         ["image", "alt", "sticker"].forEach((key) => text(lineup, key, "hero.lineup"));
         number(lineup, "width", "hero.lineup", false, 1);
         number(lineup, "height", "hero.lineup", false, 1);
+        if (lineup.smaller !== undefined) {
+            each(lineup.smaller, "hero.lineup.smaller", (item, path) => {
+                text(item, "image", path);
+                number(item, "width", path, false, 1);
+            });
+        }
     }
 
     each(root.features, "features", (item, path) => {
