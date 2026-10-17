@@ -50,7 +50,7 @@
             "slug": "cat-pu",
             "name": "Hörnet Cat PU",
             "tagline": "PU basecoat",
-            "description": "Cat PU basecoat Hörnet untuk refinish bodi kendaraan: warna rata, daya tutup tinggi dan siap dilapis clear. Tersedia 14 warna: Ultra White, Deep Black, lima pilihan silver, lima kuning, Maroon dan Magenta.",
+            "description": "Cat PU basecoat Hörnet untuk refinish bodi kendaraan: warna rata, daya tutup tinggi dan siap dilapis clear. Tersedia 15 warna: Ultra White, Deep Black, lima pilihan silver, lima kuning, Maroon, Magenta dan Fast Red.",
             "image": "/assets/products/pu/hp-914.webp",
             "cutout": "/assets/products/pu/cutout.webp",
             "powers": [
@@ -72,7 +72,8 @@
                 { "name": "HP 224 Yellow Oxide", "hex": "#d9a52a", "image": "/assets/products/pu/hp-224.webp" },
                 { "name": "HP 225 Trans Yellow Oxide", "hex": "#c98a1e", "image": "/assets/products/pu/hp-225.webp" },
                 { "name": "HP 332 Maroon", "hex": "#7a1424", "image": "/assets/products/pu/hp-332.webp" },
-                { "name": "HP 333 Magenta", "hex": "#d1157a", "image": "/assets/products/pu/hp-333.webp" }
+                { "name": "HP 333 Magenta", "hex": "#d1157a", "image": "/assets/products/pu/hp-333.webp" },
+                { "name": "HP 334 Fast Red", "hex": "#c8102e", "image": "/assets/products/pu/hp-334.webp" }
             ]
         }
     ]
