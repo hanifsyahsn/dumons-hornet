@@ -8,7 +8,9 @@
         "powers: 1 sampai 5 meter per produk, level 1..5.",
         "Cat NC: setiap warna punya foto kalengnya sendiri di public/assets/products/nc/ (kotak 1000x1000, sudah bertema web). Kode hex warnanya perkiraan dari nama warna, ganti kalau ada kode resminya.",
         "Cat PU: sama seperti Cat NC, foto kaleng tiap warna ada di public/assets/products/pu/ dan kode hex-nya perkiraan.",
-        "MASIH CONTOH, wajib diganti sebelum launch: deskripsi dan powers Cat NC dan Cat PU."
+        "Racing Clear dan Thinner: foto paketnya (kaleng + hardener, atau dua kaleng thinner) ada di public/assets/products/clear/ dan thinner/. Tidak punya pilihan warna, jadi colors-nya [].",
+        "Deskripsi Racing Clear MS 4:1 diambil dari poster resminya.",
+        "MASIH CONTOH, wajib diganti sebelum launch: deskripsi dan powers Cat NC, Cat PU, Racing Clear 2:1 dan Thinner PU 900, serta powers Racing Clear MS 4:1."
     ],
 
     "page": {
@@ -85,6 +87,51 @@
                 { "name": "HP 557 Violet", "hex": "#5b2a8c", "image": "/assets/products/pu/hp-557.webp" },
                 { "name": "HP 661 Green", "hex": "#1f8a3b", "image": "/assets/products/pu/hp-661.webp" }
             ]
+        },
+        {
+            "code": "RC 4:1",
+            "slug": "racing-clear-ms-4-1",
+            "name": "Hörnet Racing Clear MS 4:1",
+            "tagline": "2K clear coat fast dry",
+            "description": "Clear coat 2K Hörnet dengan perbandingan 4:1 (clear 0,8 L + hardener): 15-30 menit touch dry, 3-4 jam siap poles, glossy istimewa dengan minimal drop, dan bisa ditimpa ulang. Harga terjangkau untuk semua.",
+            "image": "/assets/products/clear/ms-4-1.webp",
+            "cutout": "/assets/products/clear/ms-4-1-cutout.webp",
+            "powers": [
+                { "label": "Cepat kering", "level": 5 },
+                { "label": "Kilau", "level": 5 },
+                { "label": "Kemudahan", "level": 4 }
+            ],
+            "colors": []
+        },
+        {
+            "code": "RC 2:1",
+            "slug": "racing-clear-2-1",
+            "name": "Hörnet Racing Clear 2:1",
+            "tagline": "2K clear coat",
+            "description": "Clear coat 2K Hörnet dengan perbandingan 2:1, satu paket dengan hardener-nya. Lapisan bening yang mengunci warna basecoat dan memberi kilau.",
+            "image": "/assets/products/clear/2-1.webp",
+            "cutout": "/assets/products/clear/2-1-cutout.webp",
+            "powers": [
+                { "label": "Kilau", "level": 4 },
+                { "label": "Proteksi", "level": 4 },
+                { "label": "Kemudahan", "level": 5 }
+            ],
+            "colors": []
+        },
+        {
+            "code": "TH 900",
+            "slug": "thinner-pu-900",
+            "name": "Hörnet Thinner PU 900",
+            "tagline": "Thinner PU",
+            "description": "Thinner PU 900 Hörnet untuk mengencerkan cat PU dan clear 2K sampai kekentalan semprot yang pas.",
+            "image": "/assets/products/thinner/pu-900.webp",
+            "cutout": "/assets/products/thinner/pu-900-cutout.webp",
+            "powers": [
+                { "label": "Kecocokan", "level": 5 },
+                { "label": "Penguapan", "level": 4 },
+                { "label": "Kemudahan", "level": 5 }
+            ],
+            "colors": []
         }
     ]
 }

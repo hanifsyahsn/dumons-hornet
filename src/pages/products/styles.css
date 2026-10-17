@@ -105,18 +105,20 @@
     }
 }
 
-/* 1 / 2 / 3 columns. Cards are always a column wide: when there are fewer products than
-   columns (--count, set from the page), the row is centered instead of leaving a hole */
+/* 1 / 2 / 3 columns. Cards are always a column wide and rows are centered, so a last row
+   with fewer products than columns (or a catalog smaller than a row) has no hole */
 .catalog__grid {
     --gap: 48px;
     --columns: 1;
-    display: grid;
-    grid-template-columns: repeat(
-        min(var(--columns), var(--count)),
-        calc((100% - (var(--columns) - 1) * var(--gap)) / var(--columns))
-    );
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: var(--gap);
+
+    & > * {
+        width: calc((100% - (var(--columns) - 1) * var(--gap)) / var(--columns));
+    }
+
     /* Room for the cards' hard shadow inside the container */
     padding-right: 14px;
 

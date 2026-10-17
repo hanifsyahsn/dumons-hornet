@@ -121,11 +121,11 @@
     ],
 
     "results": [
+        { "surface": "Panel hitam", "caption": "Dua lapis Racing Clear MS 4:1: kilau basah dengan pantulan tajam.", "product": "RC 4:1", "photo": "/assets/results/racing-clear-hitam.webp" },
         { "surface": "Body mobil", "caption": "Kilau dalam seperti cat baru setelah satu lapis.", "product": "NC" },
         { "surface": "Kaca depan", "caption": "Air hujan langsung membulat dan meluncur.", "product": "NC" },
         { "surface": "Velg", "caption": "Debu rem tidak gampang menempel.", "product": "NC" },
         { "surface": "Body motor", "caption": "Warna tampak lebih pekat dan segar.", "product": "PU" },
-        { "surface": "Cat hitam", "caption": "Pantulan tajam tanpa kesan kusam.", "product": "NC" },
         { "surface": "Lampu depan", "caption": "Mika tetap bening dan terlindungi.", "product": "PU" }
     ],
 
