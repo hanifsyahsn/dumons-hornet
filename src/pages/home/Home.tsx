@@ -97,7 +97,7 @@ function Home() {
             <section className="hero">
                 <div className="hero__slab" aria-hidden="true" />
 
-                <div className="hero__inner">
+                <div className={`hero__inner${HERO.lineup ? " hero__inner--lineup" : ""}`}>
                     <div className="hero__copy">
                         <span className="hero__tag">{HERO.tag}</span>
 
@@ -120,19 +120,39 @@ function Home() {
                     </div>
 
                     <div className="hero__media">
-                        <div className="hero__frame">
-                            {/* The hero product's `image` from home.json; hatched placeholder until set */}
-                            {HERO_PRODUCT?.image ? (
-                                <div className="hero__photo hero__photo--product">
-                                    <img src={HERO_PRODUCT.image} alt={`${HERO_PRODUCT.name} ${HERO_PRODUCT.code}`} />
+                        {HERO.lineup ? (
+                            // The whole can lineup on a dark stage dressed like the brand posters
+                            <div className="hero__stage">
+                                <div className="hero__stage-panel" aria-hidden="true">
+                                    <span className="hero__stage-word">Hörnet</span>
+                                    <span className="hero__stage-slashes" />
                                 </div>
-                            ) : (
-                                <div className="hero__photo hero__photo--placeholder">
-                                    <img src={HORNET_MARK_SRC} alt="" {...HORNET_MARK_SIZE} />
-                                </div>
-                            )}
-                            <div className="hero__sticker">{HERO.productCode}</div>
-                        </div>
+                                <div className="hero__stage-plinth" aria-hidden="true" />
+                                <img
+                                    className="hero__stage-cans"
+                                    src={HERO.lineup.image}
+                                    alt={HERO.lineup.alt}
+                                    width={HERO.lineup.width}
+                                    height={HERO.lineup.height}
+                                    fetchPriority="high"
+                                />
+                                <div className="hero__sticker hero__sticker--stage">{HERO.lineup.sticker}</div>
+                            </div>
+                        ) : (
+                            <div className="hero__frame">
+                                {/* The hero product's `image` from products.json; hatched placeholder until set */}
+                                {HERO_PRODUCT?.image ? (
+                                    <div className="hero__photo hero__photo--product">
+                                        <img src={HERO_PRODUCT.image} alt={`${HERO_PRODUCT.name} ${HERO_PRODUCT.code}`} />
+                                    </div>
+                                ) : (
+                                    <div className="hero__photo hero__photo--placeholder">
+                                        <img src={HORNET_MARK_SRC} alt="" {...HORNET_MARK_SIZE} />
+                                    </div>
+                                )}
+                                <div className="hero__sticker">{HERO.productCode}</div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>

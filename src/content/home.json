@@ -5,7 +5,8 @@
         "Daftar mana pun (promotions, reviews, results, partners, faqs, stats) boleh dikosongkan menjadi []: section-nya otomatis disembunyikan, termasuk link-nya di menu.",
         "Gambar ditaruh di folder public/, lalu ditulis path-nya mulai dari /assets/... (contoh: /assets/promos/promo-juli.webp).",
         "featuredProducts: kode dua produk (dari products.json) yang tampil di section Produk Unggulan. hero.productCode dan results[].product juga memakai kode dari products.json.",
-        "Field opsional (photo, rating, mapsUrl, whatsappUrl) cukup dihapus kalau belum ada.",
+        "Field opsional (photo, rating, mapsUrl, whatsappUrl, hero.lineup) cukup dihapus kalau belum ada.",
+        "hero.lineup: foto deretan kaleng (PNG/WebP berlatar transparan) di section pertama, lengkap dengan width/height aslinya. Kalau dihapus, hero kembali memakai foto produk hero.productCode.",
         "MASIH CONTOH, wajib diganti sebelum launch: stats (angka), reviews, partners, jawaban FAQ tentang beda dengan Dumons / motor / daya tahan / pengiriman, poster promo, foto hasil."
     ],
 
@@ -23,7 +24,14 @@
         "tag": "Supercoat",
         "titleLines": ["Kilau yang", "menyengat."],
         "message": "Hörnet Supercoat adalah inovasi terbaru dari lineup performance coating Dumons. Kilau ekstrem, proteksi maksimal, dan tampilan yang bikin setiap mata menoleh.",
-        "productCode": "HS 470"
+        "productCode": "HS 470",
+        "lineup": {
+            "image": "/assets/hornet-lineup.webp",
+            "alt": "Lineup kaleng Hörnet: 2K Racing Clear, Racing Clear 2:1, Thinner PU 900, HS 470 Super White dan HP 105 Super Fine Silver",
+            "width": 1600,
+            "height": 655,
+            "sticker": "Lineup"
+        }
     },
 
     "features": [

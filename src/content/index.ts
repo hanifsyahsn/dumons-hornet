@@ -27,6 +27,18 @@ export interface Hero {
     message: string;
     // Sticker on the hero photo
     productCode: string;
+    // Cutout of the whole can lineup; when set it replaces the hero product's photo
+    lineup?: HeroLineup;
+}
+
+export interface HeroLineup {
+    // Transparent-background image served from /public
+    image: string;
+    alt: string;
+    // Pixel size of the image, so the page reserves its space before it loads
+    width: number;
+    height: number;
+    sticker: string;
 }
 
 // Keys of the icons drawn in Home.tsx (FEATURE_ICONS)
@@ -236,6 +248,12 @@ function validate(raw: unknown, codes: string[]): HomeContent {
     ["tag", "message", "productCode"].forEach((key) => text(hero, key, "hero"));
     textLines(hero.titleLines, "hero.titleLines");
     checkCode(hero.productCode, "hero.productCode");
+    if (hero.lineup !== undefined) {
+        const lineup = object(hero.lineup, "hero.lineup");
+        ["image", "alt", "sticker"].forEach((key) => text(lineup, key, "hero.lineup"));
+        number(lineup, "width", "hero.lineup", false, 1);
+        number(lineup, "height", "hero.lineup", false, 1);
+    }
 
     each(root.features, "features", (item, path) => {
         text(item, "title", path);
