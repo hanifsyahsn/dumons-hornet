@@ -1,4 +1,4 @@
-import React, { type CSSProperties } from "react";
+import React from "react";
 import { ProductCard } from "../../components/product-card";
 import { Shell } from "../../components/shell";
 import { WhatsAppFloat } from "../../components/whatsapp-float";
@@ -39,7 +39,7 @@ function Products() {
 
             <section className="catalog" aria-label="Daftar produk">
                 <div className="catalog__inner">
-                    <div className="catalog__grid" style={{ "--count": PRODUCTS.length } as CSSProperties}>
+                    <div className="catalog__grid">
                         {PRODUCTS.map((product) => (
                             <ProductCard product={product} heading="h2" key={product.code} />
                         ))}

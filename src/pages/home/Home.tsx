@@ -48,6 +48,13 @@ const FEATURE_ICONS: Record<FeatureIcon, ReactNode> = {
             <path d="M19 8h2M19 11h2M18 14l1.5 1" />
         </>
     ),
+    clock: (
+        <>
+            <circle cx="12" cy="13" r="8" />
+            <path d="M12 9v4l2.5 2.5" />
+            <path d="M10 2h4" />
+        </>
+    ),
 };
 
 const partnerWhatsAppUrl = `${WHATSAPP_URL}?text=${encodeURIComponent(
@@ -71,6 +78,16 @@ const FEATURED = content.featuredProducts.map((code) => productByCode(code)!);
 
 // Product featured in the hero: its photo fills the hero frame
 const HERO_PRODUCT = productByCode(HERO.productCode);
+
+// Every size of the lineup cutout; the browser picks by screen width and pixel density
+const HERO_LINEUP_SRCSET = HERO.lineup
+    ? [...(HERO.lineup.smaller ?? []), { image: HERO.lineup.image, width: HERO.lineup.width }]
+          .map(({ image, width }) => `${image} ${width}w`)
+          .join(", ")
+    : undefined;
+// Drawn width of the cans: 106-110% of the stage, which is near full width on phones,
+// up to 720px from --large and 860px from --xxlarge (see .hero__stage)
+const HERO_LINEUP_SIZES = "(min-width: 1601px) 950px, (min-width: 961px) 800px, 100vw";
 
 // Empty grid cells after the last result, filled with ornaments. Three columns: the
 // big tile takes 4 cells, so n results use n + 3. Two columns: it's a full-width banner,
@@ -97,7 +114,7 @@ function Home() {
             <section className="hero">
                 <div className="hero__slab" aria-hidden="true" />
 
-                <div className="hero__inner">
+                <div className={`hero__inner${HERO.lineup ? " hero__inner--lineup" : ""}`}>
                     <div className="hero__copy">
                         <span className="hero__tag">{HERO.tag}</span>
 
@@ -120,19 +137,41 @@ function Home() {
                     </div>
 
                     <div className="hero__media">
-                        <div className="hero__frame">
-                            {/* The hero product's `image` from home.json; hatched placeholder until set */}
-                            {HERO_PRODUCT?.image ? (
-                                <div className="hero__photo hero__photo--product">
-                                    <img src={HERO_PRODUCT.image} alt={`${HERO_PRODUCT.name} ${HERO_PRODUCT.code}`} />
+                        {HERO.lineup ? (
+                            // The whole can lineup on a dark stage dressed like the brand posters
+                            <div className="hero__stage">
+                                <div className="hero__stage-panel" aria-hidden="true">
+                                    <span className="hero__stage-word">Hörnet</span>
+                                    <span className="hero__stage-slashes" />
                                 </div>
-                            ) : (
-                                <div className="hero__photo hero__photo--placeholder">
-                                    <img src={HORNET_MARK_SRC} alt="" {...HORNET_MARK_SIZE} />
-                                </div>
-                            )}
-                            <div className="hero__sticker">{HERO.productCode}</div>
-                        </div>
+                                <div className="hero__stage-plinth" aria-hidden="true" />
+                                <img
+                                    className="hero__stage-cans"
+                                    src={HERO.lineup.image}
+                                    alt={HERO.lineup.alt}
+                                    srcSet={HERO_LINEUP_SRCSET}
+                                    sizes={HERO_LINEUP_SIZES}
+                                    width={HERO.lineup.width}
+                                    height={HERO.lineup.height}
+                                    fetchPriority="high"
+                                />
+                                <div className="hero__sticker hero__sticker--stage">{HERO.lineup.sticker}</div>
+                            </div>
+                        ) : (
+                            <div className="hero__frame">
+                                {/* The hero product's `image` from products.json; hatched placeholder until set */}
+                                {HERO_PRODUCT?.image ? (
+                                    <div className="hero__photo hero__photo--product">
+                                        <img src={HERO_PRODUCT.image} alt={`${HERO_PRODUCT.name} ${HERO_PRODUCT.code}`} />
+                                    </div>
+                                ) : (
+                                    <div className="hero__photo hero__photo--placeholder">
+                                        <img src={HORNET_MARK_SRC} alt="" {...HORNET_MARK_SIZE} />
+                                    </div>
+                                )}
+                                <div className="hero__sticker">{HERO.productCode}</div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>
@@ -145,7 +184,7 @@ function Home() {
                         Kenapa <span className="features__highlight">Supercoat</span>
                     </h2>
                     <p className="features__lead">
-                        Satu lapisan, performa yang langsung terasa sejak cucian pertama.
+                        Satu lineup, satu standar: galak di setiap kaleng.
                     </p>
 
                     <div className="features__grid">
@@ -340,8 +379,8 @@ function Home() {
                                 Hasil <span className="results__highlight">Nyata</span>
                             </h2>
                             <p className="results__lead">
-                                Bukti langsung di berbagai permukaan: dari body mobil sampai kaca,
-                                kilau dan proteksinya kelihatan.
+                                Bukti langsung di berbagai permukaan: dari body mobil sampai tangki
+                                motor, warna pekat dan kilaunya kelihatan.
                             </p>
                         </div>
 

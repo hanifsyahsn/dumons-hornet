@@ -17,7 +17,7 @@ function UnderConstruction() {
                     {...HORNET_LOGO_SIZE}
                 />
 
-                <p className="construction__eyebrow">Dumons Coating &middot; Hornet Supercoat</p>
+                <p className="construction__eyebrow">Dümons Coating &middot; Hörnet Supercoat</p>
 
                 <h1 className="construction__title">The website is under construction</h1>
 
@@ -31,7 +31,7 @@ function UnderConstruction() {
             </section>
 
             <footer className="construction__footer">
-                &copy; {new Date().getFullYear()} Dumons Coating
+                &copy; {new Date().getFullYear()} Dümons Coating
             </footer>
 
             <div className="construction__stripe" aria-hidden="true" />

@@ -27,10 +27,24 @@ export interface Hero {
     message: string;
     // Sticker on the hero photo
     productCode: string;
+    // Cutout of the whole can lineup; when set it replaces the hero product's photo
+    lineup?: HeroLineup;
+}
+
+export interface HeroLineup {
+    // Transparent-background image served from /public
+    image: string;
+    alt: string;
+    // Pixel size of the image, so the page reserves its space before it loads
+    width: number;
+    height: number;
+    // Downscaled copies of `image`, so phones don't download the full size
+    smaller?: { image: string; width: number }[];
+    sticker: string;
 }
 
 // Keys of the icons drawn in Home.tsx (FEATURE_ICONS)
-export type FeatureIcon = "sparkle" | "drop" | "shield" | "spray";
+export type FeatureIcon = "sparkle" | "drop" | "shield" | "spray" | "clock";
 
 export interface Feature {
     icon: FeatureIcon;
@@ -84,6 +98,17 @@ export interface Product {
     slug: string;
     // Color choices on the detail page; [] -> no color picker
     colors: ProductColor[];
+    // "Keunggulan" checklist on the detail page; omitted -> not shown
+    highlights?: string[];
+    // "Data teknis" rows on the detail page; omitted -> not shown
+    specs?: ProductSpec[];
+    // "Cara pemakaian" numbered steps on the detail page; omitted -> not shown
+    steps?: string[];
+}
+
+export interface ProductSpec {
+    label: string;
+    value: string;
 }
 
 export interface Result {
@@ -103,7 +128,14 @@ export interface Faq {
     answer: string;
 }
 
+// Search engine / link preview copy for /home
+export interface Seo {
+    title: string;
+    description: string;
+}
+
 export interface HomeContent {
+    seo: Seo;
     contact: Contact;
     hero: Hero;
     features: Feature[];
@@ -123,6 +155,9 @@ export interface ProductsPage {
     // Each entry is one line of the big title
     titleLines: string[];
     lead: string;
+    // <title> and meta description of /produk
+    seoTitle: string;
+    seoDescription: string;
 }
 
 export interface ProductsContent {
@@ -133,7 +168,7 @@ export interface ProductsContent {
 
 type Json = Record<string, unknown>;
 
-const FEATURE_ICONS: FeatureIcon[] = ["sparkle", "drop", "shield", "spray"];
+const FEATURE_ICONS: FeatureIcon[] = ["sparkle", "drop", "shield", "spray", "clock"];
 
 // File being validated, named in the error messages
 let file = "";
@@ -187,7 +222,7 @@ function validateProducts(raw: unknown): ProductsContent {
     const root = object(raw, "(file)");
 
     const page = object(root.page, "page");
-    ["tag", "lead"].forEach((key) => text(page, key, "page"));
+    ["tag", "lead", "seoTitle", "seoDescription"].forEach((key) => text(page, key, "page"));
     textLines(page.titleLines, "page.titleLines");
 
     each(root.products, "products", (item, path) => {
@@ -206,6 +241,15 @@ function validateProducts(raw: unknown): ProductsContent {
             text(power, "label", powerPath);
             number(power, "level", powerPath, false, 1, 5);
         });
+        // Detail page sections, each optional
+        if (item.highlights !== undefined) textLines(item.highlights, `${path}.highlights`);
+        if (item.steps !== undefined) textLines(item.steps, `${path}.steps`);
+        if (item.specs !== undefined) {
+            each(item.specs, `${path}.specs`, (spec, specPath) => {
+                text(spec, "label", specPath);
+                text(spec, "value", specPath);
+            });
+        }
     });
     (["code", "slug"] as const).forEach((key) => {
         const values = (root.products as Json[]).map((product) => product[key]);
@@ -232,10 +276,25 @@ function validate(raw: unknown, codes: string[]): HomeContent {
         fail("contact.whatsappNumber", "harus angka saja dengan kode negara, contoh 6285159122501");
     }
 
+    const seo = object(root.seo, "seo");
+    ["title", "description"].forEach((key) => text(seo, key, "seo"));
+
     const hero = object(root.hero, "hero");
     ["tag", "message", "productCode"].forEach((key) => text(hero, key, "hero"));
     textLines(hero.titleLines, "hero.titleLines");
     checkCode(hero.productCode, "hero.productCode");
+    if (hero.lineup !== undefined) {
+        const lineup = object(hero.lineup, "hero.lineup");
+        ["image", "alt", "sticker"].forEach((key) => text(lineup, key, "hero.lineup"));
+        number(lineup, "width", "hero.lineup", false, 1);
+        number(lineup, "height", "hero.lineup", false, 1);
+        if (lineup.smaller !== undefined) {
+            each(lineup.smaller, "hero.lineup.smaller", (item, path) => {
+                text(item, "image", path);
+                number(item, "width", path, false, 1);
+            });
+        }
+    }
 
     each(root.features, "features", (item, path) => {
         text(item, "title", path);

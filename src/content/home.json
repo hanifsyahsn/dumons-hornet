@@ -5,9 +5,16 @@
         "Daftar mana pun (promotions, reviews, results, partners, faqs, stats) boleh dikosongkan menjadi []: section-nya otomatis disembunyikan, termasuk link-nya di menu.",
         "Gambar ditaruh di folder public/, lalu ditulis path-nya mulai dari /assets/... (contoh: /assets/promos/promo-juli.webp).",
         "featuredProducts: kode dua produk (dari products.json) yang tampil di section Produk Unggulan. hero.productCode dan results[].product juga memakai kode dari products.json.",
-        "Field opsional (photo, rating, mapsUrl, whatsappUrl) cukup dihapus kalau belum ada.",
-        "MASIH CONTOH, wajib diganti sebelum launch: stats (angka), reviews, partners, jawaban FAQ tentang beda dengan Dumons / motor / daya tahan / pengiriman, poster promo, foto hasil."
+        "Field opsional (photo, rating, mapsUrl, whatsappUrl, hero.lineup) cukup dihapus kalau belum ada.",
+        "hero.lineup: foto deretan kaleng (PNG/WebP berlatar transparan) di section pertama, lengkap dengan width/height aslinya. Kalau dihapus, hero kembali memakai foto produk hero.productCode. smaller (opsional): versi lebih kecil dari gambar yang sama beserta lebarnya, supaya HP tidak mengunduh versi terbesar.",
+        "seo: judul dan deskripsi /home di hasil pencarian Google dan pratinjau link (WhatsApp, Facebook). Judul idealnya di bawah 60 huruf, deskripsi di bawah 160.",
+        "MASIH CONTOH, wajib diganti sebelum launch: stats (angka), reviews, partners, jawaban FAQ tentang beda dengan Dümons / motor / daya tahan / pengiriman, poster promo, foto hasil (keterangannya sudah sesuai data produk, fotonya belum)."
     ],
+
+    "seo": {
+        "title": "Hörnet Supercoat | Cat NC, Cat PU & Racing Clear Dümons",
+        "description": "Cat NC, Cat PU basecoat, Racing Clear 2K dan Thinner PU dari Dümons Coating untuk refinish kendaraan. Cepat kering, warna pekat, hasil mengkilap."
+    },
 
     "contact": {
         "whatsappNumber": "6285159122501",
@@ -22,30 +29,41 @@
     "hero": {
         "tag": "Supercoat",
         "titleLines": ["Kilau yang", "menyengat."],
-        "message": "Hörnet Supercoat adalah inovasi terbaru dari lineup performance coating Dumons. Kilau ekstrem, proteksi maksimal, dan tampilan yang bikin setiap mata menoleh.",
-        "productCode": "HS 470"
+        "message": "Hörnet Supercoat adalah inovasi terbaru dari lineup performance coating Dümons. Kilau ekstrem, proteksi maksimal, dan tampilan yang bikin setiap mata menoleh.",
+        "productCode": "NC",
+        "lineup": {
+            "image": "/assets/hornet-lineup.webp",
+            "alt": "Lineup kaleng Hörnet: 2K Racing Clear, Racing Clear 2:1, Thinner PU 900, HS 470 Super White dan HP 105 Super Fine Silver",
+            "width": 1605,
+            "height": 658,
+            "smaller": [
+                { "image": "/assets/hornet-lineup-800.webp", "width": 800 },
+                { "image": "/assets/hornet-lineup-1200.webp", "width": 1200 }
+            ],
+            "sticker": "Lineup"
+        }
     },
 
     "features": [
         {
-            "icon": "sparkle",
-            "title": "Kilau ekstrem",
-            "text": "Kilap tajam dan dalam yang bikin cat tampak seperti baru keluar dari ruang poles."
-        },
-        {
-            "icon": "drop",
-            "title": "Super hidrofobik",
-            "text": "Air langsung membulat dan meluncur, membawa debu dan kotoran ikut pergi."
-        },
-        {
-            "icon": "shield",
-            "title": "Proteksi maksimal",
-            "text": "Lapisan tangguh yang menjaga cat dari paparan UV, kotoran, dan noda membandel."
+            "icon": "clock",
+            "title": "Kering kilat",
+            "text": "Semprot, tinggal sebentar, sudah kering. Bengkel lebih ngebut, mobil lebih cepat pulang!"
         },
         {
             "icon": "spray",
-            "title": "Perawatan mudah",
-            "text": "Kotoran sulit menempel, cuci jadi lebih cepat dan kilau bertahan lebih lama."
+            "title": "Tutup total",
+            "text": "Warna pekat menutup rata sampai ke sudut, tanpa belang sedikit pun."
+        },
+        {
+            "icon": "shield",
+            "title": "Nempel bandel",
+            "text": "Melekat kuat, cuek sama panas matahari, dan warnanya awet nggak gampang pudar."
+        },
+        {
+            "icon": "sparkle",
+            "title": "Kilau bikin silau",
+            "text": "Gampang disemprot, hasilnya jernih mengkilap sampai bayanganmu sendiri ikut ngaca."
         }
     ],
 
@@ -79,7 +97,7 @@
         }
     ],
 
-    "featuredProducts": ["HS 470", "HS 220"],
+    "featuredProducts": ["NC", "PU"],
 
     "reviews": [
         {
@@ -109,12 +127,12 @@
     ],
 
     "results": [
-        { "surface": "Body mobil", "caption": "Kilau dalam seperti cat baru setelah satu lapis.", "product": "HS 470" },
-        { "surface": "Kaca depan", "caption": "Air hujan langsung membulat dan meluncur.", "product": "HS 470" },
-        { "surface": "Velg", "caption": "Debu rem tidak gampang menempel.", "product": "HS 470" },
-        { "surface": "Body motor", "caption": "Warna tampak lebih pekat dan segar.", "product": "HS 220" },
-        { "surface": "Cat hitam", "caption": "Pantulan tajam tanpa kesan kusam.", "product": "HS 470" },
-        { "surface": "Lampu depan", "caption": "Mika tetap bening dan terlindungi.", "product": "HS 220" }
+        { "surface": "Body mobil", "caption": "Warna pekat menutup rata tanpa belang.", "product": "PU" },
+        { "surface": "Kap mesin", "caption": "Lapisan clear jernih mengkilap yang tahan UV.", "product": "RC 2:1" },
+        { "surface": "Body motor", "caption": "Kering 15–20 menit, warnanya tetap awet.", "product": "PU" },
+        { "surface": "Bumper", "caption": "Kering 30–40 menit, pengerjaan lanjut lebih cepat.", "product": "NC" },
+        { "surface": "Panel hitam", "caption": "Kering sentuh 15 menit, siap dipoles kurang dari 12 jam.", "product": "RC 4:1" },
+        { "surface": "Tangki motor", "caption": "Daya rekat baik, warna menempel kuat.", "product": "NC" }
     ],
 
     "partners": [
@@ -129,11 +147,11 @@
     "faqs": [
         {
             "question": "Apa itu Hörnet?",
-            "answer": "Hörnet adalah lini coating dari Dumons Coating yang lebih ringkas dan terjangkau, untuk menjaga kilau dan proteksi kendaraan sehari-hari."
+            "answer": "Hörnet adalah lini coating dari Dümons Coating yang lebih ringkas dan terjangkau, untuk menjaga kilau dan proteksi kendaraan sehari-hari."
         },
         {
-            "question": "Apa bedanya Hörnet dengan produk Dumons lainnya?",
-            "answer": "Hörnet dirancang untuk perawatan yang praktis dengan harga lebih bersahabat, sementara lini utama Dumons ditujukan untuk hasil dan daya tahan maksimal."
+            "question": "Apa bedanya Hörnet dengan produk Dümons lainnya?",
+            "answer": "Hörnet dirancang untuk perawatan yang praktis dengan harga lebih bersahabat, sementara lini utama Dümons ditujukan untuk hasil dan daya tahan maksimal."
         },
         {
             "question": "Di mana saya bisa membeli produk Hörnet?",

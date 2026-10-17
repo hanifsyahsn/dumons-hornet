@@ -58,7 +58,7 @@
     }
 }
 
-/* Logo on pages other than home: leads back there */
+/* Header logo link: home from other pages, back to the top on home */
 .shell__logo-link {
     display: block;
     transition: transform 0.15s ease;

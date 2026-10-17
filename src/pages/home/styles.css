@@ -60,6 +60,14 @@
     }
 }
 
+/* The can lineup is wide: give it the bigger column */
+.hero__inner--lineup {
+    @media (--large) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+        gap: clamp(48px, 5vw, 120px);
+    }
+}
+
 .hero__copy {
     min-width: 0;
     /* Lets the title size itself from this column's width (cqi units) */
@@ -195,6 +203,136 @@
     @media (--medium) {
         left: -20px;
         font-size: 28px;
+    }
+}
+
+/*
+ * Can lineup stage: a dark panel dressed like the brand posters (yellow corner wedges,
+ * white slashes, the wordmark in outline), with the die-cut cans standing on a yellow
+ * plinth and spilling over the panel's sides
+ */
+.hero__stage {
+    position: relative;
+    /* Room for the panel's hard shadow and the cans spilling out */
+    width: calc(100% - 28px);
+    max-width: 720px;
+    margin: 12px 0 28px;
+    /* The outlined word is sized from the stage (cqi) */
+    container-type: inline-size;
+
+    @media (--xxlarge) {
+        max-width: 860px;
+    }
+}
+
+.hero__stage-panel {
+    position: relative;
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+    background:
+        radial-gradient(circle, rgb(255 255 0 / 0.14) 1.6px, transparent 2px) 0 0 / 14px 14px,
+        var(--hornet-ink);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-lg);
+
+    /* Yellow wedges in two corners, cut at the logo's angle */
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        width: 34%;
+        height: 70%;
+        background: var(--hornet-yellow);
+        transform: skewX(var(--skew));
+    }
+
+    &::before {
+        top: 0;
+        left: -24%;
+    }
+
+    &::after {
+        right: -24%;
+        bottom: 0;
+    }
+}
+
+.hero__stage-word {
+    position: absolute;
+    top: 13%;
+    left: 0;
+    right: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: 21cqi;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--hornet-yellow);
+    opacity: 0.55;
+    white-space: nowrap;
+}
+
+.hero__stage-slashes {
+    position: absolute;
+    top: 5%;
+    left: 13%;
+    width: 18%;
+    height: 5%;
+    background: repeating-linear-gradient(
+        90deg,
+        var(--hornet-white) 0 14%,
+        transparent 14% 26%
+    );
+    transform: skewX(-35deg);
+    z-index: 1;
+}
+
+.hero__stage-plinth {
+    position: absolute;
+    left: 4%;
+    right: 4%;
+    bottom: -4%;
+    height: 12%;
+    background: var(--hornet-yellow);
+    border: var(--border-thick);
+    box-shadow: var(--shadow-md);
+    transform: skewX(var(--skew));
+}
+
+.hero__stage-cans {
+    position: absolute;
+    left: -3%;
+    bottom: 1%;
+    width: 106%;
+    height: auto;
+
+    /* Spill further once there's room beside the stage */
+    @media (--medium) {
+        left: -5%;
+        width: 110%;
+    }
+    /* Die-cut white outline, then a hard ink shadow, like the mascot */
+    filter:
+        drop-shadow(3px 0 0 var(--hornet-white))
+        drop-shadow(-3px 0 0 var(--hornet-white))
+        drop-shadow(0 3px 0 var(--hornet-white))
+        drop-shadow(0 -3px 0 var(--hornet-white))
+        drop-shadow(8px 8px 0 var(--hornet-ink));
+}
+
+.hero__sticker--stage {
+    left: auto;
+    right: -12px;
+    top: -18px;
+    bottom: auto;
+    transform: rotate(5deg);
+
+    @media (--medium) {
+        left: auto;
+        right: -22px;
     }
 }
 

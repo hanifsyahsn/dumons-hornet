@@ -352,3 +352,197 @@
     justify-content: center;
     margin-top: 56px;
 }
+
+/* Spesifikasi: Keunggulan, Data teknis and Cara pemakaian cards on the ink band; one column
+   on phones, two from --medium (the steps take the full row), three from --large */
+.specs {
+    padding: 56px 0 72px;
+    background:
+        radial-gradient(circle, rgb(255 255 0 / 0.1) 2px, transparent 2.6px) 0 0 / 22px 22px,
+        var(--hornet-ink);
+    color: var(--hornet-ink);
+
+    @media (--medium) {
+        padding: 80px 0 96px;
+    }
+}
+
+.specs__title {
+    margin: 0 0 40px;
+    color: var(--hornet-yellow);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.specs__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    /* Room for the cards' hard shadow */
+    padding-right: 10px;
+
+    @media (--medium) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+    }
+
+    /* One equal column per card, however many there are */
+    @media (--large) {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(0, 1fr);
+        gap: clamp(32px, 3vw, 48px);
+    }
+}
+
+.specs__card {
+    padding: 24px 20px 28px;
+    background: var(--hornet-white);
+    border: var(--border-thick);
+    box-shadow: 10px 10px 0 var(--hornet-yellow);
+
+    @media (--small) {
+        padding: 28px 28px 32px;
+    }
+}
+
+.specs__card--yellow {
+    background: var(--hornet-yellow);
+    box-shadow: 10px 10px 0 var(--hornet-white);
+}
+
+.specs__card--steps {
+    @media (--medium) {
+        grid-column: 1 / -1;
+    }
+
+    @media (--large) {
+        grid-column: auto;
+    }
+}
+
+.specs__heading {
+    display: inline-block;
+    margin: 0 0 20px;
+    padding: 4px 14px;
+    background: var(--hornet-ink);
+    color: var(--hornet-yellow);
+    transform: skewX(var(--skew));
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-xl);
+    text-transform: uppercase;
+}
+
+/* Checklist: skewed ink boxes with a yellow check */
+.specs__highlights {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 800;
+        font-size: var(--fs-lg);
+        line-height: 1.2;
+        text-transform: uppercase;
+
+        &::before {
+            content: "✓";
+            flex: none;
+            display: grid;
+            place-items: center;
+            width: 30px;
+            height: 30px;
+            background: var(--hornet-ink);
+            color: var(--hornet-yellow);
+            font-style: normal;
+            font-size: 18px;
+            transform: skewX(var(--skew));
+        }
+    }
+}
+
+.specs__table {
+    margin: 0;
+
+    dt {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 800;
+        font-size: var(--fs-sm);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    dd {
+        margin: 0;
+        font-size: var(--fs-md);
+        font-weight: 700;
+        text-align: right;
+    }
+}
+
+.specs__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 2px dashed var(--gray-300);
+
+    &:first-child {
+        padding-top: 0;
+    }
+
+    &:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+}
+
+/* Numbered steps: big outlined numbers like the stage numbers on the product photos */
+.specs__steps {
+    display: grid;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+
+    li {
+        position: relative;
+        min-height: 44px;
+        padding-left: 60px;
+        font-size: var(--fs-md);
+        line-height: 1.5;
+        counter-increment: step;
+
+        &::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: -6px;
+            width: 44px;
+            color: var(--hornet-yellow);
+            -webkit-text-stroke: 2px var(--hornet-ink);
+            font-family: var(--font-display);
+            font-style: italic;
+            font-weight: 900;
+            font-size: 44px;
+            line-height: 1;
+            text-align: center;
+        }
+    }
+}
