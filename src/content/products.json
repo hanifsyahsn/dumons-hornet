@@ -7,7 +7,8 @@
         "Field opsional (image, cutout) cukup dihapus kalau belum ada. image: foto produk (persegi), cutout: foto produk transparan (PNG/WebP).",
         "powers: 1 sampai 5 meter per produk, level 1..5.",
         "Cat NC: setiap warna punya foto kalengnya sendiri di public/assets/products/nc/ (kotak 1000x1000, sudah bertema web). Kode hex warnanya perkiraan dari nama warna, ganti kalau ada kode resminya.",
-        "MASIH CONTOH, wajib diganti sebelum launch: produk kedua (HS 220) beserta warnanya, deskripsi dan powers Cat NC."
+        "Cat PU: sama seperti Cat NC, foto kaleng tiap warna ada di public/assets/products/pu/ dan kode hex-nya perkiraan.",
+        "MASIH CONTOH, wajib diganti sebelum launch: deskripsi dan powers Cat NC dan Cat PU."
     ],
 
     "page": {
@@ -45,19 +46,24 @@
             ]
         },
         {
-            "code": "HS 220",
-            "slug": "hs-220",
-            "name": "Hörnet Quick Coat",
-            "tagline": "Semprot & lap",
-            "description": "Booster praktis untuk perawatan rutin: semprot, lap, dan kilau serta sifat hidrofobik coating kembali segar.",
+            "code": "PU",
+            "slug": "cat-pu",
+            "name": "Hörnet Cat PU",
+            "tagline": "PU basecoat",
+            "description": "Cat PU basecoat Hörnet untuk refinish bodi kendaraan: warna rata, daya tutup tinggi dan siap dilapis clear. Tersedia 5 warna, dari Ultra White dan Deep Black sampai tiga pilihan silver.",
+            "image": "/assets/products/pu/hp-914.webp",
+            "cutout": "/assets/products/pu/cutout.webp",
             "powers": [
-                { "label": "Kilau", "level": 4 },
-                { "label": "Hidrofobik", "level": 4 },
-                { "label": "Kemudahan", "level": 5 }
+                { "label": "Daya tutup", "level": 5 },
+                { "label": "Kilau metalik", "level": 4 },
+                { "label": "Kemudahan", "level": 4 }
             ],
             "colors": [
-                { "name": "Kuning Hörnet", "hex": "#ffff00" },
-                { "name": "Hitam Pekat", "hex": "#271b1d" }
+                { "name": "HP 914 Ultra White", "hex": "#f6f6f2", "image": "/assets/products/pu/hp-914.webp" },
+                { "name": "HP 922 Deep Black", "hex": "#0b0b0b", "image": "/assets/products/pu/hp-922.webp" },
+                { "name": "HP 106 Fine Silver", "hex": "#b8bcc1", "image": "/assets/products/pu/hp-106.webp" },
+                { "name": "HP 107 Extra Fine Bright Silver", "hex": "#d6d9dc", "image": "/assets/products/pu/hp-107.webp" },
+                { "name": "HP 108 Fine Bright Silver", "hex": "#c9ccd0", "image": "/assets/products/pu/hp-108.webp" }
             ]
         }
     ]

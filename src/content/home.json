@@ -91,7 +91,7 @@
         }
     ],
 
-    "featuredProducts": ["NC", "HS 220"],
+    "featuredProducts": ["NC", "PU"],
 
     "reviews": [
         {
@@ -124,9 +124,9 @@
         { "surface": "Body mobil", "caption": "Kilau dalam seperti cat baru setelah satu lapis.", "product": "NC" },
         { "surface": "Kaca depan", "caption": "Air hujan langsung membulat dan meluncur.", "product": "NC" },
         { "surface": "Velg", "caption": "Debu rem tidak gampang menempel.", "product": "NC" },
-        { "surface": "Body motor", "caption": "Warna tampak lebih pekat dan segar.", "product": "HS 220" },
+        { "surface": "Body motor", "caption": "Warna tampak lebih pekat dan segar.", "product": "PU" },
         { "surface": "Cat hitam", "caption": "Pantulan tajam tanpa kesan kusam.", "product": "NC" },
-        { "surface": "Lampu depan", "caption": "Mika tetap bening dan terlindungi.", "product": "HS 220" }
+        { "surface": "Lampu depan", "caption": "Mika tetap bening dan terlindungi.", "product": "PU" }
     ],
 
     "partners": [
