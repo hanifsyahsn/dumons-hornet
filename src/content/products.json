@@ -50,7 +50,7 @@
             "slug": "cat-pu",
             "name": "Hörnet Cat PU",
             "tagline": "PU basecoat",
-            "description": "Cat PU basecoat Hörnet untuk refinish bodi kendaraan: warna rata, daya tutup tinggi dan siap dilapis clear. Tersedia 15 warna: Ultra White, Deep Black, lima pilihan silver, lima kuning, Maroon, Magenta dan Fast Red.",
+            "description": "Cat PU basecoat Hörnet untuk refinish bodi kendaraan: warna rata, daya tutup tinggi dan siap dilapis clear. Tersedia 25 warna, dari putih dan hitam, enam pilihan silver, kuning, oranye dan merah, sampai biru, violet dan hijau.",
             "image": "/assets/products/pu/hp-914.webp",
             "cutout": "/assets/products/pu/cutout.webp",
             "powers": [
@@ -59,8 +59,11 @@
                 { "label": "Kemudahan", "level": 4 }
             ],
             "colors": [
+                { "name": "HP 912 Super White", "hex": "#f2f2ee", "image": "/assets/products/pu/hp-912.webp" },
                 { "name": "HP 914 Ultra White", "hex": "#f6f6f2", "image": "/assets/products/pu/hp-914.webp" },
+                { "name": "HP 921 Bluish Black", "hex": "#141a24", "image": "/assets/products/pu/hp-921.webp" },
                 { "name": "HP 922 Deep Black", "hex": "#0b0b0b", "image": "/assets/products/pu/hp-922.webp" },
+                { "name": "HP 105 Super Fine Silver", "hex": "#c6c9cd", "image": "/assets/products/pu/hp-105.webp" },
                 { "name": "HP 106 Fine Silver", "hex": "#b8bcc1", "image": "/assets/products/pu/hp-106.webp" },
                 { "name": "HP 107 Extra Fine Bright Silver", "hex": "#d6d9dc", "image": "/assets/products/pu/hp-107.webp" },
                 { "name": "HP 108 Fine Bright Silver", "hex": "#c9ccd0", "image": "/assets/products/pu/hp-108.webp" },
@@ -73,7 +76,14 @@
                 { "name": "HP 225 Trans Yellow Oxide", "hex": "#c98a1e", "image": "/assets/products/pu/hp-225.webp" },
                 { "name": "HP 332 Maroon", "hex": "#7a1424", "image": "/assets/products/pu/hp-332.webp" },
                 { "name": "HP 333 Magenta", "hex": "#d1157a", "image": "/assets/products/pu/hp-333.webp" },
-                { "name": "HP 334 Fast Red", "hex": "#c8102e", "image": "/assets/products/pu/hp-334.webp" }
+                { "name": "HP 334 Fast Red", "hex": "#c8102e", "image": "/assets/products/pu/hp-334.webp" },
+                { "name": "HP 338 Red Oxide", "hex": "#8b2e1c", "image": "/assets/products/pu/hp-338.webp" },
+                { "name": "HP 345 Trans Red Oxide", "hex": "#a3361c", "image": "/assets/products/pu/hp-345.webp" },
+                { "name": "HP 434 Orange", "hex": "#ff7a00", "image": "/assets/products/pu/hp-434.webp" },
+                { "name": "HP 553 Cyanine Blue", "hex": "#1846b0", "image": "/assets/products/pu/hp-553.webp" },
+                { "name": "HP 556 Ultramarine Blue", "hex": "#2a3fbf", "image": "/assets/products/pu/hp-556.webp" },
+                { "name": "HP 557 Violet", "hex": "#5b2a8c", "image": "/assets/products/pu/hp-557.webp" },
+                { "name": "HP 661 Green", "hex": "#1f8a3b", "image": "/assets/products/pu/hp-661.webp" }
             ]
         }
     ]
