@@ -26,7 +26,7 @@ function ProductDetail({ context }: ProductDetailProps) {
 }
 
 function ProductView({ product }: { product: Product }) {
-    const { code, name, tagline, description, powers, image, colors } = product;
+    const { code, name, tagline, description, powers, image, colors, highlights = [], specs = [], steps = [] } = product;
     const [colorIndex, setColorIndex] = useState(0);
     const color = colors[colorIndex];
     const canvasRef = useRef<HTMLDivElement>(null);
@@ -158,16 +158,61 @@ function ProductView({ product }: { product: Product }) {
                 </div>
             </section>
 
+            {(highlights.length > 0 || specs.length > 0 || steps.length > 0) && (
+                <>
+                    <div className="hazard hazard--thin" aria-hidden="true" />
+                    <section className="specs" aria-labelledby="spesifikasi">
+                        <div className="detail__inner">
+                            <h2 className="specs__title" id="spesifikasi">
+                                Spesifikasi
+                            </h2>
+                            <div className="specs__grid">
+                                {highlights.length > 0 && (
+                                    <div className="specs__card specs__card--yellow">
+                                        <h3 className="specs__heading">Keunggulan</h3>
+                                        <ul className="specs__highlights">
+                                            {highlights.map((highlight) => (
+                                                <li key={highlight}>{highlight}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                                {specs.length > 0 && (
+                                    <div className="specs__card">
+                                        <h3 className="specs__heading">Data teknis</h3>
+                                        <dl className="specs__table">
+                                            {specs.map(({ label, value }) => (
+                                                <div className="specs__row" key={label}>
+                                                    <dt>{label}</dt>
+                                                    <dd>{value}</dd>
+                                                </div>
+                                            ))}
+                                        </dl>
+                                    </div>
+                                )}
+                                {steps.length > 0 && (
+                                    <div className="specs__card specs__card--steps">
+                                        <h3 className="specs__heading">Cara pemakaian</h3>
+                                        <ol className="specs__steps">
+                                            {steps.map((step) => (
+                                                <li key={step}>{step}</li>
+                                            ))}
+                                        </ol>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </section>
+                </>
+            )}
+
             {others.length > 0 && (
                 <>
                     <div className="hazard hazard--thin" aria-hidden="true" />
                     <section className="detail-others">
                         <div className="detail__inner">
                             <h2 className="detail-others__title">Produk lainnya</h2>
-                            <div
-                                className="catalog__grid"
-                                style={{ "--count": others.length } as CSSProperties}
-                            >
+                            <div className="catalog__grid">
                                 {others.map((other) => (
                                     <ProductCard product={other} key={other.code} />
                                 ))}

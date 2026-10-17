@@ -9,8 +9,9 @@
         "Cat NC: setiap warna punya foto kalengnya sendiri di public/assets/products/nc/ (kotak 1000x1000, sudah bertema web). Kode hex warnanya perkiraan dari nama warna, ganti kalau ada kode resminya.",
         "Cat PU: sama seperti Cat NC, foto kaleng tiap warna ada di public/assets/products/pu/ dan kode hex-nya perkiraan.",
         "Racing Clear dan Thinner: foto paketnya (kaleng + hardener, atau dua kaleng thinner) ada di public/assets/products/clear/ dan thinner/. Tidak punya pilihan warna, jadi colors-nya [].",
-        "Deskripsi Racing Clear MS 4:1 diambil dari poster resminya.",
-        "MASIH CONTOH, wajib diganti sebelum launch: deskripsi dan powers Cat NC, Cat PU, Racing Clear 2:1 dan Thinner PU 900, serta powers Racing Clear MS 4:1."
+        "Halaman detail produk punya bagian spesifikasi dari 3 field opsional: highlights (daftar Keunggulan), specs (Data teknis: label + value) dan steps (Cara pemakaian, urut). Field yang dihapus tidak ditampilkan; kalau ketiganya kosong, bagian spesifikasinya disembunyikan.",
+        "Deskripsi dan spesifikasi Cat NC, Cat PU, Racing Clear 2:1 dan 4:1 sudah dari data resmi.",
+        "MASIH CONTOH, wajib diganti sebelum launch: deskripsi Thinner PU 900 (spesifikasinya belum ada), dan powers semua produk."
     ],
 
     "page": {
@@ -25,7 +26,21 @@
             "slug": "cat-nc",
             "name": "Hörnet Cat NC",
             "tagline": "Auto refinish",
-            "description": "Cat NC Hörnet Supercoat untuk refinish bodi kendaraan: cepat kering, warna pekat dan mudah diaplikasikan. Tersedia 11 warna, dari Super White sampai Ferrari Red.",
+            "description": "Cat terbuat dari resin Nitrocellulose yang cepat kering, berdaya tutup baik, dengan performa warna yang tahan lama serta adhesi yang baik.",
+            "highlights": ["Cepat kering", "Daya tutup baik", "Tahan lama", "Daya rekat baik"],
+            "specs": [
+                { "label": "Warna", "value": "Multi color" },
+                { "label": "Berat", "value": "1160 gram" },
+                { "label": "Density", "value": "75 - 80%" },
+                { "label": "Kering", "value": "30 - 40 menit" },
+                { "label": "Kemasan", "value": "1 liter" }
+            ],
+            "steps": [
+                "Aduk cat sebelum ditambahkan thinner.",
+                "Tambahkan thinner.",
+                "Aduk sampai rata.",
+                "Semprotkan secara merata."
+            ],
             "image": "/assets/products/nc/hs-470.webp",
             "cutout": "/assets/products/nc/cutout.webp",
             "powers": [
@@ -52,7 +67,21 @@
             "slug": "cat-pu",
             "name": "Hörnet Cat PU",
             "tagline": "PU basecoat",
-            "description": "Cat PU basecoat Hörnet untuk refinish bodi kendaraan: warna rata, daya tutup tinggi dan siap dilapis clear. Tersedia 25 warna, dari putih dan hitam, enam pilihan silver, kuning, oranye dan merah, sampai biru, violet dan hijau.",
+            "description": "Cat terbuat dari resin Polyurethane yang berdaya tutup sangat baik, warna yang tahan lama dan adhesi yang sangat baik. Tersedia aneka warna yang indah dan menarik sesuai kebutuhanmu.",
+            "highlights": ["Daya tutup sangat baik", "Cepat kering", "Tahan lama", "Daya rekat sangat baik"],
+            "specs": [
+                { "label": "Warna", "value": "Multi color" },
+                { "label": "Berat", "value": "1050 gram" },
+                { "label": "Density", "value": "75 - 80%" },
+                { "label": "Kering", "value": "15 - 20 menit" },
+                { "label": "Kemasan", "value": "1 liter" }
+            ],
+            "steps": [
+                "Aduk cat sebelum ditambahkan thinner.",
+                "Tambahkan thinner.",
+                "Aduk sampai rata.",
+                "Semprotkan secara merata."
+            ],
             "image": "/assets/products/pu/hp-914.webp",
             "cutout": "/assets/products/pu/cutout.webp",
             "powers": [
@@ -92,8 +121,20 @@
             "code": "RC 4:1",
             "slug": "racing-clear-ms-4-1",
             "name": "Hörnet Racing Clear MS 4:1",
-            "tagline": "2K clear coat fast dry",
-            "description": "Clear coat 2K Hörnet dengan perbandingan 4:1 (clear 0,8 L + hardener): 15-30 menit touch dry, 3-4 jam siap poles, glossy istimewa dengan minimal drop, dan bisa ditimpa ulang. Harga terjangkau untuk semua.",
+            "tagline": "2K clear coat",
+            "description": "Clear 4:1 merupakan clear coat yang dirancang untuk memberikan hasil finishing jernih, mengkilap, dan rapi dengan proses pengerjaan yang lebih efisien. Formulanya mudah diaplikasikan dan cepat kering, cocok untuk pengecatan yang butuh hasil maksimal dalam waktu singkat.",
+            "highlights": ["Cepat kering", "Bisa dipoles dalam waktu kurang dari 12 jam", "Mudah diaplikasikan"],
+            "specs": [
+                { "label": "Mix ratio", "value": "4:1 + thinner 50%" },
+                { "label": "Pot life", "value": "2 jam pada suhu 25°C" },
+                { "label": "Kering sentuh", "value": "15 menit" },
+                { "label": "Kering keras", "value": "24 jam" }
+            ],
+            "steps": [
+                "Bersihkan permukaan dari kotoran dan debu yang menempel.",
+                "Campurkan clear dan hardener terlebih dahulu sebelum menambah thinner, dengan komposisi 4:1:50%.",
+                "Aduk hingga tercampur rata dan siap untuk dispray pada panel."
+            ],
             "image": "/assets/products/clear/ms-4-1.webp",
             "cutout": "/assets/products/clear/ms-4-1-cutout.webp",
             "powers": [
@@ -107,8 +148,22 @@
             "code": "RC 2:1",
             "slug": "racing-clear-2-1",
             "name": "Hörnet Racing Clear 2:1",
-            "tagline": "2K clear coat",
-            "description": "Clear coat 2K Hörnet dengan perbandingan 2:1, satu paket dengan hardener-nya. Lapisan bening yang mengunci warna basecoat dan memberi kilau.",
+            "tagline": "Clear medium solid",
+            "description": "Clear 2:1 Medium Solid merupakan lapisan clear coat yang dirancang untuk memberikan hasil akhir jernih, mengkilap, dan tahan lama pada permukaan kendaraan. Dengan aplikasi yang mudah dan waktu pengeringan yang cepat, produk ini membantu menghasilkan finishing yang rapi dan maksimal.",
+            "highlights": ["Cepat kering", "Mudah diaplikasikan", "Tahan UV"],
+            "specs": [
+                { "label": "Warna", "value": "Bening" },
+                { "label": "Gloss level", "value": "Glossy" },
+                { "label": "Mix ratio", "value": "2:1 + thinner 50%" },
+                { "label": "Pot life", "value": "3 jam pada suhu 25°C" },
+                { "label": "Kering sentuh", "value": "1 jam" },
+                { "label": "Kering keras", "value": "48 jam" }
+            ],
+            "steps": [
+                "Bersihkan permukaan dari kotoran dan debu yang menempel.",
+                "Campurkan clear dan hardener terlebih dahulu sebelum menambah thinner, dengan komposisi 2:1:50%.",
+                "Aduk hingga tercampur rata dan siap untuk dispray pada panel."
+            ],
             "image": "/assets/products/clear/2-1.webp",
             "cutout": "/assets/products/clear/2-1-cutout.webp",
             "powers": [

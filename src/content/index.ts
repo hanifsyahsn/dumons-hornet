@@ -98,6 +98,17 @@ export interface Product {
     slug: string;
     // Color choices on the detail page; [] -> no color picker
     colors: ProductColor[];
+    // "Keunggulan" checklist on the detail page; omitted -> not shown
+    highlights?: string[];
+    // "Data teknis" rows on the detail page; omitted -> not shown
+    specs?: ProductSpec[];
+    // "Cara pemakaian" numbered steps on the detail page; omitted -> not shown
+    steps?: string[];
+}
+
+export interface ProductSpec {
+    label: string;
+    value: string;
 }
 
 export interface Result {
@@ -220,6 +231,15 @@ function validateProducts(raw: unknown): ProductsContent {
             text(power, "label", powerPath);
             number(power, "level", powerPath, false, 1, 5);
         });
+        // Detail page sections, each optional
+        if (item.highlights !== undefined) textLines(item.highlights, `${path}.highlights`);
+        if (item.steps !== undefined) textLines(item.steps, `${path}.steps`);
+        if (item.specs !== undefined) {
+            each(item.specs, `${path}.specs`, (spec, specPath) => {
+                text(spec, "label", specPath);
+                text(spec, "value", specPath);
+            });
+        }
     });
     (["code", "slug"] as const).forEach((key) => {
         const values = (root.products as Json[]).map((product) => product[key]);
