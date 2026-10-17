@@ -9,7 +9,7 @@ import type { RouteContext } from "../types/routing";
 import { HORNET_MARK_SIZE, HORNET_MARK_SRC, SITE_URL } from "../constants/brand";
 
 const DESCRIPTION =
-    "Hörnet Supercoat, inovasi terbaru dari lineup performance coating Dumons. Kilau ekstrem, super hidrofobik, dan proteksi maksimal untuk cat kendaraanmu.";
+    "Hörnet Supercoat, inovasi terbaru dari lineup performance coating Dümons. Kilau ekstrem, super hidrofobik, dan proteksi maksimal untuk cat kendaraanmu.";
 const DISPLAY_FONT_SRC = "/assets/fonts/roboto-condensed-italic-latin.woff2";
 
 export interface RenderResult {

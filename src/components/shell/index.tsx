@@ -187,7 +187,7 @@ export function Shell({ children, nav = SITE_NAV }: ShellProps) {
                     <span className="shell__copyright">
                         &copy; {new Date().getFullYear()} Hörnet Supercoat &middot;{" "}
                         <a className="shell__footer-link" href={MAIN_SITE_URL}>
-                            Dumons Coating
+                            Dümons Coating
                         </a>
                     </span>
                 </div>

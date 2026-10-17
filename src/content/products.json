@@ -56,7 +56,7 @@
                 { "label": "Kemudahan", "level": 5 }
             ],
             "colors": [
-                { "name": "Kuning Hornet", "hex": "#ffff00" },
+                { "name": "Kuning Hörnet", "hex": "#ffff00" },
                 { "name": "Hitam Pekat", "hex": "#271b1d" }
             ]
         }
