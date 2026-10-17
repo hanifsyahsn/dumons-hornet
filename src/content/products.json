@@ -50,7 +50,7 @@
             "slug": "cat-pu",
             "name": "Hörnet Cat PU",
             "tagline": "PU basecoat",
-            "description": "Cat PU basecoat Hörnet untuk refinish bodi kendaraan: warna rata, daya tutup tinggi dan siap dilapis clear. Tersedia 5 warna, dari Ultra White dan Deep Black sampai tiga pilihan silver.",
+            "description": "Cat PU basecoat Hörnet untuk refinish bodi kendaraan: warna rata, daya tutup tinggi dan siap dilapis clear. Tersedia 14 warna: Ultra White, Deep Black, lima pilihan silver, lima kuning, Maroon dan Magenta.",
             "image": "/assets/products/pu/hp-914.webp",
             "cutout": "/assets/products/pu/cutout.webp",
             "powers": [
@@ -63,7 +63,16 @@
                 { "name": "HP 922 Deep Black", "hex": "#0b0b0b", "image": "/assets/products/pu/hp-922.webp" },
                 { "name": "HP 106 Fine Silver", "hex": "#b8bcc1", "image": "/assets/products/pu/hp-106.webp" },
                 { "name": "HP 107 Extra Fine Bright Silver", "hex": "#d6d9dc", "image": "/assets/products/pu/hp-107.webp" },
-                { "name": "HP 108 Fine Bright Silver", "hex": "#c9ccd0", "image": "/assets/products/pu/hp-108.webp" }
+                { "name": "HP 108 Fine Bright Silver", "hex": "#c9ccd0", "image": "/assets/products/pu/hp-108.webp" },
+                { "name": "HP 110 Medium Bright Silver", "hex": "#bfc3c7", "image": "/assets/products/pu/hp-110.webp" },
+                { "name": "HP 112 Coarse Bright Silver", "hex": "#a9adb2", "image": "/assets/products/pu/hp-112.webp" },
+                { "name": "HP 221 Rose Yellow", "hex": "#ffd23a", "image": "/assets/products/pu/hp-221.webp" },
+                { "name": "HP 222 Lemon Yellow", "hex": "#fff44f", "image": "/assets/products/pu/hp-222.webp" },
+                { "name": "HP 223 Chrome Yellow", "hex": "#ffc000", "image": "/assets/products/pu/hp-223.webp" },
+                { "name": "HP 224 Yellow Oxide", "hex": "#d9a52a", "image": "/assets/products/pu/hp-224.webp" },
+                { "name": "HP 225 Trans Yellow Oxide", "hex": "#c98a1e", "image": "/assets/products/pu/hp-225.webp" },
+                { "name": "HP 332 Maroon", "hex": "#7a1424", "image": "/assets/products/pu/hp-332.webp" },
+                { "name": "HP 333 Magenta", "hex": "#d1157a", "image": "/assets/products/pu/hp-333.webp" }
             ]
         }
     ]
