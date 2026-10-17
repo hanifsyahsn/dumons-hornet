@@ -379,8 +379,8 @@ function Home() {
                                 Hasil <span className="results__highlight">Nyata</span>
                             </h2>
                             <p className="results__lead">
-                                Bukti langsung di berbagai permukaan: dari body mobil sampai kaca,
-                                kilau dan proteksinya kelihatan.
+                                Bukti langsung di berbagai permukaan: dari body mobil sampai tangki
+                                motor, warna pekat dan kilaunya kelihatan.
                             </p>
                         </div>
 

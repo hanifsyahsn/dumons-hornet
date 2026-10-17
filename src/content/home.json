@@ -8,7 +8,7 @@
         "Field opsional (photo, rating, mapsUrl, whatsappUrl, hero.lineup) cukup dihapus kalau belum ada.",
         "hero.lineup: foto deretan kaleng (PNG/WebP berlatar transparan) di section pertama, lengkap dengan width/height aslinya. Kalau dihapus, hero kembali memakai foto produk hero.productCode. smaller (opsional): versi lebih kecil dari gambar yang sama beserta lebarnya, supaya HP tidak mengunduh versi terbesar.",
         "seo: judul dan deskripsi /home di hasil pencarian Google dan pratinjau link (WhatsApp, Facebook). Judul idealnya di bawah 60 huruf, deskripsi di bawah 160.",
-        "MASIH CONTOH, wajib diganti sebelum launch: stats (angka), reviews, partners, jawaban FAQ tentang beda dengan Dümons / motor / daya tahan / pengiriman, poster promo, foto hasil."
+        "MASIH CONTOH, wajib diganti sebelum launch: stats (angka), reviews, partners, jawaban FAQ tentang beda dengan Dümons / motor / daya tahan / pengiriman, poster promo, foto hasil (keterangannya sudah sesuai data produk, fotonya belum)."
     ],
 
     "seo": {
@@ -127,12 +127,12 @@
     ],
 
     "results": [
-        { "surface": "Body mobil", "caption": "Kilau dalam seperti cat baru setelah satu lapis.", "product": "NC" },
-        { "surface": "Kaca depan", "caption": "Air hujan langsung membulat dan meluncur.", "product": "NC" },
-        { "surface": "Velg", "caption": "Debu rem tidak gampang menempel.", "product": "NC" },
-        { "surface": "Body motor", "caption": "Warna tampak lebih pekat dan segar.", "product": "PU" },
-        { "surface": "Cat hitam", "caption": "Pantulan tajam tanpa kesan kusam.", "product": "NC" },
-        { "surface": "Lampu depan", "caption": "Mika tetap bening dan terlindungi.", "product": "PU" }
+        { "surface": "Body mobil", "caption": "Warna pekat menutup rata tanpa belang.", "product": "PU" },
+        { "surface": "Kap mesin", "caption": "Lapisan clear jernih mengkilap yang tahan UV.", "product": "RC 2:1" },
+        { "surface": "Body motor", "caption": "Kering 15–20 menit, warnanya tetap awet.", "product": "PU" },
+        { "surface": "Bumper", "caption": "Kering 30–40 menit, pengerjaan lanjut lebih cepat.", "product": "NC" },
+        { "surface": "Panel hitam", "caption": "Kering sentuh 15 menit, siap dipoles kurang dari 12 jam.", "product": "RC 4:1" },
+        { "surface": "Tangki motor", "caption": "Daya rekat baik, warna menempel kuat.", "product": "NC" }
     ],
 
     "partners": [
