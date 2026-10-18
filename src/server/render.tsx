@@ -194,6 +194,8 @@ function renderDocument(head: PageHead, appHtml: string, canonical?: string): st
         </style>
         <link rel="stylesheet" href="${ASSETS.css}" />
         <!-- Deferred from <head>: downloads while the page parses, runs once it has -->
+        <!-- ?debug: show errors raised before the bundle can report them (e.g. it fails to parse) -->
+        <script>if(/[?&]debug\\b/.test(location.search))addEventListener("error",function(e){var d=document.createElement("pre");d.style.cssText="position:fixed;left:0;right:0;top:0;z-index:2147483647;margin:0;padding:8px;background:#b00;color:#fff;font:11px/1.35 monospace;white-space:pre-wrap";d.textContent="early error: "+e.message+" @ "+e.filename+":"+e.lineno+":"+e.colno;(document.body||document.documentElement).appendChild(d)});</script>
         <script defer src="${ASSETS.js}"></script>
     </head>
     <body>
