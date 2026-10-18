@@ -112,34 +112,101 @@ function renderDocument(head: PageHead, appHtml: string, canonical?: string): st
                 font-display: swap;
                 src: url("${DISPLAY_FONT_SRC}") format("woff2");
             }
+
+            /* Loader covering the page until the bundle has hydrated (client/index.tsx removes it).
+               Plain CSS on purpose, not Tailwind: Tailwind's @layer and oklab() are dropped by older
+               Safari, which left the page showing but not yet interactive, so the menu and carousel
+               buttons did nothing until the bundle caught up. If the bundle never runs, the loader
+               gets out of the way after 10s rather than lock the page. */
+            #server-loader {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 999999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(39, 27, 29, 0.85);
+                -webkit-backdrop-filter: blur(4px);
+                backdrop-filter: blur(4px);
+                animation: boot-loader-out 0.3s 10s forwards;
+            }
+            .boot-loader__rings {
+                position: relative;
+                width: 128px;
+                height: 128px;
+            }
+            .boot-loader__ring,
+            .boot-loader__glow {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
+                border-radius: 50%;
+            }
+            .boot-loader__ring {
+                border: 3px solid #3a2a2d;
+                animation: boot-loader-spin 3s linear infinite;
+            }
+            .boot-loader__ring--a {
+                border-right-color: #ffff00;
+                border-bottom-color: #ffff00;
+            }
+            .boot-loader__ring--b {
+                border-top-color: #ffff00;
+                animation-duration: 2s;
+                animation-direction: reverse;
+            }
+            .boot-loader__glow {
+                background: linear-gradient(to top right, rgba(255, 255, 0, 0.2), transparent, rgba(255, 255, 0, 0.1));
+                filter: blur(4px);
+                animation: boot-loader-pulse 2s ease-in-out infinite;
+            }
+            .boot-loader__label {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0 0 0 0);
+                white-space: nowrap;
+                border: 0;
+            }
+            @keyframes boot-loader-spin {
+                to { transform: rotate(360deg); }
+            }
+            @keyframes boot-loader-pulse {
+                50% { opacity: 0.5; }
+            }
+            @keyframes boot-loader-out {
+                to { opacity: 0; visibility: hidden; }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .boot-loader__ring,
+                .boot-loader__glow {
+                    animation: none;
+                }
+            }
         </style>
         <link rel="stylesheet" href="${ASSETS.css}" />
+        <!-- Deferred from <head>: downloads while the page parses, runs once it has -->
+        <script defer src="${ASSETS.js}"></script>
     </head>
     <body>
-        <div
-            id="server-loader"
-            role="status"
-            aria-live="polite"
-            class="fixed inset-0 z-[999999] flex items-center justify-center bg-[#271b1d]/85 backdrop-blur-sm"
-        >
-            <div class="relative">
-                <div class="relative w-32 h-32">
-                    <div
-                        class="absolute w-full h-full rounded-full border-[3px] border-[#3a2a2d] border-r-[#ffff00] border-b-[#ffff00] animate-spin"
-                        style="animation-duration: 3s;"
-                    ></div>
-                    <div
-                        class="absolute w-full h-full rounded-full border-[3px] border-[#3a2a2d] border-t-[#ffff00] animate-spin"
-                        style="animation-duration: 2s; animation-direction: reverse;"
-                    ></div>
-                </div>
-                <div class="absolute inset-0 bg-gradient-to-tr from-[#ffff00]/20 via-transparent to-[#ffff00]/10 animate-pulse rounded-full blur-sm"></div>
+        <div id="server-loader" role="status" aria-live="polite">
+            <div class="boot-loader__rings">
+                <div class="boot-loader__ring boot-loader__ring--a"></div>
+                <div class="boot-loader__ring boot-loader__ring--b"></div>
+                <div class="boot-loader__glow"></div>
             </div>
-            <span class="sr-only">Memuat…</span>
+            <span class="boot-loader__label">Memuat…</span>
         </div>
 
         <div id="root">${appHtml}</div>
-        <script src="${ASSETS.js}"></script>
     </body>
 </html>
 `;
