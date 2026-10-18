@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import React from "react";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
@@ -9,6 +11,12 @@ import type { PageHead, RouteContext } from "../types/routing";
 import { SITE_URL } from "../constants/brand";
 
 const DISPLAY_FONT_SRC = "/assets/fonts/roboto-condensed-italic-latin.woff2";
+
+// Hashed bundle and stylesheet names from the client build (webpack.client.js writes them),
+// read once; both server.js and prerender.js live in dist/server
+const ASSETS: { js: string; css: string } = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, "../client-assets.json"), "utf8"),
+);
 
 export interface RenderResult {
     status: number;
@@ -105,7 +113,7 @@ function renderDocument(head: PageHead, appHtml: string, canonical?: string): st
                 src: url("${DISPLAY_FONT_SRC}") format("woff2");
             }
         </style>
-        <link rel="stylesheet" href="/styles.css" />
+        <link rel="stylesheet" href="${ASSETS.css}" />
     </head>
     <body>
         <div
@@ -131,7 +139,7 @@ function renderDocument(head: PageHead, appHtml: string, canonical?: string): st
         </div>
 
         <div id="root">${appHtml}</div>
-        <script src="/bundle.js"></script>
+        <script src="${ASSETS.js}"></script>
     </body>
 </html>
 `;
