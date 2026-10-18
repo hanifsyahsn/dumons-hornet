@@ -1,12 +1,15 @@
 import { content } from "../content";
 
 // Served from /public/assets.
-// Bordered wordmark (transparent outside the frame): header, footer.
-export const HORNET_LOGO_SRC = "/assets/logo-bordered.webp";
-export const HORNET_LOGO_SIZE = { width: 1200, height: 423 };
+// Bordered wordmark (transparent outside the frame): header, footer. Shown at most 200px
+// wide, so a 600px copy of logo-bordered.webp is sharp up to 3x screens at a quarter the bytes.
+export const HORNET_LOGO_SRC = "/assets/logo-bordered-600.webp";
+export const HORNET_LOGO_SIZE = { width: 600, height: 212 };
 
-// Square hornet mark: favicon, product photo placeholder.
+// Square hornet mark: product photo placeholder, schema.org logo.
 export const HORNET_MARK_SRC = "/assets/logo.webp";
+// 192px copy for small uses (favicon, the reviews stamp), a fraction of the bytes.
+export const HORNET_MARK_SMALL_SRC = "/assets/logo-192.webp";
 export const HORNET_MARK_SIZE = { width: 1086, height: 1086 };
 
 // Production origin of this site (no trailing slash): canonical URLs, link previews, sitemap.
