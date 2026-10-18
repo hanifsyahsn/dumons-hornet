@@ -41,7 +41,8 @@ async function main() {
     fs.cpSync(path.join(ROOT, "public"), OUT_DIR, { recursive: true });
 
     // "/" -> DEFAULT_PATH, so it must be a page we actually prerender (checked below).
-    const redirects: string[] = [`/ ${DEFAULT_PATH} 302`];
+    // Forced ("!"): without it Netlify skipped the rule and answered "/" with the page itself (200).
+    const redirects: string[] = [`/ ${DEFAULT_PATH} 302!`];
     const pages: string[] = [];
 
     for (const route of routes) {
