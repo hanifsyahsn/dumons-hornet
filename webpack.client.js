@@ -2,6 +2,7 @@
 const path = require("path");
 const webpack = require("webpack");
 require("dotenv").config();
+const fs = require("fs");
 const MiniCssExtractPlugin  = require("mini-css-extract-plugin");
 
 const isDev = process.env.NODE_ENV !== "production";
@@ -11,12 +12,29 @@ const isDev = process.env.NODE_ENV !== "production";
 const maintenanceMode =
     process.env.MAINTENANCE_MODE ?? (process.env.BRANCH === "production" ? "true" : "false");
 
+// Bundle and stylesheet names carry a hash of their content, so a page can only ever load the
+// files it was built with: a browser (or in-app WebView) still holding an older bundle.js next
+// to newer HTML failed to hydrate and left buttons dead until a refresh. The names go to
+// dist/client-assets.json, which render.tsx reads.
+const ASSETS_MANIFEST = path.resolve(__dirname, "dist/client-assets.json");
+
+class AssetsManifestPlugin {
+    apply(compiler) {
+        compiler.hooks.done.tap("AssetsManifestPlugin", (stats) => {
+            const files = Object.keys(stats.compilation.assets);
+            const find = (ext) => files.find((file) => file.startsWith("_app/") && file.endsWith(ext));
+            fs.writeFileSync(ASSETS_MANIFEST, JSON.stringify({ js: `/${find(".js")}`, css: `/${find(".css")}` }));
+        });
+    }
+}
+
 module.exports = {
     mode: isDev ? "development" : "production",
     entry: "./src/client/index.tsx",
     output: {
         path: path.resolve(__dirname, "dist/client"),
-        filename: "bundle.js",
+        // Under /_app/ so Netlify can cache them for good (see the _headers file from prerender)
+        filename: "_app/bundle.[contenthash:8].js",
         clean: true,
         publicPath: "/",
     },
@@ -43,8 +61,9 @@ module.exports = {
             "process.env.MAINTENANCE_MODE": JSON.stringify(maintenanceMode),
         }),
         new MiniCssExtractPlugin({
-            filename: "styles.css",
+            filename: "_app/styles.[contenthash:8].css",
         }),
+        new AssetsManifestPlugin(),
     ],
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx"],

@@ -73,11 +73,12 @@ export function Reviews({ reviews }: ReviewsProps) {
     // The slide the track actually shows
     const slideAt = (track: HTMLDivElement) => Math.round(track.scrollLeft / track.clientWidth);
 
-    // Ends a programmatic scroll: the index follows the track again
+    // Ends a programmatic scroll: snapping is back on and the index follows the track again
     const settle = useCallback(() => {
         window.clearTimeout(settleTimer.current);
         targetRef.current = null;
         const track = trackRef.current;
+        if (track) track.style.scrollSnapType = "";
         if (track && track.clientWidth > 0) setIndex(Math.min(Math.max(slideAt(track), 0), count - 1));
     }, [count]);
 
@@ -95,13 +96,19 @@ export function Reviews({ reviews }: ReviewsProps) {
             window.clearTimeout(settleTimer.current);
             window.clearTimeout(fadeTimer.current);
             settleTimer.current = window.setTimeout(settle, SETTLE_MS + FADE_MS);
+            // Safari snaps a mandatory scroll-snap track back to the slide it is leaving
+            // while a programmatic scroll is under way, so the arrows and dots seemed dead
+            // there (swiping still worked). Snapping stays off until settle.
+            track.style.scrollSnapType = "none";
 
+            // "auto" is instant here (the track has no scroll-behavior) and, unlike
+            // "instant", every browser accepts it
             if (reducedMotion) {
-                track.scrollTo({ left, behavior: "instant" });
+                track.scrollTo({ left, behavior: "auto" });
             } else if (distance > 1) {
                 setFading(true);
                 fadeTimer.current = window.setTimeout(() => {
-                    track.scrollTo({ left, behavior: "instant" });
+                    track.scrollTo({ left, behavior: "auto" });
                     setFading(false);
                 }, FADE_MS);
             } else {
@@ -156,7 +163,7 @@ export function Reviews({ reviews }: ReviewsProps) {
     useEffect(() => {
         const onResize = () => {
             const track = trackRef.current;
-            if (track) track.scrollTo({ left: index * track.clientWidth, behavior: "instant" });
+            if (track) track.scrollTo({ left: index * track.clientWidth, behavior: "auto" });
         };
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);

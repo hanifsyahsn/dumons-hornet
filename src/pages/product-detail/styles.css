@@ -87,6 +87,7 @@
     --swatch: var(--hornet-yellow);
     position: relative;
     aspect-ratio: 1;
+    max-width: max(280px, calc(100vh - 140px));
     max-width: max(280px, calc(100svh - 140px));
     margin: 0 auto;
 

@@ -11,7 +11,18 @@ interface AppProps {
 // Router links don't scroll by themselves: after a link to another page (PUSH/REPLACE), start
 // at its top, or at its section for "/home#promo". POP (back/forward, the first load, and
 // plain "#id" anchors, which the browser already scrolled) is left to the browser.
-// "instant" overrides the smooth scroll-behavior on <html>, meant for in-page anchors.
+// "instant" overrides the smooth scroll-behavior on <html>, meant for in-page anchors. Older
+// Safari rejects that value with a TypeError (and an error here would take the whole app
+// down after every link), so it falls back to the plain call; those versions have no smooth
+// scrolling anyway, so the jump stays instant.
+function jump(scroll: (options: ScrollToOptions & ScrollIntoViewOptions) => void) {
+    try {
+        scroll({ behavior: "instant" });
+    } catch {
+        scroll({});
+    }
+}
+
 function ScrollToLocation() {
     const { pathname, hash } = useLocation();
     const navigationType = useNavigationType();
@@ -19,8 +30,8 @@ function ScrollToLocation() {
     useEffect(() => {
         if (navigationType === "POP") return;
         const target = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
-        if (target) target.scrollIntoView({ behavior: "instant" });
-        else window.scrollTo({ top: 0, behavior: "instant" });
+        if (target) jump((options) => target.scrollIntoView(options));
+        else jump((options) => window.scrollTo({ ...options, top: 0 }));
     }, [pathname, hash, navigationType]);
 
     // The server wrote the first page's <title>; keep it in step on client-side navigation.

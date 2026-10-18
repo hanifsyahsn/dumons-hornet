@@ -98,6 +98,8 @@
     font-weight: 900;
     /* Sized from the copy column, not the viewport: the longest line ("MENYENGAT.")
        always fits the column, however wide the screen is */
+    /* Browsers without container units (iOS < 16) */
+    font-size: clamp(48px, 13vw, 96px);
     font-size: clamp(48px, 18cqi, 168px);
     line-height: 0.9;
     letter-spacing: -0.02em;
@@ -265,6 +267,7 @@
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 900;
+    font-size: clamp(64px, 18vw, 150px);
     font-size: 21cqi;
     line-height: 1;
     text-align: center;

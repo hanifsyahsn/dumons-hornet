@@ -9,6 +9,7 @@ import { renderPage } from "./render";
 import { SITE_URL } from "../constants/brand";
 
 const ROOT = path.resolve(__dirname, "../..");
+const ASSETS: { js: string; css: string } = JSON.parse(fs.readFileSync(path.join(ROOT, "dist/client-assets.json"), "utf8"));
 const OUT_DIR = path.join(ROOT, "dist/static");
 
 // Any URL that no route matches renders the "*" (NotFound) page.
@@ -103,6 +104,14 @@ ${pages.map(url => `    <url><loc>${SITE_URL}${url}</loc><lastmod>${BUILD_DATE}<
 </urlset>
 `
     );
+    // Hashed bundle/stylesheet never change under the same name: cache them for a year. HTML keeps
+    // Netlify's default (revalidate every time), so a new deploy is picked up on the next visit.
+    // Copies under the old fixed names for HTML a browser cached before hashed names existed
+    // (it would otherwise load no script at all); safe to drop once those caches are gone
+    for (const [legacy, file] of [["bundle.js", ASSETS.js], ["styles.css", ASSETS.css]]) {
+        fs.copyFileSync(path.join(OUT_DIR, file), path.join(OUT_DIR, legacy));
+    }
+    writeFile("_headers", "/_app/*\n  Cache-Control: public, max-age=31536000, immutable\n");
     writeFile("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
     console.log(`  sitemap.xml (${pages.length} pages), robots.txt`);
 
