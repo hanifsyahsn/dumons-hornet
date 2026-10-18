@@ -194,14 +194,19 @@ function renderDocument(head: PageHead, appHtml: string, canonical?: string): st
         </style>
         <link rel="stylesheet" href="${ASSETS.css}" />
         <!-- Deferred from <head>: downloads while the page parses, runs once it has -->
-        <!-- ?debug: show errors raised before the bundle can report them (e.g. it fails to parse) -->
-        <script>if(/[?&]debug\\b/.test(location.search))addEventListener("error",function(e){var d=document.createElement("pre");d.style.cssText="position:fixed;left:0;right:0;top:0;z-index:2147483647;margin:0;padding:8px;background:#b00;color:#fff;font:11px/1.35 monospace;white-space:pre-wrap";d.textContent="early error: "+e.message+" @ "+e.filename+":"+e.lineno+":"+e.colno;(document.body||document.documentElement).appendChild(d)});</script>
+        <!-- ?debug: show errors raised before the bundle can report them (it fails to parse, or
+             the bundle or stylesheet fails to load, which only a capturing listener sees) -->
+        <script>if(/[?&]debug\\b/.test(location.search))addEventListener("error",function(e){var t=e.target,d=document.createElement("pre");d.style.cssText="position:fixed;left:0;right:0;top:0;z-index:2147483647;margin:0;padding:8px;background:#b00;color:#fff;font:11px/1.35 monospace;white-space:pre-wrap";d.textContent=t&&t!==window&&(t.src||t.href)?"failed to load "+(t.src||t.href):"early error: "+e.message+" @ "+e.filename+":"+e.lineno+":"+e.colno;(document.body||document.documentElement).appendChild(d)},true);</script>
         <!-- A tap on a button before the bundle runs (on a slow first visit the loader can lift
              before it arrives) is remembered and replayed once React is ready, see client/index.tsx -->
         <script>document.addEventListener("click",function(e){if(window.__reactListening)return;var b=e.target&&e.target.closest&&e.target.closest("#root button");if(b)window.__earlyTap=b},true);</script>
         <!-- Chrome fetches defer scripts at low priority, behind the page's images; on a slow
              first visit that kept the buttons dead for seconds -->
-        <script defer fetchpriority="high" src="${ASSETS.js}"></script>
+        <!-- A page restored from an old copy (a tab the browser reopened from its cache, a
+             back/forward visit) can name a bundle an earlier deploy had; the deploy now live no
+             longer has it, so nothing runs and every button stays dead. Reload once to get the
+             current HTML; the flag keeps a bundle that is really missing from looping. -->
+        <script defer fetchpriority="high" src="${ASSETS.js}" onerror="try{var k='bundle-retry:'+this.src;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.reload()}}catch(e){}"></script>
     </head>
     <body>
         <div id="server-loader" role="status" aria-live="polite">
