@@ -3,6 +3,7 @@ import { hydrateRoot } from "react-dom/client";
 import App from "../pages/App";
 import { BrowserRouter } from "react-router-dom";
 import { Loading } from "../components/loading";
+import { DEFAULT_PATH } from "../constants/routing";
 import "../styles/global.css";
 
 // Diagnostics for phones we can't test on: open any page with ?debug and a box at the
@@ -69,6 +70,14 @@ function LiftLoader() {
         }
     }, []);
     return null;
+}
+
+// Netlify answers "/" with the DEFAULT_PATH page itself (200, URL unchanged) rather than the
+// 302 in _redirects. Hydrating that HTML at "/" rendered App's <Navigate> instead of the page,
+// so React left the server markup in place, dead, above its own copy. Switch the URL first so
+// the router hydrates the page the HTML actually is.
+if (window.location.pathname === "/") {
+    window.history.replaceState(window.history.state, "", DEFAULT_PATH + window.location.search + window.location.hash);
 }
 
 const root = document.getElementById("root") as HTMLElement;
