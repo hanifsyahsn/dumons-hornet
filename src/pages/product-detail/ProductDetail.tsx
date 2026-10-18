@@ -45,7 +45,9 @@ function ProductView({ product }: { product: Product }) {
         const headerBottom = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
         if (top >= headerBottom && bottom <= window.innerHeight) return;
         const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        canvas.scrollIntoView({ behavior: reduce ? "instant" : "smooth", block: "start" });
+        // "auto" (not "instant", which older Safari rejects) follows <html>, which is not smooth
+        // under prefers-reduced-motion
+        canvas.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
     };
 
     // The chosen color's photo, else the product photo, else the placeholder (tinted with the color)
