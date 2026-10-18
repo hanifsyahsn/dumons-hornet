@@ -10,6 +10,7 @@ import { WhatsAppFloat } from "../../components/whatsapp-float";
 import {
     CONTACT_EMAIL,
     HORNET_MARK_SIZE,
+    HORNET_MARK_SMALL_SRC,
     HORNET_MARK_SRC,
     SHOPEE_DISPLAY,
     SHOPEE_URL,
@@ -360,7 +361,7 @@ function Home() {
                                     </text>
                                 </g>
                                 <circle className="stamp__inner" cx="100" cy="100" r="58" />
-                                <image href={HORNET_MARK_SRC} x="58" y="58" width="84" height="84" />
+                                <image href={HORNET_MARK_SMALL_SRC} x="58" y="58" width="84" height="84" />
                             </svg>
                         </div>
 

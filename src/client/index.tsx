@@ -43,20 +43,39 @@ if (DEBUG) {
     );
 }
 
+declare global {
+    interface Window {
+        // Set by the inline script in render.tsx: the last button tapped before React listened
+        __earlyTap?: HTMLButtonElement;
+        __reactListening?: boolean;
+    }
+}
+
 // The server-rendered loader covers the page until React has hydrated it. hydrateRoot
 // returns before hydrating (it runs in chunks afterwards), so lifting the loader right
 // after the call left a window on slow phones where buttons took taps but did nothing.
 // Effects run only once hydration has committed (or React has re-rendered after a mismatch).
+// A button tapped before the bundle ran (the loader lifts by itself after 10s, and on a slow
+// first visit the bundle can take longer) gets that tap replayed now, so it still opens.
 function LiftLoader() {
     useEffect(() => {
         debug("hydrated");
         document.getElementById("server-loader")?.remove();
+        const tap = window.__earlyTap;
+        window.__earlyTap = undefined;
+        if (tap?.isConnected) {
+            debug(`replaying early tap on ${tap.className}`);
+            tap.click();
+        }
     }, []);
     return null;
 }
 
 const root = document.getElementById("root") as HTMLElement;
 const serverFirstChild = root.firstElementChild;
+
+// hydrateRoot attaches React's listeners right away; from here on React handles taps itself
+window.__reactListening = true;
 
 hydrateRoot(
     root,
