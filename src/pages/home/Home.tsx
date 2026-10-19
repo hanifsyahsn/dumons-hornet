@@ -59,7 +59,7 @@ const FEATURE_ICONS: Record<FeatureIcon, ReactNode> = {
 };
 
 const partnerWhatsAppUrl = `${WHATSAPP_URL}?text=${encodeURIComponent(
-    "Halo, saya tertarik jadi bengkel & toko mitra Hörnet.",
+    "Halo, saya tertarik untuk bergabung menjadi mitra Hörnet. Boleh minta info kemitraannya?",
 )}`;
 
 // FAQPage structured data (schema.org), so search engines can show the Q&A directly;
