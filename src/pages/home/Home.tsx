@@ -59,7 +59,7 @@ const FEATURE_ICONS: Record<FeatureIcon, ReactNode> = {
 };
 
 const partnerWhatsAppUrl = `${WHATSAPP_URL}?text=${encodeURIComponent(
-    "Halo, saya tertarik jadi bengkel mitra Hörnet.",
+    "Halo, saya tertarik jadi bengkel & toko mitra Hörnet.",
 )}`;
 
 // FAQPage structured data (schema.org), so search engines can show the Q&A directly;
@@ -475,7 +475,7 @@ function Home() {
                         <div className="partners-band__head">
                             <div>
                                 <h2 className="partners-band__title">
-                                    Bengkel <span className="partners-band__highlight">Mitra</span>
+                                    Bengkel &amp; Toko <span className="partners-band__highlight">Mitra</span>
                                 </h2>
                                 <p className="partners-band__lead">
                                     Mau dipasangkan langsung? Datangi bengkel dan detailer yang sudah
