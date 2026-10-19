@@ -76,7 +76,7 @@ export function Partners({ partners }: PartnersProps) {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        Chat WhatsApp
+                                        Chat mitra
                                     </a>
                                 )}
                             </div>
