@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { debug } from "../../debug";
 import "./styles.css";
 
 export interface Review {
@@ -72,6 +73,10 @@ export function Reviews({ reviews }: ReviewsProps) {
 
     // The slide the track actually shows
     const slideAt = (track: HTMLDivElement) => Math.round(track.scrollLeft / track.clientWidth);
+    // Whether the track has reached the slide goTo is scrolling to (the last one can sit
+    // a pixel short when slides are a fractional width)
+    const arrived = (track: HTMLDivElement, target: number) =>
+        Math.abs(track.scrollLeft - target * track.clientWidth) < 2;
 
     // Ends a programmatic scroll: snapping is back on and the index follows the track again
     const settle = useCallback(() => {
@@ -80,7 +85,20 @@ export function Reviews({ reviews }: ReviewsProps) {
         const track = trackRef.current;
         if (track) track.style.scrollSnapType = "";
         if (track && track.clientWidth > 0) setIndex(Math.min(Math.max(slideAt(track), 0), count - 1));
+        if (track) debug(`reviews: settled at ${track.scrollLeft}/${track.clientWidth}`);
     }, [count]);
+
+    // goTo's safety net: if the track never got there (a browser that drops or cuts short
+    // the smooth scroll left the arrows looking dead), jump straight to the target
+    const finish = useCallback(() => {
+        const track = trackRef.current;
+        const target = targetRef.current;
+        if (track && target !== null && !arrived(track, target)) {
+            debug(`reviews: stuck at ${track.scrollLeft}, jumping to slide ${target + 1}`);
+            track.scrollLeft = target * track.clientWidth;
+        }
+        settle();
+    }, [settle]);
 
     const goTo = useCallback(
         (target: number) => {
@@ -89,13 +107,14 @@ export function Reviews({ reviews }: ReviewsProps) {
             const next = (target + count) % count;
             const left = next * track.clientWidth;
             const distance = Math.abs(next - slideAt(track));
+            debug(`reviews: go to ${next + 1} from ${track.scrollLeft}/${track.clientWidth} (distance ${distance})`);
             if (distance === 0) return;
 
             setIndex(next);
             targetRef.current = next;
             window.clearTimeout(settleTimer.current);
             window.clearTimeout(fadeTimer.current);
-            settleTimer.current = window.setTimeout(settle, SETTLE_MS + FADE_MS);
+            settleTimer.current = window.setTimeout(finish, SETTLE_MS + FADE_MS);
             // Safari snaps a mandatory scroll-snap track back to the slide it is leaving
             // while a programmatic scroll is under way, so the arrows and dots seemed dead
             // there (swiping still worked). Snapping stays off until settle.
@@ -115,7 +134,7 @@ export function Reviews({ reviews }: ReviewsProps) {
                 track.scrollTo({ left, behavior: "smooth" });
             }
         },
-        [count, reducedMotion, settle],
+        [count, reducedMotion, finish],
     );
 
     // A swipe takes over from a programmatic scroll still under way
@@ -152,7 +171,7 @@ export function Reviews({ reviews }: ReviewsProps) {
         const track = trackRef.current;
         if (!track || track.clientWidth === 0) return;
         if (targetRef.current !== null) {
-            if (Math.abs(track.scrollLeft - targetRef.current * track.clientWidth) < 2) settle();
+            if (arrived(track, targetRef.current)) settle();
             return;
         }
         const current = slideAt(track);
@@ -181,7 +200,14 @@ export function Reviews({ reviews }: ReviewsProps) {
                 className={`reviews__track${fading ? " reviews__track--fading" : ""}`}
                 ref={trackRef}
                 onScroll={onScroll}
-                onScrollEnd={() => targetRef.current !== null && settle()}
+                // A scrollend short of the target (a browser ending the scroll early) goes to
+                // finish, which completes the move; settling there put the index back
+                onScrollEnd={(event) => {
+                    const target = targetRef.current;
+                    if (target === null) return;
+                    if (arrived(event.currentTarget, target)) settle();
+                    else finish();
+                }}
                 onTouchStart={onTouchStart}
                 onWheel={onWheel}
                 // Announce slide changes only when the visitor is driving them
