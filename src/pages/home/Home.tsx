@@ -478,7 +478,7 @@ function Home() {
                                     Bengkel &amp; Toko <span className="partners-band__highlight">Mitra</span>
                                 </h2>
                                 <p className="partners-band__lead">
-                                    Mau beli langsung atau sekalian dipasang? Datangi bengkel dan toko
+                                    Mau beli langsung atau sekalian dicatkan? Datangi bengkel dan toko
                                     mitra Hörnet di kotamu.
                                 </p>
                             </div>
