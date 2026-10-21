@@ -94,7 +94,11 @@ export function Reviews({ reviews }: ReviewsProps) {
             setIndex(next);
             targetRef.current = next;
             window.clearTimeout(settleTimer.current);
+            // A click during a fade cancels its jump, and with it the fade back in: show the
+            // track again here, or it stays transparent (the card vanished on rapid clicks)
             window.clearTimeout(fadeTimer.current);
+            fadeTimer.current = undefined;
+            setFading(false);
             settleTimer.current = window.setTimeout(settle, SETTLE_MS + FADE_MS);
             // Safari snaps a mandatory scroll-snap track back to the slide it is leaving
             // while a programmatic scroll is under way, so the arrows and dots seemed dead
@@ -108,6 +112,7 @@ export function Reviews({ reviews }: ReviewsProps) {
             } else if (distance > 1) {
                 setFading(true);
                 fadeTimer.current = window.setTimeout(() => {
+                    fadeTimer.current = undefined;
                     track.scrollTo({ left, behavior: "auto" });
                     setFading(false);
                 }, FADE_MS);
@@ -181,7 +186,8 @@ export function Reviews({ reviews }: ReviewsProps) {
                 className={`reviews__track${fading ? " reviews__track--fading" : ""}`}
                 ref={trackRef}
                 onScroll={onScroll}
-                onScrollEnd={() => targetRef.current !== null && settle()}
+                // The smooth scroll a fade interrupts ends too: wait for the fade's own jump
+                onScrollEnd={() => targetRef.current !== null && fadeTimer.current === undefined && settle()}
                 onTouchStart={onTouchStart}
                 onWheel={onWheel}
                 // Announce slide changes only when the visitor is driving them

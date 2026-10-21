@@ -185,7 +185,7 @@
             "image": "/assets/products/thinner/pu-900.webp",
             "cutout": "/assets/products/thinner/pu-900-cutout.webp",
             "powers": [
-                { "label": "Kecocokan", "level": 5 },
+                { "label": "Kompatibilitas", "level": 5 },
                 { "label": "Penguapan", "level": 4 },
                 { "label": "Kemudahan", "level": 5 }
             ],
