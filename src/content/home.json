@@ -5,10 +5,12 @@
         "Daftar mana pun (promotions, reviews, results, partners, faqs, stats) boleh dikosongkan menjadi []: section-nya otomatis disembunyikan, termasuk link-nya di menu.",
         "Gambar ditaruh di folder public/, lalu ditulis path-nya mulai dari /assets/... (contoh: /assets/promos/promo-juli.webp).",
         "featuredProducts: kode dua produk (dari products.json) yang tampil di section Produk Unggulan. hero.productCode dan results[].product juga memakai kode dari products.json.",
-        "Field opsional (photo, rating, mapsUrl, whatsappUrl, hero.lineup) cukup dihapus kalau belum ada.",
+        "Field opsional (photo, rating, reviews[].company, reviews[].city, mapsUrl, whatsappUrl, hero.lineup, faqs[].items) cukup dihapus kalau belum ada.",
+        "reviews: tiap ulasan diisi quote (satu kutipan) atau points (ulasan apa adanya per bagian, masing-masing { label, text }), pilih salah satu.",
+        "faqs[].items (opsional): baris berlogo di bawah jawaban, masing-masing { icon, text }. icon salah satu dari: shopee, whatsapp, store (gambar toko/bengkel).",
         "hero.lineup: foto deretan kaleng (PNG/WebP berlatar transparan) di section pertama, lengkap dengan width/height aslinya. Kalau dihapus, hero kembali memakai foto produk hero.productCode. smaller (opsional): versi lebih kecil dari gambar yang sama beserta lebarnya, supaya HP tidak mengunduh versi terbesar.",
         "seo: judul dan deskripsi /home di hasil pencarian Google dan pratinjau link (WhatsApp, Facebook). Judul idealnya di bawah 60 huruf, deskripsi di bawah 160.",
-        "MASIH CONTOH, wajib diganti sebelum launch: stats (angka), reviews, partners, jawaban FAQ tentang beda dengan Dümons / motor / daya tahan / pengiriman, poster promo, foto hasil (keterangannya sudah sesuai data produk, fotonya belum)."
+        "MASIH CONTOH, wajib diganti sebelum launch: stats (angka), partners, foto hasil (keterangannya sudah sesuai data produk, fotonya belum)."
     ],
 
     "seo": {
@@ -21,15 +23,15 @@
         "whatsappDisplay": "0851-5912-2501",
         "email": "dumonscoatingindonesia@gmail.com",
         "shopeeUrl": "https://shopee.co.id/dumonsindonesia",
-        "shopeeDisplay": "dumonsindonesia",
+        "shopeeDisplay": "Dumons Coatings",
         "instagramUrl": "https://www.instagram.com/dumons.id/",
         "instagramDisplay": "@dumons.id"
     },
 
     "hero": {
         "tag": "Supercoat",
-        "titleLines": ["Kilau yang", "menyengat."],
-        "message": "Hörnet Supercoat adalah inovasi terbaru dari lineup performance coating Dümons. Kilau ekstrem, proteksi maksimal, dan tampilan yang bikin setiap mata menoleh.",
+        "titleLines": ["Pilihan Solid", "Dikala Sulit"],
+        "message": "Hörnet Supercoat, lini terbaru Dümons Performance Coating: kilau lebih intens, perlindungan optimal, dan finishing halus yang berkelas.",
         "productCode": "NC",
         "lineup": {
             "image": "/assets/hornet-lineup.webp",
@@ -44,26 +46,28 @@
         }
     },
 
+    "featuresLead": "Setiap produk Hörnet dirancang untuk menghasilkan tampilan akhir dengan kilau lebih intens dan perlindungan optimal. Hasil finishing-nya halus, mengkilap, dan berkelas, menjadikannya pilihan untuk menyempurnakan tampilan permukaan dengan kualitas yang lebih premium.",
+
     "features": [
         {
             "icon": "clock",
-            "title": "Kering kilat",
-            "text": "Semprot, tinggal sebentar, sudah kering. Bengkel lebih ngebut, mobil lebih cepat pulang!"
+            "title": "Kering Kilat",
+            "text": "Pengaplikasian yang praktis dan waktu pengeringan yang sangat singkat membuat setiap pengerjaan menjadi lebih efisien. Tingkatkan operasional bengkel Anda dengan memberikan layanan yang lebih cepat tanpa mengorbankan kualitas hasil akhir."
         },
         {
             "icon": "spray",
-            "title": "Tutup total",
-            "text": "Warna pekat menutup rata sampai ke sudut, tanpa belang sedikit pun."
+            "title": "Daya Tutup Sempurna",
+            "text": "Warna yang pekat dengan daya tutup maksimal, menjangkau hingga ke sudut secara merata tanpa meninggalkan hasil akhir belang."
         },
         {
             "icon": "shield",
-            "title": "Nempel bandel",
-            "text": "Melekat kuat, cuek sama panas matahari, dan warnanya awet nggak gampang pudar."
+            "title": "Performa Rekat Tinggi",
+            "text": "Daya rekat ekstra kuat, tahan terhadap panas terik matahari, serta warna tahan lama dan tidak mudah pudar."
         },
         {
             "icon": "sparkle",
-            "title": "Kilau bikin silau",
-            "text": "Gampang disemprot, hasilnya jernih mengkilap sampai bayanganmu sendiri ikut ngaca."
+            "title": "Kilau Sempurna",
+            "text": "Praktis diaplikasikan dengan hasil akhir jernih dan mengkilap, menghasilkan efek cermin yang tajam."
         }
     ],
 
@@ -78,22 +82,22 @@
 
     "promotions": [
         {
-            "src": "/assets/promos/placeholder-portrait.svg",
-            "alt": "Promo perkenalan: diskon 20% Hörnet Supercoat HS 470",
-            "width": 1080,
-            "height": 1350
-        },
-        {
-            "src": "/assets/promos/placeholder-landscape.svg",
-            "alt": "Beli 2 botol HS 470 gratis kain microfiber",
-            "width": 1600,
-            "height": 900
-        },
-        {
-            "src": "/assets/promos/placeholder-square.svg",
-            "alt": "Harga khusus untuk bengkel dan detailer mitra",
+            "src": "/assets/promos/cat-nc.webp",
+            "alt": "Hörnet Cat NC HS 470 Super White, pilihan solid dikala sulit",
             "width": 1080,
             "height": 1080
+        },
+        {
+            "src": "/assets/promos/cat-pu.webp",
+            "alt": "Tinting PU baru: Hörnet PU Basecoat HP 223 Chrome Yellow",
+            "width": 900,
+            "height": 1600
+        },
+        {
+            "src": "/assets/promos/racing-clear.webp",
+            "alt": "Hörnet Racing Clear: 2K Racing Clear Fast Dry, Racing Clear 2:1 dan Thinner PU 900",
+            "width": 1600,
+            "height": 900
         }
     ],
 
@@ -101,28 +105,22 @@
 
     "reviews": [
         {
-            "quote": "Hasil kilapnya beda kelas. Mobil pelanggan keluar dari bengkel kami dengan tampilan yang benar-benar seperti baru, dan efek airnya masih terasa berbulan-bulan kemudian.",
-            "name": "Budi Santoso",
-            "company": "PT Kilau Motor Sejahtera",
-            "city": "Jakarta",
-            "year": 2025,
-            "rating": 5
+            "points": [
+                { "label": "Ulasan Produk", "text": "Mengenai produk Hörnet ini, setelah kurang lebih 8 bulan produk tersebut masuk ke dalam toko kami, produk tersebut sangat bisa bersaing dengan produk yang lain, karena kualitas juga bagus. Meskipun harga murah dan terjangkau tetapi kualitas bagus" },
+                { "label": "Layanan", "text": "Untuk pelayanan orderan sangat fast respon. Terutama jika barang datang tetapi ada yang rusak/kurang lengkap. Pihak Hörnet langsung menanggapi dan langsung menggantikan dengan barang yang baik" },
+                { "label": "Kecepatan pengiriman", "text": "Untuk kecepatan pengiriman ini yang harus ditingkatkan lagi ya team" }
+            ],
+            "name": "Toko Watu",
+            "year": 2026,
+            "photo": "/assets/reviews/toko-watu-review.jpg"
         },
         {
-            "quote": "Aplikasinya gampang dan hasilnya konsisten. Sejak pakai Hörnet, pelanggan detailing kami makin banyak yang repeat order.",
-            "name": "Rina Wijaya",
-            "company": "PT Detailindo Prima",
-            "city": "Surabaya",
-            "year": 2025,
-            "rating": 5
-        },
-        {
-            "quote": "Kami pakai untuk armada kendaraan operasional. Cuci jadi jauh lebih cepat karena kotoran tidak gampang menempel.",
-            "name": "Agus Pratama",
-            "company": "PT Armada Nusantara Logistik",
-            "city": "Bandung",
-            "year": 2024,
-            "rating": 4
+            "points": [
+                { "label": "Ulasan Produk", "text": "Toko kami sudah memakai Hörnet 1 tahun & produk Dümons lainnya. Saya cukup puas dengan produk ini, harga terjangkau dengan kualitas yang bagus" }
+            ],
+            "name": "Toko Warna Warni",
+            "city": "Purwodadi",
+            "year": 2026
         }
     ],
 
@@ -147,35 +145,40 @@
     "faqs": [
         {
             "question": "Apa itu Hörnet?",
-            "answer": "Hörnet adalah lini coating dari Dümons Coating yang lebih ringkas dan terjangkau, untuk menjaga kilau dan proteksi kendaraan sehari-hari."
+            "answer": "Hörnet merupakan lini coating dari Dümons Coating yang menghadirkan perlindungan dan kilau sempurna bagi kendaraan harian Anda, dengan aplikasi yang lebih praktis dan harga yang ramah di kantong."
         },
         {
             "question": "Apa bedanya Hörnet dengan produk Dümons lainnya?",
-            "answer": "Hörnet dirancang untuk perawatan yang praktis dengan harga lebih bersahabat, sementara lini utama Dümons ditujukan untuk hasil dan daya tahan maksimal."
+            "answer": "Hörnet dirancang khusus untuk perawatan harian yang lebih praktis dan ramah di kantong, tanpa mengorbankan kualitas. Sementara itu, lini utama Dümons ditujukan untuk kebutuhan profesional yang mengejar hasil kilau dan daya tahan paling maksimal."
         },
         {
             "question": "Di mana saya bisa membeli produk Hörnet?",
-            "answer": "Lewat toko resmi kami di Shopee (dumonsindonesia), langsung via WhatsApp, atau di bengkel & toko mitra Hörnet di kotamu."
+            "answer": "Produk Hörnet dapat Anda beli secara resmi melalui beberapa saluran berikut:",
+            "items": [
+                { "icon": "shopee", "text": "Shopee Mall / Official Store: Dumons Coatings" },
+                { "icon": "whatsapp", "text": "Pemesanan langsung: WhatsApp Customer Care" },
+                { "icon": "store", "text": "Offline: bengkel & toko mitra Hörnet terdekat di kota Anda" }
+            ]
         },
         {
-            "question": "Bagaimana cara pemakaiannya?",
-            "answer": "Setiap produk punya langkah pemakaian sendiri, lengkap di halaman detail produknya. Kalau masih ragu, tim kami siap memandu lewat WhatsApp."
+            "question": "Bagaimana cara pemakaian produk Hörnet?",
+            "answer": "Setiap produk dilengkapi dengan panduan penggunaan detail di halaman produk masing-masing. Jika Anda membutuhkan bantuan atau konsultasi, tim kami siap memandu Anda secara langsung via WhatsApp."
         },
         {
-            "question": "Apakah bisa dipakai untuk motor?",
-            "answer": "Bisa. Produk Hörnet dapat diaplikasikan pada cat mobil maupun motor."
+            "question": "Apakah produk Hörnet bisa digunakan untuk sepeda motor?",
+            "answer": "Tentu saja. Seluruh produk Hörnet diformulasikan aman dan efektif untuk diaplikasikan pada cat mobil maupun sepeda motor."
         },
         {
-            "question": "Berapa lama hasilnya bertahan?",
-            "answer": "Tergantung produk, cara aplikasi, dan perawatan. Detail daya tahan tiap produk tercantum di halaman detail produknya."
+            "question": "Berapa lama daya tahan hasil coating Hörnet?",
+            "answer": "Daya tahan coating Hörnet bergantung pada jenis produk, teknik aplikasi, serta perawatan kendaraan. Untuk informasi lebih lengkap mengenai estimasi daya tahan, silakan kunjungi halaman detail masing-masing produk."
         },
         {
-            "question": "Apakah bisa kirim ke seluruh Indonesia?",
-            "answer": "Bisa. Pesanan lewat Shopee maupun WhatsApp kami kirim ke seluruh Indonesia."
+            "question": "Apakah produk Hörnet bisa dikirim ke seluruh Indonesia?",
+            "answer": "Tentu saja. Kami melayani pengiriman ke seluruh wilayah Indonesia. Anda dapat melakukan pemesanan melalui Shopee Official Store maupun WhatsApp."
         },
         {
-            "question": "Saya punya bengkel, bagaimana cara jadi mitra?",
-            "answer": "Hubungi kami lewat WhatsApp untuk info kemitraan dan harga khusus bengkel atau detailer."
+            "question": "Saya pemilik bengkel / detailer, bagaimana cara menjadi mitra?",
+            "answer": "Kami membuka peluang kerja sama! Hubungi tim kami via WhatsApp untuk mendapatkan informasi kemitraan, penawaran khusus, dan harga grosir untuk bengkel maupun auto detailer."
         }
     ]
 }

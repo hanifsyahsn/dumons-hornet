@@ -2,6 +2,7 @@ import React, { type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { CountUp } from "../../components/count-up";
 import { Mascot } from "../../components/mascot";
+import { MascotFollower } from "../../components/mascot-follower";
 import { Partners } from "../../components/partners";
 import { Reviews } from "../../components/reviews";
 import { ProductCard } from "../../components/product-card";
@@ -13,12 +14,14 @@ import {
     HORNET_MARK_SMALL_SRC,
     HORNET_MARK_SRC,
     SHOPEE_DISPLAY,
+    SHOPEE_LOGO_SRC,
     SHOPEE_URL,
     WHATSAPP_DISPLAY,
+    WHATSAPP_LOGO_SRC,
     WHATSAPP_URL,
 } from "../../constants/brand";
 import { PRODUCTS_PATH } from "../../constants/routing";
-import { content, productByCode, type FeatureIcon } from "../../content";
+import { content, productByCode, type FaqIcon, type FeatureIcon } from "../../content";
 import "./styles.css";
 
 const { hero: HERO, features: FEATURES, stats: STATS, promotions: PROMOTIONS } = content;
@@ -67,12 +70,29 @@ const partnerWhatsAppUrl = `${WHATSAPP_URL}?text=${encodeURIComponent(
 const FAQ_JSON_LD = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map(({ question, answer }) => ({
+    mainEntity: FAQS.map(({ question, answer, items = [] }) => ({
         "@type": "Question",
         name: question,
-        acceptedAnswer: { "@type": "Answer", text: answer },
+        acceptedAnswer: { "@type": "Answer", text: [answer, ...items.map(({ text }) => text)].join("\n") },
     })),
 }).replace(/</g, "\\u003c");
+
+// Logos for the rows under an FAQ answer (faqs[].items[].icon), each on a square chip:
+// the Shopee and WhatsApp logos, and a storefront (24x24 SVG) for shops/workshops
+const FAQ_ICONS: Record<FaqIcon, ReactNode> = {
+    shopee: <img src={SHOPEE_LOGO_SRC} alt="" width={96} height={96} loading="lazy" decoding="async" />,
+    whatsapp: <img src={WHATSAPP_LOGO_SRC} alt="" width={96} height={96} loading="lazy" decoding="async" />,
+    store: (
+        <svg viewBox="0 0 24 24">
+            <g fill="none" stroke="var(--hornet-ink)" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3.5 9.5L5 4h14l1.5 5.5" />
+                <path d="M3.5 9.5a2.8 2.8 0 0 0 5.6 0a2.9 2.9 0 0 0 5.8 0a2.8 2.8 0 0 0 5.6 0" />
+                <path d="M5 12.5V20h14v-7.5" />
+                <path d="M10 20v-4.5h4V20" />
+            </g>
+        </svg>
+    ),
+};
 
 // The two "Produk Unggulan" cards (codes checked against the catalog at load)
 const FEATURED = content.featuredProducts.map((code) => productByCode(code)!);
@@ -184,9 +204,7 @@ function Home() {
                     <h2 className="features__title">
                         Kenapa <span className="features__highlight">Supercoat</span>
                     </h2>
-                    <p className="features__lead">
-                        Satu lineup, satu standar: galak di setiap kaleng.
-                    </p>
+                    <p className="features__lead">{content.featuresLead}</p>
 
                     <div className="features__grid">
                         {FEATURES.map(({ title, text, icon }) => (
@@ -499,6 +517,9 @@ function Home() {
 
             {FAQS.length > 0 && (
                 <section className="faq" id="faq">
+                    {/* The hornet lazily following the mouse around the section */}
+                    <MascotFollower />
+
                     <div className="faq__inner">
                         <div className="faq__intro">
                             <h2 className="faq__title">
@@ -519,14 +540,31 @@ function Home() {
 
                         {/* Native disclosure: opens without JS, and the answers stay in the HTML */}
                         <div className="faq__list">
-                            {FAQS.map(({ question, answer }, i) => (
+                            {FAQS.map(({ question, answer, items }, i) => (
                                 <details className="faq-item" key={question}>
                                     <summary className="faq-item__question">
                                         <span className="faq-item__number">{String(i + 1).padStart(2, "0")}</span>
                                         <span className="faq-item__text">{question}</span>
                                         <span className="faq-item__toggle" aria-hidden="true" />
                                     </summary>
-                                    <p className="faq-item__answer">{answer}</p>
+                                    <p className={`faq-item__answer${items ? " faq-item__answer--lead" : ""}`}>
+                                        {answer}
+                                    </p>
+                                    {items && (
+                                        <ul className="faq-item__channels">
+                                            {items.map(({ icon, text }) => (
+                                                <li className="faq-channel" key={text}>
+                                                    <span
+                                                        className={`faq-channel__icon faq-channel__icon--${icon}`}
+                                                        aria-hidden="true"
+                                                    >
+                                                        {FAQ_ICONS[icon]}
+                                                    </span>
+                                                    <span className="faq-channel__text">{text}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
                                 </details>
                             ))}
                         </div>

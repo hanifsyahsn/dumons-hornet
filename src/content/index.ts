@@ -122,10 +122,15 @@ export interface Result {
     photo?: string;
 }
 
+// Keys of the logos drawn in Home.tsx (FAQ_ICONS)
+export type FaqIcon = "shopee" | "whatsapp" | "store";
+
 export interface Faq {
     question: string;
-    // Plain text: also goes into the FAQPage structured data for search engines
+    // Plain text (line breaks shown as new lines): also goes into the FAQPage structured data for search engines
     answer: string;
+    // Optional rows under the answer, each with a logo (e.g. where to buy); their text joins the structured data too
+    items?: { icon: FaqIcon; text: string }[];
 }
 
 // Search engine / link preview copy for /home
@@ -138,6 +143,8 @@ export interface HomeContent {
     seo: Seo;
     contact: Contact;
     hero: Hero;
+    // Paragraph under the "Kenapa Supercoat" title
+    featuresLead: string;
     features: Feature[];
     stats: Stat[];
     tickerWords: string[];
@@ -169,6 +176,7 @@ export interface ProductsContent {
 type Json = Record<string, unknown>;
 
 const FEATURE_ICONS: FeatureIcon[] = ["sparkle", "drop", "shield", "spray", "clock"];
+const FAQ_ICONS: FaqIcon[] = ["shopee", "whatsapp", "store"];
 
 // File being validated, named in the error messages
 let file = "";
@@ -296,6 +304,8 @@ function validate(raw: unknown, codes: string[]): HomeContent {
         }
     }
 
+    if (typeof root.featuresLead !== "string" || root.featuresLead.trim() === "") fail("featuresLead", "harus berupa teks yang tidak kosong");
+
     each(root.features, "features", (item, path) => {
         text(item, "title", path);
         text(item, "text", path);
@@ -324,7 +334,17 @@ function validate(raw: unknown, codes: string[]): HomeContent {
     featured.forEach((code, i) => checkCode(code, `featuredProducts #${i + 1}`));
 
     each(root.reviews, "reviews", (item, path) => {
-        ["quote", "name", "company", "city"].forEach((key) => text(item, key, path));
+        text(item, "name", path);
+        text(item, "company", path, true);
+        if ((item.quote === undefined) === (item.points === undefined)) fail(path, "harus punya quote atau points (salah satu)");
+        text(item, "quote", path, true);
+        if (item.points !== undefined) {
+            each(item.points, `${path}.points`, (point, pointPath) => {
+                text(point, "label", pointPath);
+                text(point, "text", pointPath);
+            });
+        }
+        text(item, "city", path, true);
         number(item, "year", path, false, 1900, 2100);
         number(item, "rating", path, true, 1, 5);
         text(item, "photo", path, true);
@@ -344,6 +364,12 @@ function validate(raw: unknown, codes: string[]): HomeContent {
     each(root.faqs, "faqs", (item, path) => {
         text(item, "question", path);
         text(item, "answer", path);
+        if (item.items !== undefined) {
+            each(item.items, `${path}.items`, (row, rowPath) => {
+                text(row, "text", rowPath);
+                if (!FAQ_ICONS.includes(row.icon as FaqIcon)) fail(`${rowPath}.icon`, `harus salah satu dari: ${FAQ_ICONS.join(", ")}`);
+            });
+        }
     });
 
     return root as unknown as HomeContent;

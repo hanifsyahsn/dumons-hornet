@@ -2,12 +2,18 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./styles.css";
 
 export interface Review {
-    quote: string;
+    // Either one quote, or the review as the customer wrote it in labeled parts
+    // (e.g. product / service / delivery), shown word for word
+    quote?: string;
+    points?: { label: string; text: string }[];
     name: string;
-    company: string;
-    city: string;
+    // Omitted when the name says it all (e.g. a shop) -> just the name
+    company?: string;
+    // Omitted while unknown -> just the year
+    city?: string;
     year: number;
-    // Profile photo served from /public (any size, shown square); omitted -> initials
+    // Customer photo served from /public (any size, cropped square) shown on the poster-style
+    // stage beside the review; omitted -> their initials on the same stage
     photo?: string;
     // 1..5 stars; omitted -> no stars
     rating?: number;
@@ -38,6 +44,50 @@ const initials = (name: string) =>
         .join("");
 
 const pad = (n: number) => String(n).padStart(2, "0");
+
+// A quote up to this many characters, or a review in a single labeled part this short, is
+// set bigger (a pull quote), so a short review fills its card with its own words
+const SHORT_QUOTE = 200;
+
+const isShort = ({ quote, points }: Pick<Review, "quote" | "points">) =>
+    points ? points.length === 1 && points[0].text.length <= SHORT_QUOTE : (quote ?? "").length <= SHORT_QUOTE;
+
+const SPARKLE_PATH = "M12 0c.9 6.4 5.6 11.1 12 12-6.4.9-11.1 5.6-12 12-.9-6.4-5.6-11.1-12-12C6.4 11.1 11.1 6.4 12 0z";
+const DROP_PATH = "M12 1C9 7 5 10.5 5 15a7 7 0 0 0 14 0c0-4.5-4-8-7-14z";
+
+// Shape of the ornament in the room around a shorter review; each card takes the next
+// one, its bottom room the one after that
+const SPACE_LOOKS = [SPARKLE_PATH, STAR_PATH, DROP_PATH];
+
+// Room above or below a shorter review (every slide is as tall as the tallest): split
+// evenly so the review sits centered from --medium, all below it on phones. Once it is
+// tall enough the CSS puts one ornament in its middle: shapes and chips on a thick ink
+// rule (no text, so the eye stays on the review); a phone's tall room below the review
+// also gets a big closing quote mark above it
+function Space({ look, side }: { look: string; side: "top" | "bottom" }) {
+    return (
+        <div className={`review__space review__space--${side}`} aria-hidden="true">
+            <div className="review__deco">
+                {side === "bottom" && <span className="review__closing">&rdquo;</span>}
+                <span className="review__deco-row">
+                    <span className="review__deco-group">
+                        <svg className="review__shape review__shape--1" viewBox="0 0 24 24">
+                            <path d={look} />
+                        </svg>
+                        <span className="review__chip review__chip--1" />
+                        <svg className="review__shape review__shape--2" viewBox="0 0 24 24">
+                            <path d={look} />
+                        </svg>
+                        <span className="review__chip review__chip--2" />
+                        <svg className="review__shape review__shape--3" viewBox="0 0 24 24">
+                            <path d={look} />
+                        </svg>
+                    </span>
+                </span>
+            </div>
+        </div>
+    );
+}
 
 // Customer reviews carousel: one review per slide on a scroll-snap track, so phones can
 // swipe natively; buttons and dots scroll the track (never the page).
@@ -94,7 +144,11 @@ export function Reviews({ reviews }: ReviewsProps) {
             setIndex(next);
             targetRef.current = next;
             window.clearTimeout(settleTimer.current);
+            // A click during a fade cancels its jump, and with it the fade back in: show the
+            // track again here, or it stays transparent (the card vanished on rapid clicks)
             window.clearTimeout(fadeTimer.current);
+            fadeTimer.current = undefined;
+            setFading(false);
             settleTimer.current = window.setTimeout(settle, SETTLE_MS + FADE_MS);
             // Safari snaps a mandatory scroll-snap track back to the slide it is leaving
             // while a programmatic scroll is under way, so the arrows and dots seemed dead
@@ -108,6 +162,7 @@ export function Reviews({ reviews }: ReviewsProps) {
             } else if (distance > 1) {
                 setFading(true);
                 fadeTimer.current = window.setTimeout(() => {
+                    fadeTimer.current = undefined;
                     track.scrollTo({ left, behavior: "auto" });
                     setFading(false);
                 }, FADE_MS);
@@ -181,13 +236,14 @@ export function Reviews({ reviews }: ReviewsProps) {
                 className={`reviews__track${fading ? " reviews__track--fading" : ""}`}
                 ref={trackRef}
                 onScroll={onScroll}
-                onScrollEnd={() => targetRef.current !== null && settle()}
+                // The smooth scroll a fade interrupts ends too: wait for the fade's own jump
+                onScrollEnd={() => targetRef.current !== null && fadeTimer.current === undefined && settle()}
                 onTouchStart={onTouchStart}
                 onWheel={onWheel}
                 // Announce slide changes only when the visitor is driving them
                 aria-live={autoplay ? "off" : "polite"}
             >
-                {reviews.map(({ quote, name, company, city, year, photo, rating }, i) => (
+                {reviews.map(({ quote, points, name, company, city, year, photo, rating }, i) => (
                     <figure
                         className="review"
                         key={`${name}-${i}`}
@@ -205,45 +261,66 @@ export function Reviews({ reviews }: ReviewsProps) {
                                 #{pad(i + 1)}
                             </span>
 
-                            {rating !== undefined && (
-                                <span
-                                    className="review__stars"
-                                    role="img"
-                                    aria-label={`${rating} dari 5 bintang`}
-                                >
-                                    {Array.from({ length: 5 }, (_, star) => (
-                                        <svg
-                                            className={`review__star${star < rating ? " review__star--on" : ""}`}
-                                            viewBox="0 0 24 24"
-                                            key={star}
-                                        >
-                                            <path d={STAR_PATH} />
-                                        </svg>
-                                    ))}
-                                </span>
-                            )}
-                            <blockquote className="review__quote">
-                                <p>{quote}</p>
-                            </blockquote>
+                            {/* Poster-style stage like the promo posters: dark halftone, yellow
+                                wedges, white slashes, the photo pinned on it at a tilt */}
+                            <div className="review__stage" aria-hidden="true">
+                                <span className="review__stage-slashes" />
+                                {photo ? (
+                                    <img className="review__photo" src={photo} alt="" loading="lazy" decoding="async" />
+                                ) : (
+                                    <span className="review__photo review__photo--initials">{initials(name)}</span>
+                                )}
+                            </div>
 
-                            <figcaption className="review__author">
-                                <span className="review__avatar">
-                                    {photo ? (
-                                        <img src={photo} alt="" loading="lazy" decoding="async" />
-                                    ) : (
-                                        <span className="review__initials" aria-hidden="true">
-                                            {initials(name)}
-                                        </span>
-                                    )}
-                                </span>
-                                <span className="review__who">
-                                    <span className="review__name">{name}</span>
-                                    <span className="review__company">{company}</span>
-                                    <span className="review__meta">
-                                        {city} &middot; {year}
+                            <div className="review__body">
+                                <Space look={SPACE_LOOKS[i % SPACE_LOOKS.length]} side="top" />
+                                {rating !== undefined && (
+                                    <span
+                                        className="review__stars"
+                                        role="img"
+                                        aria-label={`${rating} dari 5 bintang`}
+                                    >
+                                        {Array.from({ length: 5 }, (_, star) => (
+                                            <svg
+                                                className={`review__star${star < rating ? " review__star--on" : ""}`}
+                                                viewBox="0 0 24 24"
+                                                key={star}
+                                            >
+                                                <path d={STAR_PATH} />
+                                            </svg>
+                                        ))}
                                     </span>
-                                </span>
-                            </figcaption>
+                                )}
+                                {points ? (
+                                    <blockquote
+                                        className={`review__quote review__quote--points${isShort({ points }) ? " review__quote--short" : ""}`}
+                                    >
+                                        {points.map(({ label, text }) => (
+                                            <div className="review__point" key={label}>
+                                                <span className="review__label">{label}</span>
+                                                <p>{text}</p>
+                                            </div>
+                                        ))}
+                                    </blockquote>
+                                ) : (
+                                    <blockquote
+                                        className={`review__quote${isShort({ quote }) ? " review__quote--short" : ""}`}
+                                    >
+                                        <p>{quote}</p>
+                                    </blockquote>
+                                )}
+                                <Space look={SPACE_LOOKS[(i + 1) % SPACE_LOOKS.length]} side="bottom" />
+
+                                <figcaption className="review__author">
+                                    <span className="review__who">
+                                        <span className="review__name">{name}</span>
+                                        {company && <span className="review__company">{company}</span>}
+                                        <span className="review__meta">
+                                            {city ? <>{city} &middot; {year}</> : year}
+                                        </span>
+                                    </span>
+                                </figcaption>
+                            </div>
                         </div>
                     </figure>
                 ))}
