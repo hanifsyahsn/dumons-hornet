@@ -96,11 +96,11 @@
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 900;
-    /* Sized from the copy column, not the viewport: the longest line ("MENYENGAT.")
+    /* Sized from the copy column, not the viewport: the longest line ("PILIHAN SOLID")
        always fits the column, however wide the screen is */
     /* Browsers without container units (iOS < 16) */
-    font-size: clamp(48px, 13vw, 96px);
-    font-size: clamp(48px, 18cqi, 168px);
+    font-size: clamp(44px, 11vw, 84px);
+    font-size: clamp(44px, 15.5cqi, 146px);
     line-height: 0.9;
     letter-spacing: -0.02em;
     text-transform: uppercase;
@@ -379,10 +379,17 @@
     }
 }
 
+/* Two by two from --medium: four narrow columns made the longer texts run twice as tall
+   as the shorter ones, leaving the other cards half empty */
 .features__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 28px;
+
+    @media (--medium) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 32px;
+    }
 }
 
 /* Subgrid rows: card heads in a row share one height, so the body text lines up
@@ -1605,6 +1612,8 @@
 
 /* FAQ: white band before the CTA; intro on the left, accordion on the right */
 .faq {
+    /* Positions the mascot following the mouse */
+    position: relative;
     padding: 72px 0;
     border-top: var(--border-thick);
     background: var(--hornet-white);
@@ -1671,9 +1680,22 @@
     background: var(--hornet-white);
     border: var(--border);
     box-shadow: var(--shadow-sm);
+    transition: transform 0.15s, box-shadow 0.15s;
 
     &[open] {
         box-shadow: var(--shadow-md);
+    }
+
+    /* Lifts off the page while its question is hovered */
+    @media (hover: hover) {
+        &:has(> .faq-item__question:hover) {
+            transform: translate(-3px, -3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        &[open]:has(> .faq-item__question:hover) {
+            box-shadow: var(--shadow-lg);
+        }
     }
 }
 
@@ -1684,6 +1706,11 @@
     padding: 16px 18px;
     cursor: pointer;
     list-style: none;
+    /* Skewed yellow wipe, parked off to the right until hovered */
+    background-image: linear-gradient(100deg, var(--hornet-yellow) 50%, transparent 50%);
+    background-size: 250% 100%;
+    background-position: 100% 0;
+    transition: background-position 0.3s ease-out;
 
     /* Hide the default disclosure triangle */
     &::-webkit-details-marker {
@@ -1696,15 +1723,12 @@
     }
 
     @media (hover: hover) {
-        &:hover .faq-item__text {
-            text-decoration: underline;
-            text-decoration-thickness: 3px;
-            text-decoration-color: var(--hornet-yellow);
-            text-underline-offset: 4px;
+        &:hover {
+            background-position: 0 0;
         }
 
-        .faq-item[open] &:hover .faq-item__text {
-            text-decoration-color: var(--hornet-ink);
+        &:hover .faq-item__number {
+            color: var(--hornet-ink);
         }
     }
 
@@ -1721,6 +1745,7 @@
     font-weight: 900;
     font-size: var(--fs-lg);
     color: var(--gray-500);
+    transition: color 0.2s;
 
     .faq-item[open] & {
         color: var(--hornet-ink);
@@ -1775,10 +1800,62 @@
     padding: 16px 18px 20px 52px;
     font-size: var(--fs-base);
     line-height: 1.6;
+    /* Line breaks in an answer (e.g. a list of shops) show as new lines */
+    white-space: pre-line;
 
     @media (--medium) {
         font-size: var(--fs-md);
     }
+}
+
+/* An answer followed by logo rows: tighter below, the rows carry the bottom padding */
+.faq-item__answer--lead {
+    padding-bottom: 12px;
+}
+
+.faq-item__channels {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0 18px 22px 52px;
+    list-style: none;
+}
+
+.faq-channel {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: var(--fs-base);
+    line-height: 1.4;
+
+    @media (--medium) {
+        font-size: var(--fs-md);
+    }
+}
+
+/* Logo on a white square chip with an ink border and hard shadow, like the site's
+   stickers; the storefront (no logo of its own) gets the yellow one */
+.faq-channel__icon {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: var(--hornet-white);
+    border: var(--border);
+    box-shadow: 3px 3px 0 var(--hornet-ink);
+
+    img,
+    svg {
+        display: block;
+        width: 24px;
+        height: 24px;
+    }
+}
+
+.faq-channel__icon--store {
+    background: var(--hornet-yellow);
 }
 
 /* Contact CTA */

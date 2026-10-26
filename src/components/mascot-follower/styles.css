@@ -1,0 +1,71 @@
+@import '../../styles/variables.css';
+
+/* Placed by translate3d from MascotFollower; centered on its point */
+.mascot-follower {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 48px;
+    margin: -24px 0 0 -24px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    will-change: transform;
+}
+
+.mascot-follower--shown {
+    opacity: 1;
+}
+
+/* Faces right (the way the mascot is drawn) or left, turning with a quick squash */
+.mascot-follower__flip {
+    position: relative;
+    transform: scaleX(var(--facing, 1));
+    transition: transform 0.25s ease-out;
+}
+
+/* At this size the mascot's full die-cut outline (made for the bigger promo mascot)
+   turns jagged: thinner one to match */
+.mascot-follower .mascot {
+    filter:
+        drop-shadow(1.5px 0 0 var(--hornet-white))
+        drop-shadow(-1.5px 0 0 var(--hornet-white))
+        drop-shadow(0 1.5px 0 var(--hornet-white))
+        drop-shadow(0 -1.5px 0 var(--hornet-white))
+        drop-shadow(3px 3px 0 var(--hornet-ink));
+}
+
+/* Its own speed lines are drawn by .mascot-follower__lines instead */
+.mascot-follower .mascot__lines {
+    display: none;
+}
+
+/* Same box and viewBox as the mascot, laid over it; units are the mascot's (~0.05px each
+   at 48px wide), so the strokes below are ~2px ink, ~1.2px white edge, ~2.5px shadow */
+.mascot-follower__lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    fill: none;
+    stroke-linecap: round;
+}
+
+.mascot-follower__line-shadow {
+    stroke: var(--hornet-ink);
+    stroke-width: 84px;
+    transform: translate(48px, 48px);
+}
+
+.mascot-follower__line-outline {
+    stroke: var(--hornet-white);
+    stroke-width: 84px;
+}
+
+.mascot-follower__line-ink {
+    stroke: var(--hornet-ink);
+    stroke-width: 38px;
+}

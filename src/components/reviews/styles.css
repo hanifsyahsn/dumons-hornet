@@ -67,6 +67,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    gap: 24px;
     padding: 48px 20px 24px;
     background: var(--hornet-white);
     border: var(--border-thick);
@@ -76,8 +77,262 @@
         padding: 52px 32px 32px;
     }
 
+    @media (--medium) {
+        display: grid;
+        grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+        gap: 40px;
+    }
+
     @media (--large) {
+        grid-template-columns: minmax(0, 0.36fr) minmax(0, 1fr);
+        gap: 48px;
         padding: 56px 56px 40px;
+    }
+}
+
+/* Poster-style stage (like the promo posters and the hero's can stage): ink with yellow
+   halftone, a yellow wedge in two corners, white slashes; 4:3 above the text on phones,
+   the full card height beside it from --medium */
+.review__stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background:
+        radial-gradient(circle, rgb(255 255 0 / 0.14) 1.6px, transparent 2px) 0 0 / 14px 14px,
+        var(--hornet-ink);
+    border: var(--border-thick);
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        width: 38%;
+        height: 62%;
+        background: var(--hornet-yellow);
+        transform: skewX(var(--skew));
+    }
+
+    &::before {
+        top: 0;
+        left: -22%;
+    }
+
+    &::after {
+        right: -22%;
+        bottom: 0;
+    }
+
+    @media (--medium) {
+        aspect-ratio: auto;
+        min-height: 300px;
+    }
+}
+
+.review__stage-slashes {
+    position: absolute;
+    top: 7%;
+    right: 8%;
+    width: 30%;
+    height: 14px;
+    background: repeating-linear-gradient(90deg, var(--hornet-white) 0 14%, transparent 14% 26%);
+    transform: skewX(-35deg);
+}
+
+/* The photo pinned on the stage: thick white border, hard yellow shadow, a slight tilt */
+.review__photo {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 52%;
+    max-width: 240px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: var(--hornet-white);
+    border: 6px solid var(--hornet-white);
+    box-shadow: 10px 10px 0 var(--hornet-yellow);
+    transform: rotate(-4deg);
+
+    @media (--medium) {
+        width: 72%;
+    }
+}
+
+/* No photo yet: the initials on the same tile */
+.review__photo--initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--hornet-yellow);
+    border-color: var(--hornet-white);
+    box-shadow: 10px 10px 0 var(--hornet-white);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(48px, 9vw, 88px);
+    line-height: 1;
+}
+
+/* Stars, the review and its author; fills the card (every slide is as tall as the
+   tallest); the room a shorter review leaves goes to .review__space below it on phones,
+   split above and below it (centered) from --medium */
+.review__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* Sized by the flex layout (the two split the leftover space evenly), so it can be a size
+   container: the ornaments show only once it is tall enough to hold them. Browsers
+   without container queries just leave the room empty. */
+.review__space {
+    flex: 1 1 0;
+    min-height: 0;
+    position: relative;
+    container-type: size;
+}
+
+.review__deco {
+    display: none;
+    position: absolute;
+    inset: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+@container (min-height: 72px) {
+    .review__deco {
+        display: flex;
+    }
+}
+
+/* Big closing quote mark: yellow, ink outline, hard shadow, like the stickers. Only in
+   a phone's tall room below the review */
+.review__closing {
+    display: none;
+    height: 96px;
+    color: var(--hornet-yellow);
+    -webkit-text-stroke: 3px var(--hornet-ink);
+    paint-order: stroke fill;
+    text-shadow: 6px 6px 0 var(--hornet-ink);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: 180px;
+    line-height: 0.9;
+}
+
+@container (min-height: 200px) {
+    .review__closing {
+        display: block;
+    }
+}
+
+@media (--medium) {
+    .review__space .review__closing {
+        display: none;
+    }
+}
+
+/* Thick ink rule across the room, the ornament sitting on it */
+.review__deco-row {
+    position: relative;
+    align-self: stretch;
+    display: flex;
+    justify-content: center;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 0;
+        left: 0;
+        border-top: 3px solid var(--hornet-ink);
+        transform: translateY(-50%);
+    }
+}
+
+/* Phones: the text sits right under the photo above it, so all the leftover room goes
+   below it; from --medium (text beside the photo) it is split and the review centered */
+.review__space--top {
+    display: none;
+
+    @media (--medium) {
+        display: block;
+    }
+}
+
+/* The bottom room mirrors the ornament, so the two never look copied */
+.review__space--bottom .review__deco-group {
+    transform: scaleX(-1);
+}
+
+/* Stickers in a tight row: thick ink outlines and hard shadows, the chips skewed like
+   the buttons; on white so the rule stops either side of them */
+.review__deco-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 48px;
+    padding: 0 16px;
+    background: var(--hornet-white);
+}
+
+.review__shape {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    fill: var(--hornet-yellow);
+    stroke: var(--hornet-ink);
+    stroke-width: 2.2;
+    stroke-linejoin: round;
+    filter: drop-shadow(3px 3px 0 var(--hornet-ink));
+    animation: sparkle-twinkle 2.4s ease-in-out infinite;
+}
+
+.review__shape--2 {
+    align-self: flex-start;
+    width: 22px;
+    height: 22px;
+    fill: var(--hornet-orange);
+    animation-delay: 0.8s;
+}
+
+.review__shape--3 {
+    align-self: flex-end;
+    width: 28px;
+    height: 28px;
+    animation-delay: 1.6s;
+}
+
+.review__chip {
+    flex: none;
+    border: 3px solid var(--hornet-ink);
+    box-shadow: 3px 3px 0 var(--hornet-ink);
+    transform: skewX(var(--skew));
+}
+
+.review__chip--1 {
+    width: 56px;
+    height: 20px;
+    background: var(--hornet-yellow);
+}
+
+.review__chip--2 {
+    width: 20px;
+    height: 20px;
+    background: var(--hornet-orange);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .review__shape {
+        animation: none;
     }
 }
 
@@ -159,7 +414,6 @@
 }
 
 .review__quote {
-    flex: 1;
     margin: 0 0 28px;
 
     p {
@@ -176,56 +430,101 @@
     }
 }
 
-.review__author {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    padding-top: 20px;
-    border-top: 2px solid var(--hornet-ink);
+/* Short quote: a pull quote, bigger */
+.review__quote--short {
+    p {
+        font-size: var(--fs-lg);
+        font-weight: 700;
+        line-height: 1.45;
+
+        @media (--medium) {
+            font-size: 28px;
+            line-height: 1.4;
+        }
+
+        @media (--large) {
+            font-size: var(--fs-2xl);
+        }
+    }
 }
 
-/* Square photo frame skewed like the logo; the photo inside is skewed back upright */
-.review__avatar {
-    flex: none;
-    width: 64px;
-    height: 64px;
-    overflow: hidden;
-    background: var(--hornet-yellow);
-    border: var(--border);
-    box-shadow: var(--shadow-sm);
-    transform: skewX(var(--skew));
+/* A review in labeled parts: one row each, the label a skewed yellow chip beside the
+   text (above it on phones), rows split by a dashed rule; smaller type than a lone quote */
+.review__quote--points {
+    display: grid;
+    gap: 16px;
+
+    p {
+        font-size: var(--fs-base);
+
+        @media (--medium) {
+            font-size: var(--fs-md);
+            line-height: 1.6;
+        }
+    }
+}
+
+.review__point {
+    display: grid;
+    gap: 8px;
+    justify-items: start;
+
+    & + & {
+        padding-top: 16px;
+        border-top: 2px dashed var(--gray-300);
+    }
 
     @media (--medium) {
-        width: 80px;
-        height: 80px;
-    }
-
-    img {
-        display: block;
-        /* Overscan so the counter-skew leaves no empty corners */
-        width: 130%;
-        height: 100%;
-        margin-left: -15%;
-        object-fit: cover;
-        transform: skewX(calc(var(--skew) * -1));
+        grid-template-columns: 200px minmax(0, 1fr);
+        align-items: baseline;
+        gap: 24px;
     }
 }
 
-.review__initials {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    transform: skewX(calc(var(--skew) * -1));
+/* A short review in one labeled part: the label above the text, set as big as a short
+   quote (it doesn't need a label column to line up with other parts) */
+.review__quote--points.review__quote--short {
+    .review__point {
+        grid-template-columns: none;
+        gap: 14px;
+    }
+
+    p {
+        font-size: var(--fs-lg);
+        font-weight: 700;
+        line-height: 1.45;
+
+        @media (--medium) {
+            font-size: 28px;
+            line-height: 1.4;
+        }
+
+        @media (--large) {
+            font-size: var(--fs-2xl);
+        }
+    }
+}
+
+.review__label {
+    padding: 4px 12px;
+    background: var(--hornet-yellow);
+    border: 2px solid var(--hornet-ink);
+    box-shadow: 3px 3px 0 var(--hornet-ink);
+    transform: skewX(var(--skew));
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 900;
-    font-size: var(--fs-xl);
+    font-size: var(--fs-sm);
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
 
-    @media (--medium) {
-        font-size: var(--fs-2xl);
-    }
+.review__author {
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 2px solid var(--hornet-ink);
 }
 
 .review__who {

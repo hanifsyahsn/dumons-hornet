@@ -12,6 +12,11 @@ export const HORNET_MARK_SRC = "/assets/logo.webp";
 export const HORNET_MARK_SMALL_SRC = "/assets/logo-192.webp";
 export const HORNET_MARK_SIZE = { width: 1086, height: 1086 };
 
+// Shopee and WhatsApp logos for the FAQ "where to buy" rows: 96px squares cut from the
+// originals beside them (shopee-logo-40483.png, whatsapp-logo-png-2287.png), shown ~26px.
+export const SHOPEE_LOGO_SRC = "/assets/shopee-logo-96.webp";
+export const WHATSAPP_LOGO_SRC = "/assets/whatsapp-logo-96.webp";
+
 // Production origin of this site (no trailing slash): canonical URLs, link previews, sitemap.
 export const SITE_URL = "https://hornet.dumonscoating.com";
 

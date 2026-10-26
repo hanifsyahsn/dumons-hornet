@@ -13,6 +13,10 @@ import {
 } from "./paths";
 import "./styles.css";
 
+// Shared with MascotFollower, which draws the speed lines itself at its small size
+export const MASCOT_VIEWBOX = "-10 80 920 910";
+export const SPEED_LINES = ["M250 700 L 110 760", "M290 790 L 60 890", "M340 880 L 200 940"];
+
 interface MascotProps {
     className?: string;
 }
@@ -22,7 +26,7 @@ interface MascotProps {
 // CSS (all motion is off under prefers-reduced-motion). Decorative only.
 export function Mascot({ className = "" }: MascotProps) {
     return (
-        <svg className={`mascot ${className}`} viewBox="-10 80 920 910" aria-hidden="true">
+        <svg className={`mascot ${className}`} viewBox={MASCOT_VIEWBOX} aria-hidden="true">
             <g className="mascot__body">
                 {/* Wing flaps around its root at the head; the transform attribute stays on
                     the inner group so the CSS animation doesn't replace it */}
@@ -47,9 +51,9 @@ export function Mascot({ className = "" }: MascotProps) {
 
             {/* Speed lines trailing behind */}
             <g className="mascot__lines" stroke="var(--hornet-ink)" strokeWidth="22" strokeLinecap="round">
-                <path className="mascot__line" d="M250 700 L 110 760" />
-                <path className="mascot__line" d="M290 790 L 60 890" />
-                <path className="mascot__line" d="M340 880 L 200 940" />
+                {SPEED_LINES.map((d) => (
+                    <path className="mascot__line" d={d} key={d} />
+                ))}
             </g>
         </svg>
     );

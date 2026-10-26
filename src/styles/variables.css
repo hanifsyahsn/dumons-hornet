@@ -55,6 +55,7 @@
 @custom-media --xxsmall (width <= 320px);
 @custom-media --xsmall (width <= 480px);
 @custom-media --small (width > 480px);
+/* Everything below --medium (phones and small tablets) */
 @custom-media --medium (width > 768px);
 @custom-media --large (width > 960px);
 @custom-media --xlarge (width > 1200px);
