@@ -44,7 +44,7 @@
 .product__sticker {
     position: absolute;
     left: -10px;
-    bottom: 24px;
+    top: 24px;
     padding: 8px 16px;
     background: var(--hornet-yellow);
     border: var(--border);
@@ -62,11 +62,43 @@
     }
 }
 
+/* The color in the photo, as on the detail page: a swatch and its name */
+.product__color-chip {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    background: var(--hornet-white);
+    border: var(--border);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-size: var(--fs-sm);
+    text-transform: uppercase;
+
+    &::before {
+        content: "";
+        width: 18px;
+        height: 18px;
+        background: var(--swatch);
+        border: 2px solid var(--hornet-ink);
+    }
+
+    @media (--medium) {
+        font-size: var(--fs-md);
+    }
+}
+
 .product__body {
     flex: 1;
     display: flex;
     flex-direction: column;
     padding: 28px 20px 24px;
+    /* The name is sized and the power meters stack their labels by the card's width */
+    container: product-card / inline-size;
 
     @media (--small) {
         padding: 32px 28px 28px;
@@ -93,7 +125,19 @@
     font-style: italic;
     font-weight: 900;
     font-size: clamp(28px, 3vw, 44px);
+    /* Sized from the card, so the longer half of a long name (about 6.7em: "Hörnet Racing",
+       "Thinner PU 900") always fits one line and the name never runs to three; the longest
+       single word in the catalog ("(Nitrocellulose)", --name-chars from index.tsx, about
+       0.46em per letter) is kept within 90% of the card so it never touches the frame, the
+       same size on every card */
+    font-size: min(44px, 14cqi, calc(90cqi / (var(--name-chars, 1) * 0.46)));
     line-height: 1;
+    /* A long name ("Hörnet Racing Clear 4:1", "Hörnet Thinner PU 900") always on two even
+       lines, even in a wide card; a short one still takes the room of two, so the
+       descriptions of cards in a row start at the same height */
+    max-width: 8em;
+    min-height: 2em;
+    text-wrap: balance;
     text-transform: uppercase;
 }
 
@@ -101,6 +145,14 @@
     margin: 0 0 24px;
     font-size: var(--fs-base);
     line-height: 1.6;
+    /* Always three lines: a shorter text keeps the room, a longer one ends in "…", so the
+       meters of cards in a row line up with no gap above them */
+    min-height: 4.8em;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
 
     @media (--medium) {
         font-size: var(--fs-md);
@@ -111,7 +163,9 @@
 .product__powers {
     display: grid;
     gap: 12px;
-    margin: 0 0 28px;
+    /* Pushed to the bottom with the button below it, so cards side by side line up
+       whatever the length of their description */
+    margin: auto 0 28px;
     padding: 16px 0 0;
     border-top: 2px solid var(--hornet-ink);
     list-style: none;
@@ -129,9 +183,24 @@
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+    /* Browsers without container queries: break a long word rather than run into the meter */
+    overflow-wrap: anywhere;
 
     @media (--small) {
         font-size: var(--fs-base);
+    }
+}
+
+/* Narrow card (phones, three columns): the label on its own line above the meter, so a
+   long one ("Kompatibilitas") never wraps or runs into the cells */
+@container product-card (max-width: 380px) {
+    .product__powers {
+        gap: 14px;
+    }
+
+    .power {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 6px;
     }
 }
 
@@ -160,5 +229,4 @@
 /* Pinned to the bottom so the buttons of cards in a row line up */
 .product__action {
     align-self: flex-start;
-    margin-top: auto;
 }

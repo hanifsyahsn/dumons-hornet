@@ -87,7 +87,10 @@ export interface Product {
     code: string;
     name: string;
     tagline: string;
+    // Full text, on the detail page
     description: string;
+    // Short version for the product cards; omitted -> the cards show `description`
+    summary?: string;
     powers: ProductPower[];
     // Product photo served from /public; omitted until it exists (hatched placeholder with the hornet mark)
     image?: string;
@@ -146,6 +149,8 @@ export interface HomeContent {
     // Paragraph under the "Kenapa Supercoat" title
     featuresLead: string;
     features: Feature[];
+    // Big heading beside the stats; omitted -> the numbers alone
+    statsTitle?: string;
     stats: Stat[];
     tickerWords: string[];
     promotions: Promotion[];
@@ -153,6 +158,10 @@ export interface HomeContent {
     featuredProducts: string[];
     reviews: Review[];
     results: Result[];
+    // true hides the "Jadi mitra" button under the reviews heading
+    reviewsJoinHidden?: boolean;
+    // true hides the partner section (and its nav link) while keeping the list
+    partnersHidden?: boolean;
     partners: Partner[];
     faqs: Faq[];
 }
@@ -235,7 +244,7 @@ function validateProducts(raw: unknown): ProductsContent {
 
     each(root.products, "products", (item, path) => {
         ["code", "name", "tagline", "description"].forEach((key) => text(item, key, path));
-        ["image", "cutout"].forEach((key) => text(item, key, path, true));
+        ["summary", "image", "cutout"].forEach((key) => text(item, key, path, true));
         text(item, "slug", path);
         if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(String(item.slug))) {
             fail(`${path}.slug`, "harus huruf kecil, angka dan tanda minus saja, contoh hs-470");
@@ -312,6 +321,9 @@ function validate(raw: unknown, codes: string[]): HomeContent {
         if (!FEATURE_ICONS.includes(item.icon as FeatureIcon)) fail(`${path}.icon`, `harus salah satu dari: ${FEATURE_ICONS.join(", ")}`);
     });
 
+    if (root.statsTitle !== undefined && (typeof root.statsTitle !== "string" || root.statsTitle.trim() === "")) {
+        fail("statsTitle", "harus berupa teks yang tidak kosong (atau hapus field-nya)");
+    }
     each(root.stats, "stats", (item, path) => {
         number(item, "value", path, false, 0);
         text(item, "suffix", path, true);
@@ -356,6 +368,11 @@ function validate(raw: unknown, codes: string[]): HomeContent {
         checkCode(item.product, `${path}.product`);
     });
 
+    (["reviewsJoinHidden", "partnersHidden"] as const).forEach((key) => {
+        if (root[key] !== undefined && typeof root[key] !== "boolean") {
+            fail(key, "harus true atau false (atau hapus field-nya)");
+        }
+    });
     each(root.partners, "partners", (item, path) => {
         ["name", "city", "address"].forEach((key) => text(item, key, path));
         ["mapsUrl", "whatsappUrl"].forEach((key) => text(item, key, path, true));

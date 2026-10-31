@@ -50,7 +50,7 @@ function Products() {
             <section className="catalog-help" id="bantuan">
                 <div className="catalog-help__inner">
                     <div>
-                        <h2 className="catalog-help__title">Bingung pilih?</h2>
+                        <h2 className="catalog-help__title">Bingung pilih yang mana?</h2>
                         <p className="catalog-help__message">
                             Ceritakan kendaraan dan kebutuhanmu, tim kami bantu pilihkan produk yang pas.
                         </p>

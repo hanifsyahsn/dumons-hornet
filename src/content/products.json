@@ -5,6 +5,7 @@
         "Urutan di daftar products = urutan tampil di halaman /produk. Kode (code) harus unik.",
         "slug: alamat halaman detail produk, huruf kecil/angka/tanda minus saja (contoh hs-470 -> /produk/hs-470). Harus unik; kalau diganti, link lama ikut berubah.",
         "colors: pilihan warna di halaman detail. name = nama warna, hex = kode warna untuk kotak contoh (#rrggbb), image (opsional) = foto produk warna itu (persegi). Boleh [] kalau produk tidak punya pilihan warna: bagian warnanya disembunyikan.",
+        "summary (opsional): ringkasan singkat untuk kartu produk (halaman /produk, Produk Unggulan di /home, Produk lainnya), maksimal sekitar 115 karakter supaya muat 4 baris. Gaya bahasanya seru tapi tetap baku sesuai KBBI, tanpa kata gaul (bukan kutipan dokumen resmi), tapi isinya tetap sesuai data produk. Deskripsi lengkap (description) tampil di halaman detail. Kalau summary dihapus, kartu memakai description.",
         "Field opsional (image, cutout) cukup dihapus kalau belum ada. image: foto produk (persegi), cutout: foto produk transparan (PNG/WebP).",
         "powers: 1 sampai 5 meter per produk, level 1..5.",
         "Cat NC: setiap warna punya foto kalengnya sendiri di public/assets/products/nc/ (kotak 1000x1000, sudah bertema web). Kode hex warnanya perkiraan dari nama warna, ganti kalau ada kode resminya.",
@@ -25,10 +26,11 @@
 
     "products": [
         {
-            "code": "NC",
+            "code": "NC COATING",
             "slug": "cat-nc",
-            "name": "Hörnet Cat NC",
-            "tagline": "Auto refinish",
+            "name": "Hörnet NC (Nitrocellulose)",
+            "tagline": "Color Coat",
+            "summary": "Kering kilat, menutup rata, melekat kuat, warnanya awet. Andalan untuk pekerjaan cepat tanpa drama.",
             "description": "Cat terbuat dari resin Nitrocellulose yang cepat kering, berdaya tutup baik, dengan performa warna yang tahan lama serta adhesi yang baik.",
             "highlights": ["Cepat kering", "Daya tutup baik", "Tahan lama", "Daya rekat baik"],
             "specs": [
@@ -66,10 +68,11 @@
             ]
         },
         {
-            "code": "PU",
+            "code": "PU BASECOAT",
             "slug": "cat-pu",
-            "name": "Hörnet Cat PU",
-            "tagline": "PU basecoat",
+            "name": "Hörnet PU (Polyurethane)",
+            "tagline": "Color Coat",
+            "summary": "Daya tutup juara, daya rekat mantap, warnanya awet. Puluhan pilihan warna untuk tampil berbeda di jalan.",
             "description": "Cat terbuat dari resin Polyurethane yang berdaya tutup sangat baik, warna yang tahan lama dan adhesi yang sangat baik. Tersedia aneka warna yang indah dan menarik sesuai kebutuhanmu.",
             "highlights": ["Daya tutup sangat baik", "Cepat kering", "Tahan lama", "Daya rekat sangat baik"],
             "specs": [
@@ -121,10 +124,11 @@
             ]
         },
         {
-            "code": "RC 4:1",
+            "code": "Clear 4:1",
             "slug": "racing-clear-ms-4-1",
-            "name": "Hörnet Racing Clear MS 4:1",
-            "tagline": "2K clear coat",
+            "name": "Hörnet Racing Clear 4:1",
+            "tagline": "Top Coat",
+            "summary": "Kilap jernih yang menghidupkan warna. Mudah disemprotkan, cepat kering, siap dipoles kurang dari 12 jam.",
             "description": "Clear 4:1 merupakan clear coat yang dirancang untuk memberikan hasil finishing jernih, mengkilap, dan rapi dengan proses pengerjaan yang lebih efisien. Formulanya mudah diaplikasikan dan cepat kering, cocok untuk pengecatan yang butuh hasil maksimal dalam waktu singkat.",
             "highlights": ["Cepat kering", "Bisa dipoles dalam waktu kurang dari 12 jam", "Mudah diaplikasikan"],
             "specs": [
@@ -148,10 +152,11 @@
             "colors": []
         },
         {
-            "code": "RC 2:1",
+            "code": "Clear 2:1",
             "slug": "racing-clear-2-1",
             "name": "Hörnet Racing Clear 2:1",
-            "tagline": "Clear medium solid",
+            "tagline": "Top Coat",
+            "summary": "Kilap jernih yang awet dan tahan UV. Mudah diaplikasikan, cepat kering, hasil akhirnya rapi maksimal.",
             "description": "Clear 2:1 Medium Solid merupakan lapisan clear coat yang dirancang untuk memberikan hasil akhir jernih, mengkilap, dan tahan lama pada permukaan kendaraan. Dengan aplikasi yang mudah dan waktu pengeringan yang cepat, produk ini membantu menghasilkan finishing yang rapi dan maksimal.",
             "highlights": ["Cepat kering", "Mudah diaplikasikan", "Tahan UV"],
             "specs": [
@@ -177,10 +182,11 @@
             "colors": []
         },
         {
-            "code": "TH 900",
+            "code": "Thinner PU",
             "slug": "thinner-pu-900",
             "name": "Hörnet Thinner PU 900",
-            "tagline": "Thinner PU",
+            "tagline": "Thinner",
+            "summary": "Teman setia cat PU dan clear 2K. Encerkan hingga kekentalannya pas, langsung siap disemprotkan.",
             "description": "Thinner PU 900 Hörnet untuk mengencerkan cat PU dan clear 2K sampai kekentalan semprot yang pas.",
             "image": "/assets/products/thinner/pu-900.webp",
             "cutout": "/assets/products/thinner/pu-900-cutout.webp",

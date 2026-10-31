@@ -24,10 +24,17 @@ import { PRODUCTS_PATH } from "../../constants/routing";
 import { content, productByCode, type FaqIcon, type FeatureIcon } from "../../content";
 import "./styles.css";
 
-const { hero: HERO, features: FEATURES, stats: STATS, promotions: PROMOTIONS } = content;
+const { hero: HERO, features: FEATURES, stats: STATS, statsTitle: STATS_TITLE, promotions: PROMOTIONS } = content;
 const { reviews: REVIEWS, results: RESULTS, partners: PARTNERS, faqs: FAQS, tickerWords: TICKER_WORDS } = content;
 
 // Everything editable lives in src/content/home.json and products.json (validated in src/content/index.ts)
+
+// The stats heading's last word goes on a yellow marker ("Dipercaya di seluruh [Nusantara.]")
+const STATS_TITLE_SPLIT = (STATS_TITLE ?? "").trim().lastIndexOf(" ") + 1;
+const STATS_TITLE_LEAD = (STATS_TITLE ?? "").trim().slice(0, STATS_TITLE_SPLIT);
+const STATS_TITLE_LAST = (STATS_TITLE ?? "").trim().slice(STATS_TITLE_SPLIT);
+// Length of the longest stat label: the labels are sized from it so every one fits one line
+const STATS_LABEL_CHARS = Math.max(1, ...STATS.map(({ label }) => label.length));
 
 // Feature icons (24x24 stroke paths), picked by the `icon` key in home.json
 const FEATURE_ICONS: Record<FeatureIcon, ReactNode> = {
@@ -162,7 +169,6 @@ function Home() {
                             // The whole can lineup on a dark stage dressed like the brand posters
                             <div className="hero__stage">
                                 <div className="hero__stage-panel" aria-hidden="true">
-                                    <span className="hero__stage-word">Hörnet</span>
                                     <span className="hero__stage-slashes" />
                                 </div>
                                 <div className="hero__stage-plinth" aria-hidden="true" />
@@ -232,18 +238,42 @@ function Home() {
             </section>
 
             {STATS.length > 0 && (
-                <section className="stats" aria-label="Hörnet dalam angka">
-                    <ul className="stats__inner">
-                        {STATS.map(({ value, suffix, label }) => (
-                            <li className="stat" key={label}>
-                                <span className="stat__value">
-                                    <CountUp value={value} />
-                                    {suffix && <span className="stat__suffix">{suffix}</span>}
-                                </span>
-                                <span className="stat__label">{label}</span>
-                            </li>
-                        ))}
-                    </ul>
+                <section className="stats" aria-label={STATS_TITLE ? undefined : "Hörnet dalam angka"}>
+                    <div className="stats__inner">
+                        {STATS_TITLE && (
+                            <div className="stats__head">
+                                <span className="stats__tag">Hörnet dalam angka</span>
+                                <h2 className="stats__title">
+                                    {STATS_TITLE_LEAD}
+                                    <span className="stats__mark">
+                                        {STATS_TITLE_LAST}
+                                        <svg className="stats__sparkle" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" />
+                                        </svg>
+                                        <svg
+                                            className="stats__sparkle stats__sparkle--small"
+                                            viewBox="0 0 24 24"
+                                            aria-hidden="true"
+                                        >
+                                            <path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" />
+                                        </svg>
+                                    </span>
+                                </h2>
+                                <span className="stats__rule" aria-hidden="true" />
+                            </div>
+                        )}
+                        <ul className="stats__list" style={{ "--label-chars": STATS_LABEL_CHARS } as CSSProperties}>
+                            {STATS.map(({ value, suffix, label }) => (
+                                <li className="stat" key={label}>
+                                    <span className="stat__value">
+                                        <CountUp value={value} />
+                                        {suffix && <span className="stat__suffix">{suffix}</span>}
+                                    </span>
+                                    <span className="stat__label">{label}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </section>
             )}
 
@@ -325,7 +355,7 @@ function Home() {
 
                     <div className="products__grid">
                         {FEATURED.map((product) => (
-                            <ProductCard product={product} key={product.code} />
+                            <ProductCard product={product} colorChip key={product.code} />
                         ))}
                     </div>
 
@@ -360,9 +390,21 @@ function Home() {
                                     Kata <span className="testimonials__highlight">Mereka</span>
                                 </h2>
                                 <p className="testimonials__lead">
-                                    Cerita langsung dari bengkel, detailer, dan pemilik kendaraan
-                                    yang sudah membuktikan Hörnet.
+                                    Cerita langsung dari retail, bengkel, dan workshop yang sudah
+                                    membuktikan Hörnet.
                                 </p>
+                                {/* Optional (`reviewsJoinHidden` in home.json): the head reads the
+                                    same with or without it */}
+                                {!content.reviewsJoinHidden && (
+                                    <a
+                                        className="button button--lg button--dark testimonials__join"
+                                        href={partnerWhatsAppUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <span>Jadi mitra</span>
+                                    </a>
+                                )}
                             </div>
 
                             {/* Rubber stamp: ring text spins around the hornet mark */}
@@ -487,7 +529,7 @@ function Home() {
                 </section>
             )}
 
-            {PARTNERS.length > 0 && (
+            {!content.partnersHidden && PARTNERS.length > 0 && (
                 <section className="partners-band" id="mitra">
                     <div className="partners-band__inner">
                         <div className="partners-band__head">

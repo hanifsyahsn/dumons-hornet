@@ -25,6 +25,17 @@ function ProductDetail({ context }: ProductDetailProps) {
     return <ProductView product={product} key={product.slug} />;
 }
 
+// Ink label strip closing each Spesifikasi card: brand, hazard stripes, product code
+function SpecsFoot({ code }: { code: string }) {
+    return (
+        <div className="specs__foot" aria-hidden="true">
+            <span>Hörnet</span>
+            <span className="specs__foot-stripes" />
+            <span>{code}</span>
+        </div>
+    );
+}
+
 function ProductView({ product }: { product: Product }) {
     const { code, name, tagline, description, powers, image, colors, highlights = [], specs = [], steps = [] } = product;
     const [colorIndex, setColorIndex] = useState(0);
@@ -93,7 +104,9 @@ function ProductView({ product }: { product: Product }) {
 
                         <div className="detail__info">
                             <span className="detail__tag">{tagline}</span>
-                            <h1 className="detail__name">{name}</h1>
+                            {/* Without the resin in brackets ("Hörnet PU (Polyurethane)" -> "Hörnet PU"):
+                                the description right below already names it */}
+                            <h1 className="detail__name">{name.replace(/\s*\([^)]*\)\s*$/, "")}</h1>
                             <p className="detail__text">{description}</p>
 
                             {colors.length > 0 && (
@@ -177,6 +190,7 @@ function ProductView({ product }: { product: Product }) {
                                                 <li key={highlight}>{highlight}</li>
                                             ))}
                                         </ul>
+                                        <SpecsFoot code={code} />
                                     </div>
                                 )}
                                 {specs.length > 0 && (
@@ -190,6 +204,7 @@ function ProductView({ product }: { product: Product }) {
                                                 </div>
                                             ))}
                                         </dl>
+                                        <SpecsFoot code={code} />
                                     </div>
                                 )}
                                 {steps.length > 0 && (
@@ -200,6 +215,7 @@ function ProductView({ product }: { product: Product }) {
                                                 <li key={step}>{step}</li>
                                             ))}
                                         </ol>
+                                        <SpecsFoot code={code} />
                                     </div>
                                 )}
                             </div>

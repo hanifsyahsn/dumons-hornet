@@ -10,6 +10,9 @@
         "faqs[].items (opsional): baris berlogo di bawah jawaban, masing-masing { icon, text }. icon salah satu dari: shopee, whatsapp, store (gambar toko/bengkel).",
         "hero.lineup: foto deretan kaleng (PNG/WebP berlatar transparan) di section pertama, lengkap dengan width/height aslinya. Kalau dihapus, hero kembali memakai foto produk hero.productCode. smaller (opsional): versi lebih kecil dari gambar yang sama beserta lebarnya, supaya HP tidak mengunduh versi terbesar.",
         "seo: judul dan deskripsi /home di hasil pencarian Google dan pratinjau link (WhatsApp, Facebook). Judul idealnya di bawah 60 huruf, deskripsi di bawah 160.",
+        "statsTitle (opsional): judul besar di samping angka-angka stats; hapus kalau tidak dipakai.",
+        "reviewsJoinHidden (opsional): true menyembunyikan tombol Jadi mitra di section Kata Mereka; false atau hapus field-nya untuk menampilkannya.",
+        "partnersHidden (opsional): true menyembunyikan section Bengkel & Toko Mitra (dan link Mitra di menu) tanpa menghapus daftar partners; ubah ke false atau hapus field-nya untuk menampilkannya lagi.",
         "MASIH CONTOH, wajib diganti sebelum launch: stats (angka), partners, foto hasil (keterangannya sudah sesuai data produk, fotonya belum)."
     ],
 
@@ -32,7 +35,7 @@
         "tag": "Supercoat",
         "titleLines": ["Pilihan Solid", "Dikala Sulit"],
         "message": "Hörnet Supercoat, lini terbaru Dümons Performance Coating: kilau lebih intens, perlindungan optimal, dan finishing halus yang berkelas.",
-        "productCode": "NC",
+        "productCode": "NC COATING",
         "lineup": {
             "image": "/assets/hornet-lineup.webp",
             "alt": "Lineup kaleng Hörnet: 2K Racing Clear, Racing Clear 2:1, Thinner PU 900, HS 470 Super White dan HP 105 Super Fine Silver",
@@ -71,9 +74,10 @@
         }
     ],
 
+    "statsTitle": "Dipercaya di seluruh Nusantara.",
+
     "stats": [
-        { "value": 500, "suffix": "+", "label": "Bengkel & detailer" },
-        { "value": 10000, "suffix": "+", "label": "Botol terjual" },
+        { "value": 500, "suffix": "+", "label": "Retail & Workshop" },
         { "value": 34, "label": "Provinsi terjangkau" },
         { "value": 98, "suffix": "%", "label": "Pelanggan puas" }
     ],
@@ -83,7 +87,7 @@
     "promotions": [
         {
             "src": "/assets/promos/cat-nc.webp",
-            "alt": "Hörnet Cat NC HS 470 Super White, pilihan solid dikala sulit",
+            "alt": "Hörnet NC HS 470 Super White, pilihan solid dikala sulit",
             "width": 1080,
             "height": 1080
         },
@@ -101,7 +105,7 @@
         }
     ],
 
-    "featuredProducts": ["NC", "PU"],
+    "featuredProducts": ["NC COATING", "PU BASECOAT"],
 
     "reviews": [
         {
@@ -125,13 +129,17 @@
     ],
 
     "results": [
-        { "surface": "Body mobil", "caption": "Warna pekat menutup rata tanpa belang.", "product": "PU" },
-        { "surface": "Kap mesin", "caption": "Lapisan clear jernih mengkilap yang tahan UV.", "product": "RC 2:1" },
-        { "surface": "Body motor", "caption": "Kering 15–20 menit, warnanya tetap awet.", "product": "PU" },
-        { "surface": "Bumper", "caption": "Kering 30–40 menit, pengerjaan lanjut lebih cepat.", "product": "NC" },
-        { "surface": "Panel hitam", "caption": "Kering sentuh 15 menit, siap dipoles kurang dari 12 jam.", "product": "RC 4:1" },
-        { "surface": "Tangki motor", "caption": "Daya rekat baik, warna menempel kuat.", "product": "NC" }
+        { "surface": "Body mobil", "caption": "Warna pekat menutup rata tanpa belang.", "product": "PU BASECOAT" },
+        { "surface": "Kap mesin", "caption": "Lapisan clear jernih mengkilap yang tahan UV.", "product": "Clear 2:1" },
+        { "surface": "Body motor", "caption": "Kering 15–20 menit, warnanya tetap awet.", "product": "PU BASECOAT" },
+        { "surface": "Bumper", "caption": "Kering 30–40 menit, pengerjaan lanjut lebih cepat.", "product": "NC COATING" },
+        { "surface": "Panel hitam", "caption": "Kering sentuh 15 menit, siap dipoles kurang dari 12 jam.", "product": "Clear 4:1" },
+        { "surface": "Tangki motor", "caption": "Daya rekat baik, warna menempel kuat.", "product": "NC COATING" }
     ],
+
+    "reviewsJoinHidden": true,
+
+    "partnersHidden": true,
 
     "partners": [
         { "name": "Contoh Detailing Studio", "city": "Jakarta", "address": "Jl. Contoh No. 1, Jakarta Selatan" },
@@ -177,7 +185,7 @@
             "answer": "Tentu saja. Kami melayani pengiriman ke seluruh wilayah Indonesia. Anda dapat melakukan pemesanan melalui Shopee Official Store maupun WhatsApp."
         },
         {
-            "question": "Saya pemilik bengkel / detailer, bagaimana cara menjadi mitra?",
+            "question": "Saya pemilik retail / bengkel / workshop, bagaimana cara menjadi mitra?",
             "answer": "Kami membuka peluang kerja sama! Hubungi tim kami via WhatsApp untuk mendapatkan informasi kemitraan, penawaran khusus, dan harga grosir untuk bengkel maupun auto detailer."
         }
     ]
